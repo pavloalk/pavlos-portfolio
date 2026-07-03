@@ -1,0 +1,148 @@
+/* ═══════════════════════════════════════════════════════
+   Design System — Pavlos Aliko Portfolio
+   12-step cool-neutral scale: --light10 → --light120
+   ═══════════════════════════════════════════════════════ */
+
+
+/* ── Color Primitives ── */
+
+:root {
+  --light10:  #fdfcfd; /* white     */
+  --light20:  #faf9fa; /* gray-50   */
+  --light30:  #f5f3f4; /* gray-100  */
+  --light40:  #e5e8eb; /* gray-200  */
+  --light50:  #d0d4da; /* gray-300  */
+  --light60:  #a0a5af; /* gray-400  */
+  --light70:  #6f7683; /* gray-500  */
+  --light80:  #535a66; /* gray-600  */
+  --light90:  #414855; /* gray-700  */
+  --light100: #282e3a; /* gray-800  */
+  --light110: #191e28; /* gray-900  */
+  --light120: #0c1015; /* gray-950  */
+}
+
+
+/* ── Semantic Tokens — Light Mode ── */
+
+:root {
+  /* Backgrounds */
+  --bg-start: var(--light20);
+  --bg-end:   var(--light40);
+
+  /* Text */
+  --text-primary:   var(--light110);
+  --text-secondary: var(--light70);
+  --text-body:      var(--light90);
+  --text-bio:       var(--light100);
+
+  /* Surfaces */
+  --surface:          var(--light10);
+  --surface-raised:   var(--light30);
+  --surface-card:     rgba(253, 252, 253, 0.72); /* light10 @ 72% */
+  --surface-pill:     rgba(253, 252, 253, 0.72); /* light10 @ 72% */
+  --surface-tag:      var(--light30);
+  --surface-kpi-icon: var(--light30);
+
+  /* Borders */
+  --border:       rgba(0, 0, 0, 0.06);
+  --border-card:  var(--light10);
+  --border-meta:  rgba(0, 0, 0, 0.08);
+  --border-entry: rgba(0, 0, 0, 0.06);
+
+  /* Navigation — overridden per page */
+  --header-bg: rgba(253, 252, 253, 0.92); /* light10 @ 92% */
+
+  /* Interactive */
+  --hover:   var(--light40);
+  --pressed: var(--light50);
+
+  /* Dividers */
+  --divider-mid:  var(--light60);
+  --divider-edge: var(--light40);
+
+  /* Icons */
+  --icon-color: var(--light110);
+
+  /* Misc */
+  --year-bg:             rgba(253, 252, 253, 0.72); /* light10 @ 72% */
+  --year-color:          var(--light70);
+  --img-wrapper-bg:      rgba(253, 252, 253, 0.40); /* light10 @ 40% */
+  --img-shadow:          0px 20px 30px -10px rgba(1, 13, 72, 0.64);
+  --footer-color:        var(--light70);
+  --footer-link:         var(--light70);
+  --avatar-bg:           var(--light40);
+  --tag-bg:              var(--light30);
+  --present-bg:          rgba(25, 30, 40, 0.07);  /* light110 @ 7% */
+  --image-frame-bg:      var(--light30);
+  --hero-gradient-start: #dce8ff;
+  --hero-gradient-end:   #f5d0d0;
+  --hero-img-shadow:     0px 20px 40px -10px rgba(1, 13, 72, 0.30);
+}
+
+
+/* ── Semantic Tokens — Dark Mode ── */
+
+[data-theme="dark"] {
+  /* Backgrounds */
+  --bg-start: var(--light120);
+  --bg-end:   var(--light110);
+
+  /* Text */
+  --text-primary:   var(--light50);
+  --text-secondary: var(--light70);
+  --text-body:      var(--light60);
+  --text-bio:       var(--light60);
+
+  /* Surfaces */
+  --surface:          var(--light110);
+  --surface-raised:   var(--light100);
+  --surface-card:     rgba(40, 46, 58, 0.72);  /* light100 @ 72% */
+  --surface-pill:     rgba(40, 46, 58, 0.72);  /* light100 @ 72% */
+  --surface-tag:      var(--light100);
+  --surface-kpi-icon: var(--light100);
+
+  /* Borders */
+  --border:       rgba(255, 255, 255, 0.06);
+  --border-card:  var(--light100);
+  --border-meta:  rgba(255, 255, 255, 0.08);
+  --border-entry: rgba(255, 255, 255, 0.06);
+
+  /* Navigation — overridden per page */
+  --header-bg: rgba(12, 16, 21, 0.92); /* light120 @ 92% */
+
+  /* Interactive */
+  --hover:   var(--light90);
+  --pressed: var(--light80);
+
+  /* Dividers */
+  --divider-mid:  var(--light80);
+  --divider-edge: var(--light100);
+
+  /* Icons */
+  --icon-color: var(--light50);
+
+  /* Misc */
+  --year-bg:             rgba(25, 30, 40, 0.72);  /* light110 @ 72% */
+  --year-color:          var(--light60);
+  --img-wrapper-bg:      rgba(25, 30, 40, 0.40);  /* light110 @ 40% */
+  --img-shadow:          0px 20px 30px -10px rgba(0, 0, 0, 0.50);
+  --footer-color:        var(--light70);
+  --footer-link:         var(--light60);
+  --avatar-bg:           var(--light90);
+  --tag-bg:              var(--light100);
+  --present-bg:          rgba(255, 255, 255, 0.08);
+  --image-frame-bg:      var(--light100);
+  --hero-gradient-start: #1a2540;
+  --hero-gradient-end:   #2a1a1a;
+  --hero-img-shadow:     0px 20px 40px -10px rgba(0, 0, 0, 0.50);
+}
+
+
+/* ── Theme Transition ── */
+
+body.theme-transitioning,
+body.theme-transitioning *,
+body.theme-transitioning *::before,
+body.theme-transitioning *::after {
+  transition: background-color 0.32s ease, color 0.32s ease, border-color 0.32s ease, box-shadow 0.32s ease, background 0.32s ease !important;
+}

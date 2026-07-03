@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pavlos Aliko — Senior Product Designer</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23FFD600'/></svg>">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="design-system.css">
+  <script src="https://unpkg.com/feather-icons"></script>
+  <!-- Flash-free theme: apply before paint -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) { var h = new Date().getHours(); t = (h >= 18 || h < 8) ? 'dark' : 'light'; }
+      if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+  <style>
+    /* ── Page Tokens ── */
+    :root {
+      --nav-bg:     rgba(250, 249, 250, 0.64); /* light20 @ 64% */
+      --nav-shadow: 0 10px 20px -10px rgba(25, 30, 40, 0.30), inset 0px 2px 8px 0px var(--light10);
+    }
+
+    [data-theme="dark"] {
+      --nav-bg:     rgba(40, 46, 58, 0.80); /* light100 @ 80% */
+      --nav-shadow: 0 10px 20px -10px rgba(40, 46, 58, 0.80), inset 0px 2px 5px 0px rgba(65, 72, 85, 0.48);
+    }
+
+    /* ── Reset & Base ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text-primary);
+      background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+    a:hover { opacity: 0.65; }
+
+    img { display: block; max-width: 100%; }
+
+    /* ── Header ── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--header-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--avatar-bg);
+      flex-shrink: 0;
+    }
+
+    .header-info h1 {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+    }
+
+    .header-info p {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      line-height: 1.3;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .header-right a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header-right a svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 64px 24px 54px;
+      text-align: center;
+    }
+
+    .hero h2 {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+    }
+
+    .hero p {
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    /* ── Snapshots Section ── */
+    .snapshots {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px 54px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    /* ── Snapshot Link Wrapper ── */
+    a.snapshot-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ── Snapshot Card ── */
+    .snapshot {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 8px 8px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      transition: box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      cursor: pointer;
+    }
+    .snapshot:hover {
+      box-shadow: 0px 8px 16px -4px rgba(12, 16, 21, 0.10);
+      transform: translateY(-8px);
+    }
+
+    /* Image container — frosted card with deep shadow */
+    .snapshot-image-container {
+      width: 100%;
+      background: var(--img-wrapper-bg);
+      border-radius: 12px;
+      padding: 6px;
+      box-shadow: var(--img-shadow);
+      overflow: clip;
+    }
+
+    /* Aspect ratio enforcer */
+    .snapshot-image-ratio {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1280 / 840;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .snapshot-mockup {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .snapshot-content {
+      padding: 0 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .snapshot-title {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .snapshot-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .snapshot-tag {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      padding: 4px 12px;
+      height: 24px;
+      border-radius: 100px;
+      background: var(--surface-tag);
+      display: flex;
+      align-items: center;
+    }
+
+    .snapshot-tag-status {
+      background: var(--surface);
+      border: 1px solid var(--light50);
+    }
+
+    /* ── Snapshot KPI Stat ── */
+    .snapshot-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      width: 100%;
+      background: var(--surface);
+      border-radius: 12px;
+    }
+
+    .snapshot-stat-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: -0.01em;
+      line-height: normal;
+    }
+
+    .snapshot-stat-label {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      line-height: 18px;
+    }
+
+    /* ── Inner Card Divider ── */
+    .snapshot-inner-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, var(--surface), var(--divider-edge), var(--surface));
+      flex-shrink: 0;
+    }
+
+    /* ── Section Divider ── */
+    .section-divider {
+      width: 240px;
+      height: 1px;
+      margin: 0 auto 54px;
+      background: linear-gradient(to right, var(--divider-edge), var(--divider-mid), var(--divider-edge));
+    }
+
+    /* ── Profile Section ── */
+    .profile-section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px 64px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .profile-photo {
+      width: 224px;
+      height: 320px;
+      flex-shrink: 0;
+      border: 4px solid var(--border-card);
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .profile-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .profile-card {
+      flex: 1;
+      max-width: 620px;
+      border: 4px solid var(--border-card);
+      border-radius: 16px;
+      padding: 24px;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .profile-name {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      letter-spacing: -0.03em;
+    }
+
+    .profile-name h2 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.17;
+      color: var(--text-primary);
+    }
+
+    .profile-name p {
+      font-size: 24px;
+      font-weight: 400;
+      line-height: normal;
+      color: var(--text-primary);
+      letter-spacing: -0.03em;
+    }
+
+    .profile-pills {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .profile-pill {
+      background: var(--surface-pill);
+      border-radius: 12px;
+      min-height: 42px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    .profile-bio {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.40;
+      color: var(--text-bio);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+      text-align: center;
+      color: var(--footer-color);
+      font-size: 13px;
+    }
+
+    .footer a {
+      color: var(--footer-link);
+      font-weight: 500;
+    }
+
+    /* ── Scroll Animations ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+
+    /* ── Nav Dock ── */
+    .nav-dock {
+      position: fixed;
+      bottom: 64px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-radius: 124px;
+      box-shadow: var(--nav-shadow);
+      z-index: 200;
+    }
+
+    .nav-dock-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 100px;
+      border: none;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--icon-color);
+      transition: background 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Only apply hover on devices with a real cursor */
+    @media (hover: hover) {
+      .nav-dock-btn:hover {
+        background: var(--hover);
+      }
+
+      .nav-dock-btn:active {
+        background: var(--pressed);
+        transform: scale(0.92);
+      }
+    }
+
+    /* Touch active state — controlled by JS so it clears on lift */
+    .nav-dock-btn.pressed {
+      background: var(--pressed);
+      transform: scale(0.92);
+    }
+
+    /* ── Theme Toggle Icon Swap ── */
+    .icon-sun, .icon-moon { pointer-events: none; }
+    .icon-moon { display: none; }
+    [data-theme="dark"] .icon-sun { display: none; }
+    [data-theme="dark"] .icon-moon { display: block; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .nav-dock {
+        bottom: 16px;
+      }
+
+      .header-right .link-label {
+        display: none;
+      }
+
+      .header-right {
+        gap: 16px;
+      }
+
+      .hero {
+        padding: 80px 24px 32px;
+      }
+
+      .snapshots {
+        grid-template-columns: 1fr;
+        padding: 0 24px 32px;
+      }
+
+      .section-divider {
+        margin-bottom: 32px;
+      }
+
+      .profile-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding-bottom: 80px;
+      }
+
+      .profile-photo {
+        width: 132px;
+        height: 132px;
+      }
+
+      .profile-name h2 {
+        font-size: 32px;
+      }
+
+      .profile-name p {
+        font-size: 18px;
+      }
+
+      .profile-pills {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .profile-pill {
+        min-height: 56px;
+        padding: 8px 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        padding: 60px 24px 32px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header" id="siteHeader">
+    <div class="header-left">
+      <img src="Images/Me/pavlos.jpg" alt="Pavlos Aliko" class="header-avatar">
+      <div class="header-info">
+        <h1>Pavlos Aliko</h1>
+        <p>Senior Product Designer</p>
+      </div>
+    </div>
+    <nav class="header-right">
+      <a href="mailto:pavloalk@gmail.com">
+        <i data-feather="mail"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/pavlosaliko/" target="_blank" rel="noopener">
+        <i data-feather="linkedin"></i>
+      </a>
+      <a href="https://dribbble.com/pavlosaliko" target="_blank" rel="noopener">
+        <i data-feather="dribbble"></i>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h2 class="reveal">Designing products that turn complexity into clarity</h2>
+    <p class="reveal reveal-delay-1">8+ years shaping digital products across travel, ride-hailing, e-commerce, and expert networks. I partner with cross-functional teams to craft interfaces that feel effortless, from early concepts through to shipped products at scale.</p>
+  </section>
+
+  <!-- Snapshots -->
+  <section class="snapshots">
+
+    <!-- Snapshot 1 -->
+    <a href="case-study-toe.html" class="snapshot-link reveal">
+    <article class="snapshot">
+      <div class="snapshot-image-container">
+        <div class="snapshot-image-ratio">
+          <img src="Images/Case studies/ToE-Snapshot.png" alt="ToE project snapshot" class="snapshot-mockup">
+        </div>
+      </div>
+      <div class="snapshot-content">
+        <h3 class="snapshot-title">Reducing cognitive load of experts in ToE flow</h3>
+        <div class="snapshot-stat">
+          <span class="snapshot-stat-value">16%</span>
+          <span class="snapshot-stat-label">more experts signed ToE</span>
+        </div>
+        <div class="snapshot-inner-divider"></div>
+        <div class="snapshot-tags">
+          <span class="snapshot-tag snapshot-tag-status">In progress</span>
+          <span class="snapshot-tag">2025</span>
+          <span class="snapshot-tag">B2C</span>
+          <span class="snapshot-tag">Dialectica</span>
+          <span class="snapshot-tag">Redesign</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <!-- Snapshot 2 -->
+    <a href="case-study-km.html" class="snapshot-link reveal reveal-delay-1">
+    <article class="snapshot">
+      <div class="snapshot-image-container">
+        <div class="snapshot-image-ratio">
+          <img src="Images/Case studies/KM-Snapshot.png" alt="KM project snapshot" class="snapshot-mockup">
+        </div>
+      </div>
+      <div class="snapshot-content">
+        <h3 class="snapshot-title">Introducing Knowledge Mapping in ToE flow</h3>
+        <div class="snapshot-stat">
+          <span class="snapshot-stat-value">33+</span>
+          <span class="snapshot-stat-label">more experts completed knowledge mapping</span>
+        </div>
+        <div class="snapshot-inner-divider"></div>
+        <div class="snapshot-tags">
+          <span class="snapshot-tag snapshot-tag-status">In progress</span>
+          <span class="snapshot-tag">2025</span>
+          <span class="snapshot-tag">B2C</span>
+          <span class="snapshot-tag">Dialectica</span>
+          <span class="snapshot-tag">Redesign</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <!-- Snapshot 3 -->
+    <a href="case-study-velvet.html" class="snapshot-link reveal reveal-delay-2">
+    <article class="snapshot">
+      <div class="snapshot-image-container">
+        <div class="snapshot-image-ratio">
+          <img src="Images/Case studies/Velvet-Snapshot.png" alt="Velvet project snapshot" class="snapshot-mockup">
+        </div>
+      </div>
+      <div class="snapshot-content">
+        <h3 class="snapshot-title">Velvet — one-tap budget logging for YNAB</h3>
+        <div class="snapshot-tags">
+          <span class="snapshot-tag snapshot-tag-status">Prototype</span>
+          <span class="snapshot-tag">2025</span>
+          <span class="snapshot-tag">Personal project</span>
+          <span class="snapshot-tag">iOS</span>
+          <span class="snapshot-tag">SwiftUI</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <!-- Snapshot 4 -->
+    <a href="case-study-bonuses.html" class="snapshot-link reveal">
+    <article class="snapshot">
+      <div class="snapshot-image-container">
+        <div class="snapshot-image-ratio">
+          <img src="Images/Case studies/Bonuses-Snapshot.png" alt="Bonuses project snapshot" class="snapshot-mockup">
+        </div>
+      </div>
+      <div class="snapshot-content">
+        <h3 class="snapshot-title">Moving driver incentives out of email and into the app</h3>
+        <div class="snapshot-stat">
+          <span class="snapshot-stat-value">+63%</span>
+          <span class="snapshot-stat-label">more drivers completed an Incentive</span>
+        </div>
+        <div class="snapshot-inner-divider"></div>
+        <div class="snapshot-tags">
+          <span class="snapshot-tag snapshot-tag-status">Shipped</span>
+          <span class="snapshot-tag">2020</span>
+          <span class="snapshot-tag">B2C</span>
+          <span class="snapshot-tag">Beat</span>
+          <span class="snapshot-tag">Ride-hailing</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+  </section>
+
+  <!-- Divider -->
+  <div class="section-divider reveal"></div>
+
+  <!-- Profile -->
+  <section class="profile-section">
+    <div class="profile-photo reveal">
+      <img src="Images/Me/pavlos.jpg" alt="Pavlos Aliko">
+    </div>
+    <div class="profile-card reveal reveal-delay-1">
+      <div class="profile-name">
+        <h2>Hi I'm Pavlos,</h2>
+        <p>a UX designer based in Athens, Greece</p>
+      </div>
+      <div class="profile-pills">
+        <div class="profile-pill">10+ years designing digital products</div>
+        <div class="profile-pill">B2C &amp; B2B product experience</div>
+        <div class="profile-pill">20+ shipped product features</div>
+        <div class="profile-pill">Web platforms &amp; native apps</div>
+      </div>
+      <p class="profile-bio">I'm a Product Designer based in Athens with over 10 years of experience designing digital products. My work spans B2B and B2C platforms, with a strong focus on complex workflows, data-heavy interfaces, and scalable product systems. I collaborate closely with product managers, engineers, and stakeholders to translate business goals into clear, user-centered solutions that support both usability and growth.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2026 Pavlos Aliko · <a href="mailto:pavloalk@gmail.com">Get in touch</a></p>
+  </footer>
+
+  <!-- Navigation Dock -->
+  <nav class="nav-dock" id="navDock" aria-label="Main navigation">
+<button class="nav-dock-btn" aria-label="Experience" id="resumeBtn">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3.59961 6.29922H6.29961C6.79641 6.29922 7.19961 5.89602 7.19961 5.39922V2.69922" fill="currentColor"/>
+        <path d="M11.7002 2.02539C13.5643 2.02539 15.0752 3.5363 15.0752 5.40039V12.6006C15.075 14.4645 13.5642 15.9756 11.7002 15.9756H6.30078C4.43682 15.9756 2.92599 14.4645 2.92578 12.6006V6.67285C2.92578 6.25553 3.0911 5.85536 3.38672 5.55957L6.45996 2.48633C6.756 2.18956 7.15755 2.02539 7.57324 2.02539H11.7002ZM7.875 5.39941C7.87489 6.26885 7.16924 6.9745 6.2998 6.97461H4.27539V12.6006C4.2756 13.7189 5.1824 14.625 6.30078 14.625H11.7002C12.8186 14.625 13.7254 13.7189 13.7256 12.6006V5.40039C13.7256 4.28188 12.8187 3.375 11.7002 3.375H7.875V5.39941ZM11.9248 11.9258C12.2976 11.9258 12.6006 12.2278 12.6006 12.6006C12.6006 12.9734 12.2976 13.2754 11.9248 13.2754H6.0752C5.7024 13.2754 5.40039 12.9734 5.40039 12.6006C5.40039 12.2278 5.7024 11.9258 6.0752 11.9258H11.9248ZM11.9248 9.22461C12.2976 9.22461 12.6006 9.52662 12.6006 9.89941C12.6006 10.2722 12.2976 10.5742 11.9248 10.5742H6.0752C5.7024 10.5742 5.40039 10.2722 5.40039 9.89941C5.40039 9.52662 5.7024 9.22461 6.0752 9.22461H11.9248ZM11.9238 6.52539C12.2966 6.52539 12.5986 6.8274 12.5986 7.2002C12.5986 7.57299 12.2966 7.875 11.9238 7.875H10.124C9.75123 7.875 9.44922 7.57299 9.44922 7.2002C9.44922 6.8274 9.75123 6.52539 10.124 6.52539H11.9238Z" fill="currentColor"/>
+      </svg>
+    </button>
+    <button class="nav-dock-btn" aria-label="Toggle theme" id="themeToggle">
+      <!-- Sun icon (light mode) -->
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_954_5927)">
+          <path d="M9 12C10.6569 12 12 10.6569 12 9C12 7.34315 10.6569 6 9 6C7.34315 6 6 7.34315 6 9C6 10.6569 7.34315 12 9 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 1.5V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 15V16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3.69727 3.69727L4.75477 4.75477" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M13.2461 13.2461L14.3036 14.3036" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M1.5 9H3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M15 9H16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4.75477 13.2461L3.69727 14.3036" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14.3036 3.69727L13.2461 4.75477" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <defs>
+          <clipPath id="clip0_954_5927">
+            <rect width="18" height="18" fill="white"/>
+          </clipPath>
+        </defs>
+      </svg>
+      <!-- Moon icon (dark mode) -->
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.59435 1.51148C9.09391 1.48434 9.46915 1.78355 9.63732 2.1355C9.79833 2.47282 9.79619 2.89957 9.57189 3.25855L9.57286 3.25953C9.12342 3.97862 8.93101 4.82908 9.02696 5.67163C9.12292 6.51418 9.50156 7.29955 10.1012 7.89917C10.7007 8.49855 11.4855 8.87737 12.3277 8.97339C13.1702 9.06934 14.0208 8.87684 14.7399 8.42749L14.8776 8.35328C15.2038 8.20517 15.5678 8.22112 15.8639 8.36206C16.2167 8.53021 16.5157 8.90531 16.4889 9.40406C16.4108 10.8508 15.9151 12.2446 15.0621 13.4158C14.2092 14.5868 13.0351 15.4854 11.6822 16.0037C10.3293 16.5218 8.85511 16.6373 7.4381 16.3357C6.02097 16.034 4.72146 15.3279 3.69689 14.3035C2.67241 13.2791 1.9666 11.9802 1.66466 10.5632C1.36277 9.14614 1.47765 7.67123 1.99571 6.31812C2.51381 4.96519 3.41263 3.79127 4.58361 2.93824C5.75464 2.08517 7.14766 1.58977 8.59435 1.51148ZM7.96642 3.0896C7.06617 3.24697 6.21017 3.60834 5.46642 4.15015C4.52954 4.83265 3.81056 5.77274 3.39611 6.85523C2.98178 7.93761 2.88997 9.1172 3.13146 10.2507C3.37301 11.3843 3.93786 12.4234 4.75743 13.2429C5.577 14.0624 6.61609 14.6275 7.74962 14.8689C8.88319 15.1103 10.0628 15.0177 11.1451 14.6033C12.2274 14.1888 13.1669 13.4697 13.8492 12.533C14.3909 11.7893 14.7515 10.9331 14.9088 10.033C14.0513 10.4193 13.1019 10.571 12.1588 10.4636C10.9793 10.3293 9.88008 9.79906 9.04064 8.95972C8.20121 8.1203 7.6711 7.02105 7.53673 5.84156C7.42928 4.898 7.57968 3.94743 7.96642 3.0896Z" fill="currentColor"/>
+      </svg>
+    </button>
+  </nav>
+
+  <script>
+    // Initialize Feather Icons
+    feather.replace();
+
+    // Scroll-triggered reveal animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    // Equalize pill heights across both rows
+    function equalizePills() {
+      const pills = document.querySelectorAll('.profile-pill');
+      pills.forEach(p => p.style.height = 'auto');
+      const max = Math.max(...[...pills].map(p => p.offsetHeight));
+      pills.forEach(p => p.style.height = max + 'px');
+    }
+    window.addEventListener('load', equalizePills);
+    window.addEventListener('resize', equalizePills);
+
+    // ── Touch active state — clears immediately on finger lift ──
+    document.querySelectorAll('.nav-dock-btn').forEach(btn => {
+      btn.addEventListener('touchstart', () => btn.classList.add('pressed'), { passive: true });
+      btn.addEventListener('touchend', () => btn.classList.remove('pressed'));
+      btn.addEventListener('touchcancel', () => btn.classList.remove('pressed'));
+    });
+
+    // ── Theme Toggle ──
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.add('theme-transitioning');
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      setTimeout(() => document.body.classList.remove('theme-transitioning'), 400);
+    });
+
+    // ── Nav Transition: Entrance (returning from case study) ──
+    const navDock = document.getElementById('navDock');
+    const navItems = navDock.querySelectorAll('.nav-dock-btn');
+    const transition = sessionStorage.getItem('nav-transition');
+
+    if (transition === 'to-home') {
+      const sourceWidth = sessionStorage.getItem('nav-source-width');
+      sessionStorage.removeItem('nav-transition');
+      sessionStorage.removeItem('nav-source-width');
+
+      const header = document.getElementById('siteHeader');
+      const EASING = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+
+      const targetWidth = navDock.offsetWidth;
+      navDock.style.overflow = 'hidden';
+      navDock.style.width = sourceWidth;
+      navItems.forEach(item => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(-8px)';
+      });
+
+      // Snap header to hidden state instantly
+      header.style.transition = 'none';
+      header.style.transform = 'translateY(-100%)';
+      header.style.opacity = '0';
+
+      navDock.offsetHeight; // force reflow
+
+      // Animate nav dock width
+      navDock.style.transition = 'width 0.32s ' + EASING;
+      navDock.style.width = targetWidth + 'px';
+
+      // Animate nav items in
+      navItems.forEach((item, i) => {
+        const delay = 100 + i * 50;
+        item.style.transition = 'transform 0.28s ' + EASING + ' ' + delay + 'ms, opacity 0.28s ' + EASING + ' ' + delay + 'ms';
+        item.style.transform = 'translateY(0)';
+        item.style.opacity = '1';
+      });
+
+      // Animate header sliding down with slight delay
+      header.style.transition = 'transform 0.36s ' + EASING + ' 60ms, opacity 0.36s ' + EASING + ' 60ms';
+      header.style.transform = 'translateY(0)';
+      header.style.opacity = '1';
+
+      setTimeout(() => {
+        navDock.style.transition = '';
+        navDock.style.width = '';
+        navDock.style.overflow = '';
+        navItems.forEach(item => { item.style.transition = ''; item.style.transform = ''; item.style.opacity = ''; });
+        header.style.transition = '';
+        header.style.transform = '';
+        header.style.opacity = '';
+      }, 500);
+    }
+
+// ── Nav Transition: Exit (going to experience) ──
+    document.getElementById('resumeBtn').addEventListener('click', () => {
+      sessionStorage.setItem('nav-transition', 'to-experience');
+      sessionStorage.setItem('nav-source-width', navDock.offsetWidth + 'px');
+
+      const header = document.getElementById('siteHeader');
+      const EASING_EXIT = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+
+      navItems.forEach((item, i) => {
+        const delay = i * 40;
+        item.style.transition = 'transform 0.22s ' + EASING_EXIT + ' ' + delay + 'ms, opacity 0.22s ' + EASING_EXIT + ' ' + delay + 'ms';
+        item.style.transform = 'translateY(-8px)';
+        item.style.opacity = '0';
+      });
+
+      header.style.transition = 'opacity 0.22s ' + EASING_EXIT;
+      header.style.opacity = '0';
+
+      setTimeout(() => { window.location.href = 'experience.html'; }, 300);
+    });
+
+    // ── Nav Transition: Exit (going to case study) ──
+    document.querySelectorAll('.snapshot-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const href = link.getAttribute('href');
+
+        sessionStorage.setItem('nav-transition', 'to-case-study');
+        sessionStorage.setItem('nav-source-width', navDock.offsetWidth + 'px');
+
+        const headerEl = document.getElementById('siteHeader');
+        const CS_EASING = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+
+        navItems.forEach((item, i) => {
+          const delay = i * 40;
+          item.style.transition = 'transform 0.22s ' + CS_EASING + ' ' + delay + 'ms, opacity 0.22s ' + CS_EASING + ' ' + delay + 'ms';
+          item.style.transform = 'translateY(-8px)';
+          item.style.opacity = '0';
+        });
+
+        headerEl.style.transition = 'opacity 0.22s ' + CS_EASING;
+        headerEl.style.opacity = '0';
+
+        setTimeout(() => { window.location.href = href; }, 300);
+      });
+    });
+  </script>
+
+</body>
+</html>

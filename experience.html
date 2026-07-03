@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experience — Pavlos Aliko</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23FFD600'/></svg>">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="design-system.css">
+  <!-- Flash-free theme: apply before paint -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) { var h = new Date().getHours(); t = (h >= 18 || h < 8) ? 'dark' : 'light'; }
+      if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+  <style>
+    /* ── Page Tokens ── */
+    :root {
+      --nav-bg:     rgba(253, 252, 253, 0.64); /* light10 @ 64% */
+      --nav-shadow: 0px 20px 30px -10px rgba(25, 30, 40, 0.17), inset 0px 2px 8px 0px var(--light10);
+    }
+
+    [data-theme="dark"] {
+      --nav-bg:     rgba(25, 30, 40, 0.64); /* light110 @ 64% */
+      --nav-shadow: 0px 20px 30px -10px rgba(0, 0, 0, 0.30), inset 0px 2px 5px 0px rgba(65, 72, 85, 0.48);
+    }
+
+    /* ── Reset & Base ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text-primary);
+      background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Page Wrapper ── */
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 80px 24px 160px;
+    }
+
+    /* ── Page Header ── */
+    .page-label {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .page-title {
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 48px;
+    }
+
+    /* ── Experience List ── */
+    .exp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* ── Entry Card ── */
+    .exp-entry {
+      background: var(--surface-card);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .exp-entry-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .exp-company {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .exp-present-badge {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--present-bg);
+      border-radius: 100px;
+      padding: 2px 10px;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .exp-role {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-body);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .exp-meta {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .exp-dates {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      display: block;
+      line-height: 1.4;
+      white-space: nowrap;
+    }
+
+    .exp-location {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      display: block;
+      margin-top: 2px;
+      opacity: 0.7;
+    }
+
+    /* ── Entry Body ── */
+    .exp-body {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-entry);
+    }
+
+    .exp-body p {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--text-body);
+    }
+
+    .exp-body p + p {
+      margin-top: 12px;
+    }
+
+    /* ── Bullet List ── */
+    .exp-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .exp-bullets li {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--text-body);
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .exp-bullets li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    /* ── Skill Tags ── */
+    .exp-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .exp-tag {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--tag-bg);
+      border-radius: 100px;
+      padding: 4px 12px;
+    }
+
+    /* ── Back Nav Dock ── */
+    .back-nav {
+      position: fixed;
+      bottom: 64px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-radius: 124px;
+      box-shadow: var(--nav-shadow);
+      z-index: 200;
+      white-space: nowrap;
+    }
+
+    .back-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 48px;
+      padding: 0 8px;
+      border-radius: 100px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--icon-color);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @media (hover: hover) {
+      .back-nav-btn:hover { background: var(--hover); }
+      .back-nav-btn:active { background: var(--pressed); transform: scale(0.96); }
+    }
+
+    .back-nav-btn.pressed {
+      background: var(--pressed);
+      transform: scale(0.96);
+    }
+
+    .back-nav-separator {
+      width: 1px;
+      height: 24px;
+      background: linear-gradient(to bottom, transparent, var(--divider-mid), transparent);
+      flex-shrink: 0;
+      transform-origin: center;
+    }
+
+    .back-nav-title {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-primary);
+      padding: 0 8px;
+    }
+
+    /* ── Theme Toggle Button ── */
+    .back-nav-theme-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 100px;
+      border: none;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--icon-color);
+      transition: background 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      -webkit-tap-highlight-color: transparent;
+      flex-shrink: 0;
+    }
+
+    @media (hover: hover) {
+      .back-nav-theme-btn:hover { background: var(--hover); }
+      .back-nav-theme-btn:active { background: var(--pressed); transform: scale(0.92); }
+    }
+
+    .back-nav-theme-btn.pressed {
+      background: var(--pressed);
+      transform: scale(0.92);
+    }
+
+    /* ── Theme Icon Swap ── */
+    .icon-sun, .icon-moon { pointer-events: none; }
+    .icon-moon { display: none; }
+    [data-theme="dark"] .icon-sun { display: none; }
+    [data-theme="dark"] .icon-moon { display: block; }
+
+    /* ── Scroll Animations ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .back-nav { bottom: 16px; }
+
+      .page { padding: 48px 20px 140px; }
+
+      .exp-entry-header {
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .exp-meta {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page">
+
+    <p class="page-label reveal">Pavlos Aliko</p>
+    <h1 class="page-title reveal reveal-delay-1">Experience</h1>
+
+    <div class="exp-list">
+
+      <!-- Dialectica -->
+      <div class="exp-entry reveal reveal-delay-1">
+        <div class="exp-entry-header">
+          <div>
+            <h2 class="exp-company">
+              Dialectica
+              <span class="exp-present-badge">Present</span>
+            </h2>
+            <p class="exp-role">Senior Product Designer</p>
+          </div>
+          <div class="exp-meta">
+            <span class="exp-dates">Oct 2023 – Present</span>
+            <span class="exp-location">Greece</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sensora -->
+      <div class="exp-entry reveal reveal-delay-2">
+        <div class="exp-entry-header">
+          <div>
+            <h2 class="exp-company">Sensora</h2>
+            <p class="exp-role">Product Designer · Co-Founder</p>
+          </div>
+          <div class="exp-meta">
+            <span class="exp-dates">Sep 2022 – Nov 2024</span>
+            <span class="exp-location">United States</span>
+          </div>
+        </div>
+        <div class="exp-body">
+          <p>As co-founder and product designer at our IoT startup, I was responsible for driving the overall design strategy across our digital platforms, ensuring a seamless user experience and visually compelling interface.</p>
+          <p>I actively contributed to business strategy discussions, helping shape the product roadmap and identify key features — combining design skills with a deep understanding of our target market to foster the startup's growth.</p>
+        </div>
+      </div>
+
+      <!-- PNOĒ -->
+      <div class="exp-entry reveal reveal-delay-2">
+        <div class="exp-entry-header">
+          <div>
+            <h2 class="exp-company">PNOĒ</h2>
+            <p class="exp-role">Design System Designer</p>
+          </div>
+          <div class="exp-meta">
+            <span class="exp-dates">Apr 2022 – Oct 2023</span>
+            <span class="exp-location">Greece</span>
+          </div>
+        </div>
+        <div class="exp-body">
+          <ul class="exp-bullets">
+            <li>Developed and maintained the Design System.</li>
+            <li>Created a design token strategy, complex components and patterns.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Skroutz -->
+      <div class="exp-entry reveal reveal-delay-3">
+        <div class="exp-entry-header">
+          <div>
+            <h2 class="exp-company">Skroutz</h2>
+            <p class="exp-role">Senior Product Designer</p>
+          </div>
+          <div class="exp-meta">
+            <span class="exp-dates">Apr 2021 – Apr 2023</span>
+            <span class="exp-location">Athens, Greece</span>
+          </div>
+        </div>
+        <div class="exp-body">
+          <ul class="exp-bullets">
+            <li>Influenced the design team's adoption of Figma as primary tool, eliminating redundant tooling. Created a 10-step visual guide with best practices, resulting in a 50% reduction in file transition time from Sketch.</li>
+            <li>Designed a savings visualisation feature for Skroutz Plus, the subscription programme. Resulted in a 2% increase in Plus subscriptions.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Beat -->
+      <div class="exp-entry reveal reveal-delay-3">
+        <div class="exp-entry-header">
+          <div>
+            <h2 class="exp-company">Beat</h2>
+            <p class="exp-role">Product Designer</p>
+          </div>
+          <div class="exp-meta">
+            <span class="exp-dates">Aug 2017 – Apr 2021</span>
+            <span class="exp-location">Greece</span>
+          </div>
+        </div>
+        <div class="exp-body">
+          <ul class="exp-bullets">
+            <li>Designed the "Bonuses" feature for the Driver app — a dedicated incentives screen informed by user interviews. Increased driver engagement by +63% and total rides completed by +2%.</li>
+            <li>Built a dashboard for the Data Science team to create custom incentives without manual database entry. After one round of usability testing, the feature increased incentive creation speed by 50% and reduced data entry errors by 70%.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Tripsta -->
+      <div class="exp-entry reveal reveal-delay-4">
+        <div class="exp-entry-header">
+          <div>
+            <h2 class="exp-company">Tripsta</h2>
+            <p class="exp-role">Web Designer</p>
+          </div>
+          <div class="exp-meta">
+            <span class="exp-dates">Jun 2016 – Aug 2017</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Another Circus -->
+      <div class="exp-entry reveal reveal-delay-4">
+        <div class="exp-entry-header">
+          <div>
+            <h2 class="exp-company">Another Circus Creative Agency</h2>
+            <p class="exp-role">Junior Graphic Designer</p>
+          </div>
+          <div class="exp-meta">
+            <span class="exp-dates">Jun 2014 – Sep 2014</span>
+          </div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-tags">
+            <span class="exp-tag">UI Design</span>
+            <span class="exp-tag">Web Design</span>
+            <span class="exp-tag">Logo Design</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Back Nav Dock -->
+  <nav class="back-nav" aria-label="Experience navigation">
+    <a href="index.html" class="back-nav-btn" aria-label="Back to home" id="backBtn">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.6709 3.96967C6.96379 3.67678 7.43855 3.67678 7.73145 3.96967C8.02425 4.26257 8.02431 4.73735 7.73145 5.03022L4.51172 8.24996H15.3008C15.715 8.24996 16.0508 8.58574 16.0508 8.99996C16.0508 9.41415 15.715 9.74996 15.3008 9.74996H4.51172L7.73145 12.9697C8.02425 13.2626 8.02431 13.7374 7.73145 14.0302C7.43858 14.3231 6.96379 14.323 6.6709 14.0302L2.1709 9.53023C2.13891 9.49824 2.11094 9.46355 2.08594 9.42769C2.05521 9.38359 2.0286 9.33641 2.00781 9.28609C1.98707 9.23581 1.97223 9.18371 1.96289 9.13082C1.9554 9.08831 1.95118 9.04462 1.95117 8.99996C1.95117 8.95465 1.95519 8.91023 1.96289 8.86714C1.97198 8.81631 1.98622 8.76617 2.00586 8.71773L2.00977 8.70796C2.02135 8.68057 2.03713 8.65546 2.05176 8.62984C2.0842 8.57299 2.12238 8.5182 2.1709 8.46968L6.6709 3.96967Z" fill="currentColor"/>
+      </svg>
+      Back
+    </a>
+    <div class="back-nav-separator"></div>
+    <span class="back-nav-title">Experience</span>
+    <div class="back-nav-separator"></div>
+    <button class="back-nav-theme-btn" aria-label="Toggle theme" id="themeToggle">
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_exp_sun)">
+          <path d="M9 12C10.6569 12 12 10.6569 12 9C12 7.34315 10.6569 6 9 6C7.34315 6 6 7.34315 6 9C6 10.6569 7.34315 12 9 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 1.5V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 15V16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3.69727 3.69727L4.75477 4.75477" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M13.2461 13.2461L14.3036 14.3036" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M1.5 9H3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M15 9H16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4.75477 13.2461L3.69727 14.3036" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14.3036 3.69727L13.2461 4.75477" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <defs>
+          <clipPath id="clip0_exp_sun">
+            <rect width="18" height="18" fill="white"/>
+          </clipPath>
+        </defs>
+      </svg>
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.59435 1.51148C9.09391 1.48434 9.46915 1.78355 9.63732 2.1355C9.79833 2.47282 9.79619 2.89957 9.57189 3.25855L9.57286 3.25953C9.12342 3.97862 8.93101 4.82908 9.02696 5.67163C9.12292 6.51418 9.50156 7.29955 10.1012 7.89917C10.7007 8.49855 11.4855 8.87737 12.3277 8.97339C13.1702 9.06934 14.0208 8.87684 14.7399 8.42749L14.8776 8.35328C15.2038 8.20517 15.5678 8.22112 15.8639 8.36206C16.2167 8.53021 16.5157 8.90531 16.4889 9.40406C16.4108 10.8508 15.9151 12.2446 15.0621 13.4158C14.2092 14.5868 13.0351 15.4854 11.6822 16.0037C10.3293 16.5218 8.85511 16.6373 7.4381 16.3357C6.02097 16.034 4.72146 15.3279 3.69689 14.3035C2.67241 13.2791 1.9666 11.9802 1.66466 10.5632C1.36277 9.14614 1.47765 7.67123 1.99571 6.31812C2.51381 4.96519 3.41263 3.79127 4.58361 2.93824C5.75464 2.08517 7.14766 1.58977 8.59435 1.51148ZM7.96642 3.0896C7.06617 3.24697 6.21017 3.60834 5.46642 4.15015C4.52954 4.83265 3.81056 5.77274 3.39611 6.85523C2.98178 7.93761 2.88997 9.1172 3.13146 10.2507C3.37301 11.3843 3.93786 12.4234 4.75743 13.2429C5.577 14.0624 6.61609 14.6275 7.74962 14.8689C8.88319 15.1103 10.0628 15.0177 11.1451 14.6033C12.2274 14.1888 13.1669 13.4697 13.8492 12.533C14.3909 11.7893 14.7515 10.9331 14.9088 10.033C14.0513 10.4193 13.1019 10.571 12.1588 10.4636C10.9793 10.3293 9.88008 9.79906 9.04064 8.95972C8.20121 8.1203 7.6711 7.02105 7.53673 5.84156C7.42928 4.898 7.57968 3.94743 7.96642 3.0896Z" fill="currentColor"/>
+      </svg>
+    </button>
+  </nav>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -24px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    // ── Touch active state ──
+    const backBtn = document.getElementById('backBtn');
+    backBtn.addEventListener('touchstart', () => backBtn.classList.add('pressed'), { passive: true });
+    backBtn.addEventListener('touchend', () => backBtn.classList.remove('pressed'));
+    backBtn.addEventListener('touchcancel', () => backBtn.classList.remove('pressed'));
+
+    // ── Theme Toggle ──
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('touchstart', () => themeToggle.classList.add('pressed'), { passive: true });
+    themeToggle.addEventListener('touchend', () => themeToggle.classList.remove('pressed'));
+    themeToggle.addEventListener('touchcancel', () => themeToggle.classList.remove('pressed'));
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.add('theme-transitioning');
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      setTimeout(() => document.body.classList.remove('theme-transitioning'), 400);
+    });
+
+    // ── Nav Transition: Per-element animation map ──
+    const backNav = document.querySelector('.back-nav');
+    const separators = backNav.querySelectorAll('.back-nav-separator');
+    const backNavItems = [
+      { el: backNav.querySelector('.back-nav-btn'),       enterFrom: 'translateX(-8px)', exitTo: 'translateX(8px)'  },
+      { el: separators[0],                                separator: true },
+      { el: backNav.querySelector('.back-nav-title'),     enterFrom: 'translateX(8px)',  exitTo: 'translateX(-8px)' },
+      { el: separators[1],                                separator: true },
+      { el: backNav.querySelector('.back-nav-theme-btn'), enterFrom: 'translateX(8px)',  exitTo: 'translateX(-8px)' },
+    ];
+    const EASING = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+
+    const transition = sessionStorage.getItem('nav-transition');
+
+    if (transition === 'to-experience') {
+      const sourceWidth = sessionStorage.getItem('nav-source-width');
+      sessionStorage.removeItem('nav-transition');
+      sessionStorage.removeItem('nav-source-width');
+
+      document.fonts.ready.then(() => {
+        const targetWidth = Math.ceil(backNav.offsetWidth);
+
+        backNavItems.forEach(({ el }) => { el.style.transition = 'none'; });
+
+        backNavItems.forEach(({ el, enterFrom, separator }) => {
+          el.style.opacity = '0';
+          el.style.transform = separator ? 'scaleY(0)' : enterFrom;
+        });
+
+        backNav.style.overflow = 'hidden';
+        backNav.style.width = sourceWidth;
+
+        backNav.offsetHeight;
+
+        backNav.style.transition = 'width 0.32s ' + EASING;
+        backNav.style.width = targetWidth + 'px';
+
+        backNavItems.forEach(({ el, separator }, i) => {
+          const delay = 60 + i * 36;
+          el.style.transition =
+            'transform 0.28s ' + EASING + ' ' + delay + 'ms, ' +
+            'opacity 0.28s ' + EASING + ' ' + delay + 'ms';
+          el.style.transform = separator ? 'scaleY(1)' : 'translateX(0)';
+          el.style.opacity = '1';
+        });
+
+        setTimeout(() => {
+          backNav.style.transition = '';
+          backNav.style.width = '';
+          backNav.style.overflow = '';
+          backNavItems.forEach(({ el }) => {
+            el.style.transition = '';
+            el.style.transform = '';
+            el.style.opacity = '';
+          });
+        }, 500);
+      });
+    }
+
+    // ── Nav Transition: Exit (going back to home) ──
+    backBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = backBtn.getAttribute('href');
+
+      sessionStorage.setItem('nav-transition', 'to-home');
+      sessionStorage.setItem('nav-source-width', backNav.offsetWidth + 'px');
+
+      backNavItems.forEach(({ el, exitTo, separator }, i) => {
+        const delay = i * 40;
+        el.style.transition =
+          'transform 0.22s ' + EASING + ' ' + delay + 'ms, ' +
+          'opacity 0.22s ' + EASING + ' ' + delay + 'ms';
+        el.style.transform = separator ? 'scaleY(0)' : exitTo;
+        el.style.opacity = '0';
+      });
+
+      setTimeout(() => { window.location.href = href; }, 300);
+    });
+  </script>
+
+</body>
+</html>

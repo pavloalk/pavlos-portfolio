@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Velvet — Pavlos Aliko</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23FFD600'/></svg>">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="design-system.css">
+  <!-- Flash-free theme: apply before paint -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) { var h = new Date().getHours(); t = (h >= 18 || h < 8) ? 'dark' : 'light'; }
+      if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+  <style>
+    /* ── Page Tokens ── */
+    :root {
+      --nav-bg:     rgba(253, 252, 253, 0.64);
+      --nav-shadow: 0px 20px 30px -10px rgba(25, 30, 40, 0.17), inset 0px 2px 8px 0px var(--light10);
+    }
+
+    [data-theme="dark"] {
+      --nav-bg:     rgba(25, 30, 40, 0.64);
+      --nav-shadow: 0px 20px 30px -10px rgba(0, 0, 0, 0.30), inset 0px 2px 5px 0px rgba(65, 72, 85, 0.48);
+    }
+
+    /* ── Reset & Base ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text-primary);
+      background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    img { display: block; max-width: 100%; }
+
+    /* ── Page Content Wrapper ── */
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 80px 24px 160px;
+    }
+
+    /* ── Section ── */
+    .cs-section { margin-bottom: 80px; }
+    .cs-section:last-child { margin-bottom: 0; }
+
+    /* ── Section Label ── */
+    .cs-label {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    /* ── Titles ── */
+    .cs-h1 {
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+    }
+
+    .cs-h2 {
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 700;
+      line-height: 1.14;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    /* ── Body Text ── */
+    .cs-body {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--text-body);
+    }
+
+    .cs-body + .cs-body { margin-top: 16px; }
+
+    /* ── Tag ── */
+    .cs-tag-wip {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #5b2bb3;
+      background: #ede9fe;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+
+    [data-theme="dark"] .cs-tag-wip {
+      color: #ddd6fe;
+      background: rgba(167, 139, 250, 0.14);
+    }
+
+    /* ── Hero Image ── */
+    .cs-hero-image {
+      margin-top: 40px;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .cs-hero-image img {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+    }
+
+    /* ── Metadata Row ── */
+    .cs-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border-meta);
+    }
+
+    .cs-meta-col h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+
+    .cs-meta-col p,
+    .cs-meta-col li {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      list-style: none;
+    }
+
+    /* ── Divider ── */
+    .cs-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--divider-mid), transparent);
+      margin-bottom: 80px;
+    }
+
+    /* ── Design Change List ── */
+    .cs-change-list {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .cs-change-item {
+      background: var(--surface-card);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .cs-change-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: var(--surface-kpi-icon);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .cs-change-content h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .cs-change-content p {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-body);
+      line-height: 1.6;
+    }
+
+    /* ── App Screens Stage (3 screens, plain) ── */
+    .cs-stage {
+      margin-top: 24px;
+    }
+
+    .cs-stage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      align-items: center;
+      justify-items: center;
+    }
+
+    .cs-stage-grid img {
+      height: 460px;
+      width: auto;
+      max-width: 100%;
+      border-radius: 14px;
+    }
+
+    /* ── Logo Image ── */
+    .cs-image-frame {
+      margin-top: 24px;
+      background: var(--image-frame-bg);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .cs-image-frame img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+    }
+
+    .cs-image-caption {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+
+    /* ── Back Nav Dock ── */
+    .back-nav {
+      position: fixed;
+      bottom: 64px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-radius: 124px;
+      box-shadow: var(--nav-shadow);
+      z-index: 200;
+      white-space: nowrap;
+    }
+
+    .back-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 48px;
+      padding: 0 8px;
+      border-radius: 100px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--icon-color);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @media (hover: hover) {
+      .back-nav-btn:hover { background: var(--hover); }
+      .back-nav-btn:active { background: var(--pressed); transform: scale(0.96); }
+    }
+
+    .back-nav-btn.pressed { background: var(--pressed); transform: scale(0.96); }
+
+    .back-nav-separator {
+      width: 1px;
+      height: 24px;
+      background: linear-gradient(to bottom, transparent, var(--divider-mid), transparent);
+      flex-shrink: 0;
+      transform-origin: center;
+    }
+
+    .back-nav-title {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-primary);
+      padding: 0 8px;
+    }
+
+    /* ── Theme Toggle Button ── */
+    .back-nav-theme-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 100px;
+      border: none;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--icon-color);
+      transition: background 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      -webkit-tap-highlight-color: transparent;
+      flex-shrink: 0;
+    }
+
+    @media (hover: hover) {
+      .back-nav-theme-btn:hover { background: var(--hover); }
+      .back-nav-theme-btn:active { background: var(--pressed); transform: scale(0.92); }
+    }
+
+    .back-nav-theme-btn.pressed { background: var(--pressed); transform: scale(0.92); }
+
+    /* ── Theme Icon Swap ── */
+    .icon-sun, .icon-moon { pointer-events: none; }
+    .icon-moon { display: none; }
+    [data-theme="dark"] .icon-sun { display: none; }
+    [data-theme="dark"] .icon-moon { display: block; }
+
+    /* ── Scroll Animations ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .back-nav { bottom: 16px; }
+      .page { padding: 48px 20px 140px; }
+      .cs-meta { grid-template-columns: 1fr; gap: 24px; }
+      .cs-stage-grid { grid-template-columns: 1fr; gap: 20px; }
+      .cs-stage-grid img { height: auto; width: 100%; max-width: 320px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page">
+
+    <!-- ── Section: Hero ── -->
+    <section class="cs-section">
+      <span class="cs-tag-wip reveal">Personal project · Prototype</span>
+      <p class="cs-label reveal">Self-initiated · iOS · 2025</p>
+      <h1 class="cs-h1 reveal">Velvet — logging a budget entry as fast as tapping a notification</h1>
+      <p class="cs-body reveal reveal-delay-1">Velvet is a side project I designed and built as a working SwiftUI prototype. It sits on top of YNAB, a zero-based budgeting tool I use daily. The friction I kept hitting: logging a single transaction means opening the app, finding the right budget, picking an account, choosing a category, and entering an amount — five-plus steps for something you do dozens of times a week.</p>
+      <p class="cs-body reveal reveal-delay-1">The question I started with: what would it look like if logging a transaction felt as fast as tapping a notification?</p>
+
+      <div class="cs-hero-image reveal reveal-delay-2">
+        <img src="Images/Case studies/Velvet-Snapshot.png" alt="Velvet app — Log, Home, and Crave screens on a purple gradient">
+      </div>
+
+      <div class="cs-meta reveal reveal-delay-2">
+        <div class="cs-meta-col">
+          <h4>Role</h4>
+          <ul>
+            <li>Product Designer</li>
+            <li>Sole designer & builder</li>
+          </ul>
+        </div>
+        <div class="cs-meta-col">
+          <h4>Platform</h4>
+          <ul>
+            <li>iOS · Dark mode only</li>
+            <li>Working prototype</li>
+          </ul>
+        </div>
+        <div class="cs-meta-col">
+          <h4>Stack</h4>
+          <ul>
+            <li>SwiftUI</li>
+            <li>YNAB API</li>
+            <li>Apple Intelligence (on-device)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="cs-divider"></div>
+
+    <!-- ── Section: The three screens ── -->
+    <section class="cs-section">
+      <p class="cs-label reveal">The core loop</p>
+      <h2 class="cs-h2 reveal">Three screens, one idea: remove the steps</h2>
+      <p class="cs-body reveal reveal-delay-1">Velvet is built for people who already use YNAB — they know their categories and have recurring spending. They don't need to be taught budgeting; they need the logging overhead gone. So the whole app collapses around a single home screen of pre-configured taps, with live budget context and a calm AI for the moments you're tempted to overspend.</p>
+
+      <div class="cs-stage reveal">
+        <div class="cs-stage-grid">
+          <img src="Images/Case studies/Velvet/Home.png" alt="Velvet home screen — grid of Quick Action cards">
+          <img src="Images/Case studies/Velvet/Log.png" alt="Velvet amount-entry screen">
+          <img src="Images/Case studies/Velvet/Crave.png" alt="Velvet Crave — on-device AI financial coach">
+        </div>
+      </div>
+    </section>
+
+    <div class="cs-divider"></div>
+
+    <!-- ── Section: Decisions ── -->
+    <section class="cs-section">
+      <p class="cs-label reveal">Decisions that shaped it</p>
+      <h2 class="cs-h2 reveal">Where the design earned its keep</h2>
+
+      <div class="cs-change-list">
+        <div class="cs-change-item reveal">
+          <div class="cs-change-number">1</div>
+          <div class="cs-change-content">
+            <h4>One tap over a five-step flow</h4>
+            <p>Quick Actions collapse the whole logging flow into a single interaction. The trade-off is upfront setup — but committed YNAB users already hold that mental model, so configuring it once is low effort.</p>
+          </div>
+        </div>
+        <div class="cs-change-item reveal reveal-delay-1">
+          <div class="cs-change-number">2</div>
+          <div class="cs-change-content">
+            <h4>Ambient budget context, not buried sub-views</h4>
+            <p>Each card shows live availability pulled from the API and cached for instant display. Pill opacity signals freshness — full opacity is live, reduced is cached — so the data state is honest without a loading screen.</p>
+          </div>
+        </div>
+        <div class="cs-change-item reveal reveal-delay-2">
+          <div class="cs-change-number">3</div>
+          <div class="cs-change-content">
+            <h4>Borrowing iOS conventions instead of teaching new ones</h4>
+            <p>Edit mode uses the wiggle-and-drag pattern people already know from the home screen — randomised per-card timing so they don't move in sync. No onboarding needed; the gesture is already in muscle memory.</p>
+          </div>
+        </div>
+        <div class="cs-change-item reveal reveal-delay-3">
+          <div class="cs-change-number">4</div>
+          <div class="cs-change-content">
+            <h4>"Crave", not "stop spending"</h4>
+            <p>Framing the AI tab around the craving rather than the prohibition makes it a thinking partner instead of a gatekeeper. The model is tuned to stay conversational — 2–4 sentences, no markdown, never preachy.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="cs-divider"></div>
+
+    <!-- ── Section: Brand ── -->
+    <section class="cs-section">
+      <p class="cs-label reveal">Brand</p>
+      <h2 class="cs-h2 reveal">Finding the mark</h2>
+      <p class="cs-body reveal reveal-delay-1">The logomark is a stylised butterfly — sitting between lightness (financial freedom) and precision (a balanced budget), and doubling as an abstract "V". I explored weight and line quality first, then how the mark held up across icon, badge, and wordmark sizes, before landing on a blue-to-purple gradient icon that reads clearly small and feels rich large.</p>
+
+      <div class="cs-image-frame reveal">
+        <img src="Images/Case studies/Velvet/logo-creation.jpg" alt="Velvet logo exploration — butterfly mark iterations">
+        <p class="cs-image-caption">Logomark exploration — weight, line quality, and behaviour across scales</p>
+      </div>
+    </section>
+
+    <div class="cs-divider"></div>
+
+    <!-- ── Section: Reflection ── -->
+    <section class="cs-section">
+      <p class="cs-label reveal">Reflection</p>
+      <h2 class="cs-h2 reveal">What building it (not just drawing it) taught me</h2>
+      <p class="cs-body reveal reveal-delay-1">Shipping Velvet as a functional prototype rather than static screens forced real decisions about interaction timing, loading states, and error cases that are easy to hand-wave in Figma. Genuine design problems only surfaced once the API latency was real — like how to communicate cached vs. live budget data honestly.</p>
+      <p class="cs-body reveal reveal-delay-1">It's still in development, but it reinforced something I keep coming back to: for a tool people use daily, the best UX is usually about ruthlessly removing steps — not adding features. Next I'd want to test the first-run setup with real users and explore a home-screen widget and Siri logging.</p>
+    </section>
+
+  </div>
+
+  <!-- Back Nav Dock -->
+  <nav class="back-nav" aria-label="Case study navigation">
+    <a href="index.html" class="back-nav-btn" aria-label="Back to home" id="backBtn">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.6709 3.96967C6.96379 3.67678 7.43855 3.67678 7.73145 3.96967C8.02425 4.26257 8.02431 4.73735 7.73145 5.03022L4.51172 8.24996H15.3008C15.715 8.24996 16.0508 8.58574 16.0508 8.99996C16.0508 9.41415 15.715 9.74996 15.3008 9.74996H4.51172L7.73145 12.9697C8.02425 13.2626 8.02431 13.7374 7.73145 14.0302C7.43858 14.3231 6.96379 14.323 6.6709 14.0302L2.1709 9.53023C2.13891 9.49824 2.11094 9.46355 2.08594 9.42769C2.05521 9.38359 2.0286 9.33641 2.00781 9.28609C1.98707 9.23581 1.97223 9.18371 1.96289 9.13082C1.9554 9.08831 1.95118 9.04462 1.95117 8.99996C1.95117 8.95465 1.95519 8.91023 1.96289 8.86714C1.97198 8.81631 1.98622 8.76617 2.00586 8.71773L2.00977 8.70796C2.02135 8.68057 2.03713 8.65546 2.05176 8.62984C2.0842 8.57299 2.12238 8.5182 2.1709 8.46968L6.6709 3.96967Z" fill="currentColor"/>
+      </svg>
+      Back
+    </a>
+    <div class="back-nav-separator"></div>
+    <span class="back-nav-title">Velvet</span>
+    <div class="back-nav-separator"></div>
+    <button class="back-nav-theme-btn" aria-label="Toggle theme" id="themeToggle">
+      <!-- Sun icon (light mode) -->
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_velvet_sun)">
+          <path d="M9 12C10.6569 12 12 10.6569 12 9C12 7.34315 10.6569 6 9 6C7.34315 6 6 7.34315 6 9C6 10.6569 7.34315 12 9 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 1.5V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 15V16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3.69727 3.69727L4.75477 4.75477" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M13.2461 13.2461L14.3036 14.3036" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M1.5 9H3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M15 9H16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4.75477 13.2461L3.69727 14.3036" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14.3036 3.69727L13.2461 4.75477" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <defs>
+          <clipPath id="clip0_velvet_sun">
+            <rect width="18" height="18" fill="white"/>
+          </clipPath>
+        </defs>
+      </svg>
+      <!-- Moon icon (dark mode) -->
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.59435 1.51148C9.09391 1.48434 9.46915 1.78355 9.63732 2.1355C9.79833 2.47282 9.79619 2.89957 9.57189 3.25855L9.57286 3.25953C9.12342 3.97862 8.93101 4.82908 9.02696 5.67163C9.12292 6.51418 9.50156 7.29955 10.1012 7.89917C10.7007 8.49855 11.4855 8.87737 12.3277 8.97339C13.1702 9.06934 14.0208 8.87684 14.7399 8.42749L14.8776 8.35328C15.2038 8.20517 15.5678 8.22112 15.8639 8.36206C16.2167 8.53021 16.5157 8.90531 16.4889 9.40406C16.4108 10.8508 15.9151 12.2446 15.0621 13.4158C14.2092 14.5868 13.0351 15.4854 11.6822 16.0037C10.3293 16.5218 8.85511 16.6373 7.4381 16.3357C6.02097 16.034 4.72146 15.3279 3.69689 14.3035C2.67241 13.2791 1.9666 11.9802 1.66466 10.5632C1.36277 9.14614 1.47765 7.67123 1.99571 6.31812C2.51381 4.96519 3.41263 3.79127 4.58361 2.93824C5.75464 2.08517 7.14766 1.58977 8.59435 1.51148ZM7.96642 3.0896C7.06617 3.24697 6.21017 3.60834 5.46642 4.15015C4.52954 4.83265 3.81056 5.77274 3.39611 6.85523C2.98178 7.93761 2.88997 9.1172 3.13146 10.2507C3.37301 11.3843 3.93786 12.4234 4.75743 13.2429C5.577 14.0624 6.61609 14.6275 7.74962 14.8689C8.88319 15.1103 10.0628 15.0177 11.1451 14.6033C12.2274 14.1888 13.1669 13.4697 13.8492 12.533C14.3909 11.7893 14.7515 10.9331 14.9088 10.033C14.0513 10.4193 13.1019 10.571 12.1588 10.4636C10.9793 10.3293 9.88008 9.79906 9.04064 8.95972C8.20121 8.1203 7.6711 7.02105 7.53673 5.84156C7.42928 4.898 7.57968 3.94743 7.96642 3.0896Z" fill="currentColor"/>
+      </svg>
+    </button>
+  </nav>
+
+  <script>
+    // ── Scroll reveal ──
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -32px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    // ── Touch active state ──
+    const backBtn = document.getElementById('backBtn');
+    backBtn.addEventListener('touchstart', () => backBtn.classList.add('pressed'), { passive: true });
+    backBtn.addEventListener('touchend', () => backBtn.classList.remove('pressed'));
+    backBtn.addEventListener('touchcancel', () => backBtn.classList.remove('pressed'));
+
+    // ── Theme Toggle ──
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('touchstart', () => themeToggle.classList.add('pressed'), { passive: true });
+    themeToggle.addEventListener('touchend', () => themeToggle.classList.remove('pressed'));
+    themeToggle.addEventListener('touchcancel', () => themeToggle.classList.remove('pressed'));
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.add('theme-transitioning');
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      setTimeout(() => document.body.classList.remove('theme-transitioning'), 400);
+    });
+
+    // ── Nav Transition: Per-element animation map ──
+    const backNav = document.querySelector('.back-nav');
+    const separators = backNav.querySelectorAll('.back-nav-separator');
+    const backNavItems = [
+      { el: backNav.querySelector('.back-nav-btn'),       enterFrom: 'translateX(-8px)', exitTo: 'translateX(8px)'  },
+      { el: separators[0],                                separator: true },
+      { el: backNav.querySelector('.back-nav-title'),     enterFrom: 'translateX(8px)',  exitTo: 'translateX(-8px)' },
+      { el: separators[1],                                separator: true },
+      { el: backNav.querySelector('.back-nav-theme-btn'), enterFrom: 'translateX(8px)',  exitTo: 'translateX(-8px)' },
+    ];
+    const EASING = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+
+    const transition = sessionStorage.getItem('nav-transition');
+
+    if (transition === 'to-case-study') {
+      const sourceWidth = sessionStorage.getItem('nav-source-width');
+      sessionStorage.removeItem('nav-transition');
+      sessionStorage.removeItem('nav-source-width');
+
+      document.fonts.ready.then(() => {
+        const targetWidth = Math.ceil(backNav.offsetWidth);
+        backNavItems.forEach(({ el }) => { el.style.transition = 'none'; });
+        backNavItems.forEach(({ el, enterFrom, separator }) => {
+          el.style.opacity = '0';
+          el.style.transform = separator ? 'scaleY(0)' : enterFrom;
+        });
+        backNav.style.overflow = 'hidden';
+        backNav.style.width = sourceWidth;
+        backNav.offsetHeight;
+        backNav.style.transition = 'width 0.32s ' + EASING;
+        backNav.style.width = targetWidth + 'px';
+        backNavItems.forEach(({ el, separator }, i) => {
+          const delay = 60 + i * 36;
+          el.style.transition =
+            'transform 0.28s ' + EASING + ' ' + delay + 'ms, ' +
+            'opacity 0.28s ' + EASING + ' ' + delay + 'ms';
+          el.style.transform = separator ? 'scaleY(1)' : 'translateX(0)';
+          el.style.opacity = '1';
+        });
+        setTimeout(() => {
+          backNav.style.transition = '';
+          backNav.style.width = '';
+          backNav.style.overflow = '';
+          backNavItems.forEach(({ el }) => {
+            el.style.transition = '';
+            el.style.transform = '';
+            el.style.opacity = '';
+          });
+        }, 500);
+      });
+    }
+
+    // ── Nav Transition: Exit (going back to home) ──
+    backBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = backBtn.getAttribute('href');
+      sessionStorage.setItem('nav-transition', 'to-home');
+      sessionStorage.setItem('nav-source-width', backNav.offsetWidth + 'px');
+      backNavItems.forEach(({ el, exitTo, separator }, i) => {
+        const delay = i * 40;
+        el.style.transition =
+          'transform 0.22s ' + EASING + ' ' + delay + 'ms, ' +
+          'opacity 0.22s ' + EASING + ' ' + delay + 'ms';
+        el.style.transform = separator ? 'scaleY(0)' : exitTo;
+        el.style.opacity = '0';
+      });
+      setTimeout(() => { window.location.href = href; }, 300);
+    });
+  </script>
+
+</body>
+</html>
