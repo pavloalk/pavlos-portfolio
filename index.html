@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pavlos Aliko — Senior Product Designer</title>
+  <title>Pavlos Aliko | Senior Product Designer</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23FFD600'/></svg>">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
@@ -187,9 +187,10 @@
       width: 100%;
       background: var(--img-wrapper-bg);
       border-radius: 12px;
-      padding: 6px;
+      /*padding: 6px;*/
       box-shadow: var(--img-shadow);
       overflow: clip;
+      transition: box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     /* Aspect ratio enforcer */
@@ -442,6 +443,14 @@
 
     /* Only apply hover on devices with a real cursor */
     @media (hover: hover) {
+      /* Desktop: dim snapshot image shadow to 30%, full on hover */
+      .snapshot-image-container {
+        box-shadow: var(--img-shadow-dim);
+      }
+      .snapshot:hover .snapshot-image-container {
+        box-shadow: var(--img-shadow);
+      }
+
       .nav-dock-btn:hover {
         background: var(--hover);
       }
@@ -592,7 +601,33 @@
     </a>
 
     <!-- Snapshot 2 -->
-    <a href="case-study-km.html" class="snapshot-link reveal reveal-delay-1">
+    <a href="case-study-velvet.html" class="snapshot-link reveal reveal-delay-1">
+    <article class="snapshot">
+      <div class="snapshot-image-container">
+        <div class="snapshot-image-ratio">
+          <img src="Images/Case studies/Velvet-Snapshot.png" alt="Velvet project snapshot" class="snapshot-mockup">
+        </div>
+      </div>
+      <div class="snapshot-content">
+        <h3 class="snapshot-title">Velvet: one-tap budget logging for YNAB</h3>
+        <div class="snapshot-stat">
+          <span class="snapshot-stat-value">Concept</span>
+          <span class="snapshot-stat-label">Solo design &amp; SwiftUI prototype</span>
+        </div>
+        <div class="snapshot-inner-divider"></div>
+        <div class="snapshot-tags">
+          <span class="snapshot-tag snapshot-tag-status">Prototype</span>
+          <span class="snapshot-tag">2025</span>
+          <span class="snapshot-tag">Personal project</span>
+          <span class="snapshot-tag">iOS</span>
+          <span class="snapshot-tag">SwiftUI</span>
+        </div>
+      </div>
+    </article>
+    </a>
+
+    <!-- Snapshot 3 -->
+    <a href="case-study-km.html" class="snapshot-link reveal reveal-delay-2">
     <article class="snapshot">
       <div class="snapshot-image-container">
         <div class="snapshot-image-ratio">
@@ -612,27 +647,6 @@
           <span class="snapshot-tag">B2C</span>
           <span class="snapshot-tag">Dialectica</span>
           <span class="snapshot-tag">Redesign</span>
-        </div>
-      </div>
-    </article>
-    </a>
-
-    <!-- Snapshot 3 -->
-    <a href="case-study-velvet.html" class="snapshot-link reveal reveal-delay-2">
-    <article class="snapshot">
-      <div class="snapshot-image-container">
-        <div class="snapshot-image-ratio">
-          <img src="Images/Case studies/Velvet-Snapshot.png" alt="Velvet project snapshot" class="snapshot-mockup">
-        </div>
-      </div>
-      <div class="snapshot-content">
-        <h3 class="snapshot-title">Velvet — one-tap budget logging for YNAB</h3>
-        <div class="snapshot-tags">
-          <span class="snapshot-tag snapshot-tag-status">Prototype</span>
-          <span class="snapshot-tag">2025</span>
-          <span class="snapshot-tag">Personal project</span>
-          <span class="snapshot-tag">iOS</span>
-          <span class="snapshot-tag">SwiftUI</span>
         </div>
       </div>
     </article>
@@ -683,7 +697,7 @@
         <div class="profile-pill">10+ years designing digital products</div>
         <div class="profile-pill">B2C &amp; B2B product experience</div>
         <div class="profile-pill">20+ shipped product features</div>
-        <div class="profile-pill">Web platforms &amp; native apps</div>
+        <div class="profile-pill">Native apps &amp; web platforms</div>
       </div>
       <p class="profile-bio">I'm a Product Designer based in Athens with over 10 years of experience designing digital products. My work spans B2B and B2C platforms, with a strong focus on complex workflows, data-heavy interfaces, and scalable product systems. I collaborate closely with product managers, engineers, and stakeholders to translate business goals into clear, user-centered solutions that support both usability and growth.</p>
     </div>
@@ -779,19 +793,14 @@
     // ── Nav Transition: Entrance (returning from case study) ──
     const navDock = document.getElementById('navDock');
     const navItems = navDock.querySelectorAll('.nav-dock-btn');
-    const transition = sessionStorage.getItem('nav-transition');
 
-    if (transition === 'to-home') {
-      const sourceWidth = sessionStorage.getItem('nav-source-width');
-      sessionStorage.removeItem('nav-transition');
-      sessionStorage.removeItem('nav-source-width');
-
+    function playHomeEntrance(sourceWidth) {
       const header = document.getElementById('siteHeader');
       const EASING = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 
       const targetWidth = navDock.offsetWidth;
       navDock.style.overflow = 'hidden';
-      navDock.style.width = sourceWidth;
+      if (sourceWidth) navDock.style.width = sourceWidth;
       navItems.forEach(item => {
         item.style.opacity = '0';
         item.style.transform = 'translateY(-8px)';
@@ -831,6 +840,26 @@
         header.style.opacity = '';
       }, 500);
     }
+
+    // Fresh load returning from a case study
+    if (sessionStorage.getItem('nav-transition') === 'to-home') {
+      const sourceWidth = sessionStorage.getItem('nav-source-width');
+      sessionStorage.removeItem('nav-transition');
+      sessionStorage.removeItem('nav-source-width');
+      playHomeEntrance(sourceWidth);
+    }
+
+    // Restored from browser back/forward cache (browser back arrow).
+    // The frozen snapshot still has the exit animation's hidden state applied,
+    // so repaint the icons and replay the entrance to match the navbar back button.
+    window.addEventListener('pageshow', (event) => {
+      if (!event.persisted) return;
+      if (window.feather) feather.replace();
+      const sourceWidth = sessionStorage.getItem('nav-source-width');
+      sessionStorage.removeItem('nav-transition');
+      sessionStorage.removeItem('nav-source-width');
+      playHomeEntrance(sourceWidth);
+    });
 
 // ── Nav Transition: Exit (going to experience) ──
     document.getElementById('resumeBtn').addEventListener('click', () => {

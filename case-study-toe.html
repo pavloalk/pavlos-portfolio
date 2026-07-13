@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terms of Engagement — Pavlos Aliko</title>
+  <title>Terms of Engagement | Pavlos Aliko</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23FFD600'/></svg>">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
@@ -382,6 +382,41 @@
       line-height: 1.6;
     }
 
+    /* ── Mobile Showcase ── */
+    .cs-mobile-frame {
+      margin-top: 8px;
+      background: var(--image-frame-bg);
+      border-radius: 16px;
+      padding: 40px 24px;
+    }
+
+    .cs-mobile-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .cs-mobile-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .cs-mobile-item img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.16);
+    }
+
+    .cs-mobile-caption {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+
     /* ── Before / After Comparison Slider ── */
     .cs-comparison {
       position: relative;
@@ -486,13 +521,13 @@
     }
 
     .cs-comparison-label--before {
-      right: 16px;
+      left: 16px;
       background: rgba(0, 0, 0, 0.5);
       color: #fff;
     }
 
     .cs-comparison-label--after {
-      left: 16px;
+      right: 16px;
       background: rgba(255, 255, 255, 0.9);
       color: #191e28;
     }
@@ -690,6 +725,15 @@
       .cs-moment-grid {
         grid-template-columns: 1fr;
       }
+
+      .cs-mobile-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .cs-mobile-frame {
+        padding: 28px 20px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -717,7 +761,7 @@
       <p class="cs-label reveal">Dialectica · 2024</p>
       <h1 class="cs-h1 reveal">Redesigning the Terms of Engagement signing flow for experts</h1>
       <p class="cs-body reveal reveal-delay-1">Dialectica is an information services firm that connects investment and strategy professionals with subject-matter experts for private consultations. These specialized insights help clients conduct primary research to make more informed business decisions.</p>
-      <p class="cs-body reveal reveal-delay-1">Before experts could participate in any consultation, they needed to sign the Terms of Engagement (ToE) — a necessary legal step. Experts were introduced to this flow via email. The existing experience was a single, long page that tried to do everything at once, causing experts to abandon the process before signing.</p>
+      <p class="cs-body reveal reveal-delay-1">Before experts could participate in any consultation, they needed to sign the Terms of Engagement (ToE), a necessary legal step. Experts were introduced to this flow via email. The existing experience was a single, long page that tried to do everything at once, causing experts to abandon the process before signing.</p>
 
       <div class="cs-hero-image reveal reveal-delay-2">
         <img src="Images/Case studies/ToE-Snapshot.png" alt="Terms of Engagement redesigned interface">
@@ -755,7 +799,7 @@
     <section class="cs-section">
       <p class="cs-label reveal">The problem</p>
       <h2 class="cs-h2 reveal">Experts were abandoning the signing flow</h2>
-      <p class="cs-body reveal reveal-delay-1">The ToE signing flow was the gateway to consultations — if experts didn't complete it, they couldn't participate in calls with clients. The old flow presented everything on a single, dense page: personal details, experience history, and the legal terms all at once. Experts would land on this page from an email link, feel overwhelmed, and leave before signing.</p>
+      <p class="cs-body reveal reveal-delay-1">The ToE signing flow was the gateway to consultations: if experts didn't complete it, they couldn't participate in calls with clients. The old flow presented everything on a single, dense page: personal details, experience history, and the legal terms all at once. Experts would land on this page from an email link, feel overwhelmed, and leave before signing.</p>
       <p class="cs-body reveal reveal-delay-1">This directly impacted the business: fewer signed ToEs meant fewer available experts, which meant fewer consultation calls between our clients and experts.</p>
     </section>
 
@@ -779,7 +823,7 @@
           <div class="cs-change-number">2</div>
           <div class="cs-change-content">
             <h4>Current experience gets its own dedicated space</h4>
-            <p>The expert's current position is now front and centre with its own section. Experts must confirm its accuracy — or update it — before they can proceed. This was a deliberate gating decision to manage the risk of expert misrepresentation.</p>
+            <p>The expert's current position is now front and centre with its own section. Experts must confirm its accuracy (or update it) before they can proceed. This was a deliberate gating decision to manage the risk of expert misrepresentation.</p>
           </div>
         </div>
         <div class="cs-change-item reveal reveal-delay-2">
@@ -801,25 +845,61 @@
 
     <div class="cs-divider"></div>
 
-    <!-- ── Section: Before & After ── -->
+    <!-- ── Section: Mobile ── -->
     <section class="cs-section">
-      <p class="cs-label reveal">Before & after</p>
+      <p class="cs-label reveal">Mobile-first</p>
+      <h2 class="cs-h2 reveal">Built for the screen experts actually used: their phone</h2>
+      <p class="cs-body reveal reveal-delay-1">Experts opened the Terms of Engagement straight from an email, most often on their phone. So the redesign was shaped mobile-first: every step earns its own screen, the interface stays light, and the whole flow feels finishable in a few taps, from getting started to the confirmation screen.</p>
+    </section>
+  </div>
+
+  <!-- Wide container for the mobile screens -->
+  <div class="page-wide">
+    <div class="cs-mobile-frame reveal">
+      <div class="cs-mobile-grid">
+        <div class="cs-mobile-item">
+          <img src="Images/Case studies/ToE/%5BM1%5D%20Getting%20started_%20Experiences.png" alt="Mobile: Getting started, experiences step">
+          <span class="cs-mobile-caption">Getting started</span>
+        </div>
+        <div class="cs-mobile-item">
+          <img src="Images/Case studies/ToE/%5BM2%5D%20Availabilities.png" alt="Mobile: set availability step">
+          <span class="cs-mobile-caption">Availabilities</span>
+        </div>
+        <div class="cs-mobile-item">
+          <img src="Images/Case studies/ToE/%5BM3%5D%20KM%202.1%20_%20Vendors.png" alt="Mobile: vendors / knowledge management step">
+          <span class="cs-mobile-caption">Vendors</span>
+        </div>
+        <div class="cs-mobile-item">
+          <img src="Images/Case studies/ToE/%5BM4%5D%20Thank%20you%20-%20Collapsed.png" alt="Mobile: confirmation / thank-you screen">
+          <span class="cs-mobile-caption">Confirmation</span>
+        </div>
+      </div>
+    </div>
+    <p class="cs-image-caption reveal" style="margin-top: 12px;">The redesigned flow across four key mobile screens</p>
+  </div>
+
+  <div class="page">
+    <div class="cs-divider" style="margin-top: 80px;"></div>
+
+    <!-- ── Section: Before & After (desktop) ── -->
+    <section class="cs-section">
+      <p class="cs-label reveal">Before &amp; after: desktop</p>
       <h2 class="cs-h2 reveal">From one dense page to a stepped, focused flow</h2>
-      <p class="cs-body reveal reveal-delay-1">The old "Getting started" page crammed personal details, experience, and legal terms into a single scroll. The redesign breaks this into clear steps with a sidebar navigation, giving each section room to breathe.</p>
+      <p class="cs-body reveal reveal-delay-1">The same thinking carried to desktop. The old "Getting started" page crammed personal details, experience, and legal terms into a single scroll. The redesign breaks this into clear steps with a sidebar navigation, giving each section room to breathe.</p>
     </section>
   </div>
 
   <!-- Wide container for the comparison slider -->
   <div class="page-wide">
     <div class="cs-comparison reveal" id="comparison">
-      <!-- Before image (bottom layer) -->
-      <img src="Images/Case studies/ToE/Getting started-old.png" alt="Old Terms of Engagement flow — single dense page">
-      <span class="cs-comparison-label cs-comparison-label--before">Before</span>
+      <!-- After / new image (bottom layer, fills right side) -->
+      <img src="Images/Case studies/ToE/Getting started.png" alt="Redesigned Terms of Engagement flow: stepped layout with sidebar navigation">
+      <span class="cs-comparison-label cs-comparison-label--after">After</span>
 
-      <!-- After image (top layer, clipped) -->
+      <!-- Before / old image (top layer, clipped, reveals left side) -->
       <div class="cs-comparison-after" id="comparisonAfter">
-        <img src="Images/Case studies/ToE/Getting started.png" alt="Redesigned Terms of Engagement flow — stepped layout with sidebar navigation">
-        <span class="cs-comparison-label cs-comparison-label--after">After</span>
+        <img src="Images/Case studies/ToE/Getting started-old.png" alt="Old Terms of Engagement flow: single dense page">
+        <span class="cs-comparison-label cs-comparison-label--before">Before</span>
       </div>
 
       <!-- Draggable handle -->
@@ -845,7 +925,7 @@
     <section class="cs-section">
       <p class="cs-label reveal">Challenge</p>
       <h2 class="cs-h2 reveal">Working with MUI and making it our own</h2>
-      <p class="cs-body reveal reveal-delay-1">The engineering team used Material UI (MUI) as the component library. This meant I had to design within MUI's constraints while pushing its default look into something that felt like Dialectica's product — not a generic Material Design app. I created a small design system from scratch to bridge the gap between what MUI offered out of the box and the visual quality I was after.</p>
+      <p class="cs-body reveal reveal-delay-1">The engineering team used Material UI (MUI) as the component library. This meant I had to design within MUI's constraints while pushing its default look into something that felt like Dialectica's product, not a generic Material Design app. I created a small design system from scratch to bridge the gap between what MUI offered out of the box and the visual quality I was after.</p>
       <p class="cs-body reveal reveal-delay-1">This also made Design QA more difficult. MUI components have opinionated default styles and spacing, so every detail had to be checked against the design to make sure nothing reverted to defaults during development.</p>
     </section>
 
@@ -860,12 +940,12 @@
         <div class="cs-moment-card reveal">
           <p class="cs-moment-type">Made a decision</p>
           <h4>Blocking experts who haven't confirmed their current role</h4>
-          <p>This was a deliberate trade-off. Gating the flow on experience confirmation slowed some experts down, but it ensured Dialectica could present accurate profiles to clients — protecting both the expert's reputation and the platform's credibility.</p>
+          <p>This was a deliberate trade-off. Gating the flow on experience confirmation slowed some experts down, but it ensured Dialectica could present accurate profiles to clients, protecting both the expert's reputation and the platform's credibility.</p>
         </div>
         <div class="cs-moment-card reveal reveal-delay-1">
           <p class="cs-moment-type">Made a change</p>
           <h4>Restructuring from one page into sub-steps</h4>
-          <p>The original flow tried to do everything at once. Breaking "Getting started" into distinct sub-steps was a design concept change to reduce overwhelm — giving experts a sense of progress rather than a wall of fields to fill.</p>
+          <p>The original flow tried to do everything at once. Breaking "Getting started" into distinct sub-steps was a design concept change to reduce overwhelm, giving experts a sense of progress rather than a wall of fields to fill.</p>
         </div>
       </div>
     </section>
@@ -943,8 +1023,8 @@
         // Show/hide labels based on handle position
         var beforeLabel = container.querySelector('.cs-comparison-label--before');
         var afterLabel = container.querySelector('.cs-comparison-label--after');
-        if (beforeLabel) beforeLabel.style.opacity = pct < 85 ? '1' : '0';
-        if (afterLabel) afterLabel.style.opacity = pct > 15 ? '1' : '0';
+        if (beforeLabel) beforeLabel.style.opacity = pct > 15 ? '1' : '0';
+        if (afterLabel) afterLabel.style.opacity = pct < 85 ? '1' : '0';
       }
 
       // Initialise at 50%
@@ -1079,6 +1159,14 @@
         el.style.opacity = '0';
       });
       setTimeout(() => { window.location.href = href; }, 300);
+    });
+
+    // Keep the home entrance animation working when the visitor uses the
+    // browser's back arrow (which restores home from cache and skips the
+    // click handler above). Stash the nav width on the way out.
+    window.addEventListener('pagehide', () => {
+      sessionStorage.setItem('nav-transition', 'to-home');
+      sessionStorage.setItem('nav-source-width', backNav.offsetWidth + 'px');
     });
   </script>
 

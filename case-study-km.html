@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Knowledge Mapping — Pavlos Aliko</title>
+  <title>Knowledge Mapping | Pavlos Aliko</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23FFD600'/></svg>">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
@@ -388,6 +388,14 @@
       });
 
       setTimeout(() => { window.location.href = href; }, 300);
+    });
+
+    // Keep the home entrance animation working when the visitor uses the
+    // browser's back arrow (which restores home from cache and skips the
+    // click handler above). Stash the nav width on the way out.
+    window.addEventListener('pagehide', () => {
+      sessionStorage.setItem('nav-transition', 'to-home');
+      sessionStorage.setItem('nav-source-width', backNav.offsetWidth + 'px');
     });
   </script>
 

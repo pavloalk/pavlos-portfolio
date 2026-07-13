@@ -68,6 +68,7 @@
   --year-color:          var(--light70);
   --img-wrapper-bg:      rgba(253, 252, 253, 0.40); /* light10 @ 40% */
   --img-shadow:          0px 20px 30px -10px rgba(1, 13, 72, 0.64);
+  --img-shadow-dim:      0px 20px 30px -10px rgba(1, 13, 72, 0.384); /* 60% of --img-shadow */
   --footer-color:        var(--light70);
   --footer-link:         var(--light70);
   --avatar-bg:           var(--light40);
@@ -126,6 +127,7 @@
   --year-color:          var(--light60);
   --img-wrapper-bg:      rgba(25, 30, 40, 0.40);  /* light110 @ 40% */
   --img-shadow:          0px 20px 30px -10px rgba(0, 0, 0, 0.50);
+  --img-shadow-dim:      0px 20px 30px -10px rgba(0, 0, 0, 0.30); /* 60% of --img-shadow */
   --footer-color:        var(--light70);
   --footer-link:         var(--light60);
   --avatar-bg:           var(--light90);
