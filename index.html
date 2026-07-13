@@ -188,7 +188,7 @@
       background: var(--img-wrapper-bg);
       border-radius: 12px;
       /*padding: 6px;*/
-      box-shadow: var(--img-shadow);
+      box-shadow: var(--img-shadow-dim);
       overflow: clip;
       transition: box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
@@ -443,10 +443,7 @@
 
     /* Only apply hover on devices with a real cursor */
     @media (hover: hover) {
-      /* Desktop: dim snapshot image shadow to 30%, full on hover */
-      .snapshot-image-container {
-        box-shadow: var(--img-shadow-dim);
-      }
+      /* Desktop: full snapshot image shadow on hover (dim at rest is the default) */
       .snapshot:hover .snapshot-image-container {
         box-shadow: var(--img-shadow);
       }
