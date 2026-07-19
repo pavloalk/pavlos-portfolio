@@ -164,6 +164,15 @@
       display: block;
       text-decoration: none;
       color: inherit;
+      -webkit-user-drag: none;
+    }
+
+    /* Allow the card's text to be selected/copied even though the whole card is a link */
+    .snapshot-title,
+    .snapshot-stat-value,
+    .snapshot-stat-label {
+      user-select: text;
+      -webkit-user-select: text;
     }
 
     /* ── Snapshot Card ── */
@@ -223,6 +232,7 @@
       line-height: 1.4;
       color: var(--text-primary);
       letter-spacing: -0.01em;
+      cursor: text;
     }
 
     .snapshot-tags {
@@ -580,10 +590,10 @@
         </div>
       </div>
       <div class="snapshot-content">
-        <h3 class="snapshot-title">Reducing cognitive load of experts in ToE flow</h3>
+        <h3 class="snapshot-title">Rebuilding expert onboarding to lower compliance risk</h3>
         <div class="snapshot-stat">
-          <span class="snapshot-stat-value">16%</span>
-          <span class="snapshot-stat-label">more experts signed ToE</span>
+          <span class="snapshot-stat-value">~90%</span>
+          <span class="snapshot-stat-label">completion held after adding two required steps</span>
         </div>
         <div class="snapshot-inner-divider"></div>
         <div class="snapshot-tags">
@@ -882,6 +892,11 @@
     // ── Nav Transition: Exit (going to case study) ──
     document.querySelectorAll('.snapshot-link').forEach(link => {
       link.addEventListener('click', (e) => {
+        // If the user has selected text (e.g. highlighting a title), don't navigate.
+        const selection = window.getSelection();
+        if (selection && selection.toString().length > 0) {
+          return;
+        }
         e.preventDefault();
         const href = link.getAttribute('href');
 
