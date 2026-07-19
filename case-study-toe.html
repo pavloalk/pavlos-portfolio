@@ -569,6 +569,230 @@
       line-height: 1.6;
     }
 
+    /* ── Design Change Block (Before / After / Why) ── */
+    .cs-change-block {
+      margin-top: 40px;
+    }
+
+    .cs-change-block:first-of-type {
+      margin-top: 32px;
+    }
+
+    .cs-change-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .cs-change-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }
+
+    .cs-baw-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .cs-baw-grid--three {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cs-baw-card {
+      background: var(--surface-card);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .cs-baw-card h5 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+
+    .cs-baw-card p {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-body);
+      line-height: 1.6;
+    }
+
+    /* ── Two-image row ── */
+    .cs-two-img {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .cs-two-img figure {
+      margin: 0;
+      background: var(--image-frame-bg);
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .cs-two-img img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+    }
+
+    .cs-two-img figcaption {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+
+    /* ── Deep Pocket (nested exploration) ── */
+    .cs-deep {
+      margin-top: 24px;
+      border: 1px solid var(--border-meta);
+      border-radius: 16px;
+      padding: 24px;
+      background: var(--img-wrapper-bg);
+    }
+
+    .cs-deep-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-meta);
+      border-radius: 100px;
+      padding: 3px 10px;
+      margin-bottom: 14px;
+    }
+
+    .cs-deep h4 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .cs-deep p {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-body);
+      line-height: 1.6;
+    }
+
+    .cs-deep p + p {
+      margin-top: 12px;
+    }
+
+    /* ── Placeholder (image still needed) ── */
+    .cs-placeholder {
+      margin-top: 24px;
+      border: 2px dashed var(--divider-mid);
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      background: transparent;
+    }
+
+    .cs-placeholder-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #7a6c00;
+      background: #fef3c7;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 12px;
+    }
+
+    [data-theme="dark"] .cs-placeholder-tag {
+      color: #fde68a;
+      background: rgba(254, 243, 199, 0.12);
+    }
+
+    .cs-placeholder p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    /* ── Experiment Order Diagram ── */
+    .cs-order-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .cs-order-card {
+      background: var(--surface-card);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .cs-order-card h5 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .cs-order-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .cs-order-step {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-body);
+      background: var(--surface-kpi-icon);
+      border-radius: 10px;
+      padding: 12px 16px;
+    }
+
+    .cs-order-step--highlight {
+      color: var(--text-primary);
+      font-weight: 600;
+      background: #fef3c7;
+    }
+
+    [data-theme="dark"] .cs-order-step--highlight {
+      color: #fde68a;
+      background: rgba(254, 243, 199, 0.12);
+    }
+
+    /* ── Retrospective parts ── */
+    .cs-retro-part {
+      margin-top: 32px;
+    }
+
+    .cs-retro-part h4 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+
     /* ── Back Nav Dock ── */
     .back-nav {
       position: fixed;
@@ -734,6 +958,13 @@
       .cs-mobile-frame {
         padding: 28px 20px;
       }
+
+      .cs-baw-grid,
+      .cs-baw-grid--three,
+      .cs-two-img,
+      .cs-order-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 480px) {
@@ -753,15 +984,15 @@
 </head>
 <body>
 
-  <div class="page">
+  <div class="page" style="padding-bottom: 56px;">
 
     <!-- ── Section: Hero ── -->
     <section class="cs-section">
       <span class="cs-tag-wip reveal">In progress</span>
-      <p class="cs-label reveal">Dialectica · 2024</p>
-      <h1 class="cs-h1 reveal">Redesigning the Terms of Engagement signing flow for experts</h1>
-      <p class="cs-body reveal reveal-delay-1">Dialectica is an information services firm that connects investment and strategy professionals with subject-matter experts for private consultations. These specialized insights help clients conduct primary research to make more informed business decisions.</p>
-      <p class="cs-body reveal reveal-delay-1">Before experts could participate in any consultation, they needed to sign the Terms of Engagement (ToE), a necessary legal step. Experts were introduced to this flow via email. The existing experience was a single, long page that tried to do everything at once, causing experts to abandon the process before signing.</p>
+      <p class="cs-label reveal">Dialectica · Expert network</p>
+      <h1 class="cs-h1 reveal">Rebuilding expert onboarding at Dialectica to lower compliance risk across 25,000+ experts a month</h1>
+      <p class="cs-body reveal reveal-delay-1">Dialectica is an expert network. Its Terms of Engagement flow is where experts, after receiving a secure link, review and update their professional experience and set the days and hours they are free for client calls. The point of the flow is data accuracy: Dialectica needs each expert's background to be current before a consultation goes ahead.</p>
+      <p class="cs-body reveal reveal-delay-1">At 25,000 to 35,000 experts a month, that is not an edge concern. It is the front door to the whole product. I led the redesign end to end and built a small design system from scratch on a new visual language to ship it.</p>
 
       <div class="cs-hero-image reveal reveal-delay-2">
         <img src="Images/Case studies/ToE-Snapshot.png" alt="Terms of Engagement redesigned interface">
@@ -771,23 +1002,25 @@
         <div class="cs-meta-col">
           <h4>Role</h4>
           <ul>
-            <li>Senior Product Designer</li>
-            <li>Sole designer on the project</li>
+            <li>Sole designer</li>
+            <li>Led research and visual design</li>
+            <li>Built the design system from scratch</li>
           </ul>
         </div>
         <div class="cs-meta-col">
-          <h4>Responsibilities</h4>
+          <h4>Team &amp; platform</h4>
           <ul>
-            <li>UX/UI Design</li>
-            <li>Design system (from scratch)</li>
-            <li>Design QA</li>
+            <li>Cross-functional</li>
+            <li>PM and engineers</li>
+            <li>Web</li>
           </ul>
         </div>
         <div class="cs-meta-col">
-          <h4>Constraints</h4>
+          <h4>Tools &amp; timeline</h4>
           <ul>
-            <li>Built with MUI components</li>
-            <li>Had to customize MUI's default UI</li>
+            <li>Figma</li>
+            <li>Launched May 2025</li>
+            <li>Start date TBC</li>
           </ul>
         </div>
       </div>
@@ -795,110 +1028,93 @@
 
     <div class="cs-divider"></div>
 
-    <!-- ── Section: The Problem ── -->
+    <!-- ── Section: Context ── -->
     <section class="cs-section">
-      <p class="cs-label reveal">The problem</p>
-      <h2 class="cs-h2 reveal">Experts were abandoning the signing flow</h2>
-      <p class="cs-body reveal reveal-delay-1">The ToE signing flow was the gateway to consultations: if experts didn't complete it, they couldn't participate in calls with clients. The old flow presented everything on a single, dense page: personal details, experience history, and the legal terms all at once. Experts would land on this page from an email link, feel overwhelmed, and leave before signing.</p>
-      <p class="cs-body reveal reveal-delay-1">This directly impacted the business: fewer signed ToEs meant fewer available experts, which meant fewer consultation calls between our clients and experts.</p>
+      <p class="cs-label reveal">Context</p>
+      <h2 class="cs-h2 reveal">The flow verifies 25,000 to 35,000 experts a month before they take client calls</h2>
+      <p class="cs-body reveal reveal-delay-1">After receiving a secure link, experts review and update their professional experience (roles, companies, responsibilities) and set the days and hours they are free for client calls. The flow exists for one reason: data accuracy. Dialectica needs each expert's background to be current before a consultation goes ahead.</p>
+      <p class="cs-body reveal reveal-delay-1">At this volume it is the front door to the whole product. A later step, Profile Boost, also captures structured product-category and vendor data from experts; a v2 redesign of it appears as a design change below.</p>
     </section>
 
     <div class="cs-divider"></div>
 
-    <!-- ── Section: Design Changes ── -->
+    <!-- ── Section: Problem area ── -->
     <section class="cs-section">
-      <p class="cs-label reveal">What I changed</p>
-      <h2 class="cs-h2 reveal">Simplifying the flow and focusing on accuracy</h2>
-      <p class="cs-body reveal reveal-delay-1">Rather than redesigning the page cosmetically, I restructured the entire flow around two principles: reduce overwhelm and capture accurate expert information to manage the risk of misrepresentation.</p>
+      <p class="cs-label reveal">Problem area</p>
+      <h2 class="cs-h2 reveal">The data Dialectica most needed verified was the easiest to scroll past</h2>
+      <p class="cs-body reveal reveal-delay-1">This was a business decision more than a user-pain fix. Two things have to be true before a client call: the expert has to be an accurate match for the project, and they have to be compliant and eligible to take it. The old flow made both harder to guarantee. Compliance sat in scattered pieces, and current experience had no more prominence than anything else on a crowded single page.</p>
 
-      <div class="cs-change-list">
-        <div class="cs-change-item reveal">
-          <div class="cs-change-number">1</div>
-          <div class="cs-change-content">
-            <h4>Broke "Getting started" into 3–4 sub-steps</h4>
-            <p>Instead of one long page, the onboarding was split into distinct steps so experts could see where they were and what was left. Each step had a clear purpose, reducing cognitive load.</p>
-          </div>
+      <div class="cs-goals-grid">
+        <div class="cs-opportunity-card reveal">
+          <h4>Status quo</h4>
+          <p>Every expert passes through the flow before a client call. The Compliance Tutorial and Questionnaire arrived as separate emails, and current experience blended into a crowded page, so experts could move through without really reviewing it.</p>
         </div>
-        <div class="cs-change-item reveal reveal-delay-1">
-          <div class="cs-change-number">2</div>
-          <div class="cs-change-content">
-            <h4>Current experience gets its own dedicated space</h4>
-            <p>The expert's current position is now front and centre with its own section. Experts must confirm its accuracy (or update it) before they can proceed. This was a deliberate gating decision to manage the risk of expert misrepresentation.</p>
-          </div>
+        <div class="cs-opportunity-card reveal reveal-delay-1">
+          <h4>If nothing changed</h4>
+          <p>Experts would keep reaching client calls on experience they had not confirmed and compliance steps they had skimmed in isolation. At this volume that is a standing business risk: weak data at the front door means worse matches and eligibility gaps downstream.</p>
         </div>
-        <div class="cs-change-item reveal reveal-delay-2">
-          <div class="cs-change-number">3</div>
-          <div class="cs-change-content">
-            <h4>Experts without confirmed experience cannot proceed</h4>
-            <p>If an expert doesn't have current experience on file, or hasn't confirmed it, the flow blocks them from moving forward. This prioritised data accuracy over pushing people through faster.</p>
-          </div>
+        <div class="cs-opportunity-card reveal reveal-delay-2">
+          <h4>Desired outcome</h4>
+          <p>One guided flow where the compliance-critical steps are reviewed together and the data that drives matching is captured in the same place, so experts are properly screened and current before they reach a client, and completion holds even with more to do.</p>
         </div>
-        <div class="cs-change-item reveal reveal-delay-3">
-          <div class="cs-change-number">4</div>
-          <div class="cs-change-content">
-            <h4>Added a "Past experiences" section</h4>
-            <p>This wasn't available before. Experts can now see and verify their full employment history, which gives Dialectica a richer, more trustworthy profile to present to clients.</p>
-          </div>
-        </div>
+      </div>
+
+      <div class="cs-placeholder reveal reveal-delay-1">
+        <span class="cs-placeholder-tag">Image needed</span>
+        <p><strong>Annotated old-flow screenshot.</strong> The old single page with two flat tabs, marked up to point at the two flat tabs (no hierarchy, no guided progression) and the block where current experience sits undifferentiated among personal details and legal terms. Held back until the annotations land, per spec.</p>
       </div>
     </section>
 
     <div class="cs-divider"></div>
 
-    <!-- ── Section: Mobile ── -->
+    <!-- ── Section: Research ── -->
     <section class="cs-section">
-      <p class="cs-label reveal">Mobile-first</p>
-      <h2 class="cs-h2 reveal">Built for the screen experts actually used: their phone</h2>
-      <p class="cs-body reveal reveal-delay-1">Experts opened the Terms of Engagement straight from an email, most often on their phone. So the redesign was shaped mobile-first: every step earns its own screen, the interface stays light, and the whole flow feels finishable in a few taps, from getting started to the confirmation screen.</p>
+      <p class="cs-label reveal">Research</p>
+      <h2 class="cs-h2 reveal">A heuristic review showed the problem was structure, not expert effort</h2>
+      <p class="cs-body reveal reveal-delay-1">I ran a heuristic analysis of the existing flow alongside a review of the completion data. The issues clustered around structure: no clear information hierarchy, current and past experience blurred together, the most compliance-sensitive content given no more prominence than anything else, and key steps living outside the flow entirely.</p>
+      <p class="cs-body reveal reveal-delay-1">These were not cosmetic complaints. Each one made it easier for an expert to move through the flow without engaging with the data Dialectica depended on.</p>
     </section>
-  </div>
 
-  <!-- Wide container for the mobile screens -->
-  <div class="page-wide">
-    <div class="cs-mobile-frame reveal">
-      <div class="cs-mobile-grid">
-        <div class="cs-mobile-item">
-          <img src="Images/Case studies/ToE/%5BM1%5D%20Getting%20started_%20Experiences.png" alt="Mobile: Getting started, experiences step">
-          <span class="cs-mobile-caption">Getting started</span>
-        </div>
-        <div class="cs-mobile-item">
-          <img src="Images/Case studies/ToE/%5BM2%5D%20Availabilities.png" alt="Mobile: set availability step">
-          <span class="cs-mobile-caption">Availabilities</span>
-        </div>
-        <div class="cs-mobile-item">
-          <img src="Images/Case studies/ToE/%5BM3%5D%20KM%202.1%20_%20Vendors.png" alt="Mobile: vendors / knowledge management step">
-          <span class="cs-mobile-caption">Vendors</span>
-        </div>
-        <div class="cs-mobile-item">
-          <img src="Images/Case studies/ToE/%5BM4%5D%20Thank%20you%20-%20Collapsed.png" alt="Mobile: confirmation / thank-you screen">
-          <span class="cs-mobile-caption">Confirmation</span>
+    <div class="cs-divider"></div>
+
+    <!-- ── Section: Design changes ── -->
+    <section class="cs-section">
+      <p class="cs-label reveal">Design changes</p>
+      <h2 class="cs-h2 reveal">Four changes to get compliance-critical data reviewed, without hurting completion</h2>
+      <p class="cs-body reveal reveal-delay-1">Each change stands on its own and maps back to the problem. The broader structural move, two flat tabs rebuilt into a three-step sidebar with sub-steps, is the container they sit in.</p>
+
+      <!-- Change 01 -->
+      <div class="cs-change-block reveal">
+        <p class="cs-change-eyebrow">Change 01</p>
+        <h3 class="cs-change-title">Current experience got its own section, first in the flow</h3>
+        <div class="cs-baw-grid cs-baw-grid--three">
+          <div class="cs-baw-card">
+            <h5>Before</h5>
+            <p>Personal details, experience history and legal terms sat together on one crowded page. Current experience had no more visual weight than anything around it, so an expert could scroll straight past the one thing the business most needed confirmed. Past positions were not shown at all.</p>
+          </div>
+          <div class="cs-baw-card">
+            <h5>After</h5>
+            <p>The Experiences sub-step now opens with current position at the top, in its own clearly labelled section. Past positions sit below in a compact list, a new addition. Personal details move to the bottom; the required ones must be confirmed before moving on.</p>
+          </div>
+          <div class="cs-baw-card">
+            <h5>Why</h5>
+            <p>This is the headline compliance and data-accuracy move. The problem was never that experts refused to check their data; it was that the structure gave the most important data no prominence. Weight follows importance, and accurate profiles are what let Dialectica match an expert to the right project.</p>
+          </div>
         </div>
       </div>
-    </div>
-    <p class="cs-image-caption reveal" style="margin-top: 12px;">The redesigned flow across four key mobile screens</p>
-  </div>
-
-  <div class="page">
-    <div class="cs-divider" style="margin-top: 80px;"></div>
-
-    <!-- ── Section: Before & After (desktop) ── -->
-    <section class="cs-section">
-      <p class="cs-label reveal">Before &amp; after: desktop</p>
-      <h2 class="cs-h2 reveal">From one dense page to a stepped, focused flow</h2>
-      <p class="cs-body reveal reveal-delay-1">The same thinking carried to desktop. The old "Getting started" page crammed personal details, experience, and legal terms into a single scroll. The redesign breaks this into clear steps with a sidebar navigation, giving each section room to breathe.</p>
     </section>
   </div>
 
-  <!-- Wide container for the comparison slider -->
+  <!-- Wide container for the comparison slider (Change 01 visual: old vs new flow) -->
   <div class="page-wide">
     <div class="cs-comparison reveal" id="comparison">
       <!-- After / new image (bottom layer, fills right side) -->
-      <img src="Images/Case studies/ToE/Getting started.png" alt="Redesigned Terms of Engagement flow: stepped layout with sidebar navigation">
+      <img src="Images/Case studies/ToE/Getting%20started-new.png" alt="Redesigned Terms of Engagement flow: three-step layout with sidebar navigation, current experience first">
       <span class="cs-comparison-label cs-comparison-label--after">After</span>
 
       <!-- Before / old image (top layer, clipped, reveals left side) -->
       <div class="cs-comparison-after" id="comparisonAfter">
-        <img src="Images/Case studies/ToE/Getting started-old.png" alt="Old Terms of Engagement flow: single dense page">
+        <img src="Images/Case studies/ToE/Getting%20started-old.png" alt="Old Terms of Engagement flow: single dense page with two flat tabs">
         <span class="cs-comparison-label cs-comparison-label--before">Before</span>
       </div>
 
@@ -914,39 +1130,217 @@
         </div>
       </div>
     </div>
-    <p class="cs-image-caption reveal" style="margin-top: 12px;">Drag the handle to compare the old and new "Getting started" experience</p>
+    <p class="cs-image-caption reveal" style="margin-top: 12px;">Drag to compare the old single page with the new three-step flow, current experience now first</p>
   </div>
 
-  <div class="page">
+  <div class="page" style="padding-top: 48px;">
 
-    <div class="cs-divider" style="margin-top: 80px;"></div>
+    <!-- Deep pocket 1 (nested under Change 01) -->
+    <div class="cs-deep reveal">
+      <span class="cs-deep-label">Deep pocket · under Change 01</span>
+      <h4>Inline experience editing, designed then cut</h4>
+      <p>Experts were first meant to correct their experience directly in the flow: edit pencils on each role and a single "confirm all experiences are up to date" checkbox. That version needed a whole review layer behind it, a dashboard where Dialectica associates could vet each submitted change before it went live. The overhead was not justified at this volume, so the shipped design used a lighter "Request a change" path that flags inaccurate data for manual review.</p>
+      <p>Showing the cut concept beside the shipped pattern is deliberate: the idea was explored properly, and the scope call was a decision rather than a limitation nobody noticed.</p>
+      <div class="cs-image-frame" style="margin-top: 16px;">
+        <img src="Images/Case studies/ToE/%5BDeep%5D%20Editable%20experience.png" alt="Cut concept: inline experience editing with edit pencils and a confirm checkbox">
+      </div>
+      <p class="cs-image-caption">The cut inline-edit concept. The shipped flow above uses a lighter "Request a change" path instead.</p>
+    </div>
 
-    <!-- ── Section: Challenge ── -->
+    <div class="cs-divider" style="margin-top: 56px;"></div>
+
+    <!-- Change 02 -->
+    <div class="cs-change-block reveal">
+      <p class="cs-change-eyebrow">Change 02</p>
+      <h3 class="cs-change-title">The Compliance Tutorial and Questionnaire moved inside the flow</h3>
+      <div class="cs-baw-grid cs-baw-grid--three">
+        <div class="cs-baw-card">
+          <h5>Before</h5>
+          <p>Both reached experts as separate emails, outside the main experience. They read as extra admin, homework to do on the side, each handled in isolation rather than as part of screening.</p>
+        </div>
+        <div class="cs-baw-card">
+          <h5>After</h5>
+          <p>Both became dedicated sub-steps of Getting Started, in one guided sequence. The Tutorial presents compliance obligations to read and confirm; the Questionnaire asks client-configured questions where certain answers automatically disqualify an expert from that project. Each sub-step has one job and one confirm.</p>
+        </div>
+        <div class="cs-baw-card">
+          <h5>Why</h5>
+          <p>Eligibility is the other half of what has to be true before a client call. Scattering the steps across emails made screening feel optional and easy to skim. Single-purpose sub-steps keep momentum even though there is more to do, which is what let the extra steps land without denting completion.</p>
+        </div>
+      </div>
+      <div class="cs-placeholder">
+        <span class="cs-placeholder-tag">Image needed</span>
+        <p><strong>Getting Started sidebar with the Tutorial and Questionnaire as sub-steps.</strong> No screenshot of these two sub-steps exists yet. Text-only for this draft.</p>
+      </div>
+    </div>
+
+    <div class="cs-divider" style="margin-top: 56px;"></div>
+
+    <!-- Change 03 -->
+    <div class="cs-change-block reveal">
+      <p class="cs-change-eyebrow">Change 03</p>
+      <h3 class="cs-change-title">Availability slots became editable in place, not delete-and-redo</h3>
+      <div class="cs-baw-grid cs-baw-grid--three">
+        <div class="cs-baw-card">
+          <h5>Before</h5>
+          <p>The availability step was already a weekly calendar, but slots were fixed. Once created, a slot was permanent. To fix a time you deleted it and built a new one from scratch.</p>
+        </div>
+        <div class="cs-baw-card">
+          <h5>After</h5>
+          <p>The calendar was redesigned so slots became editable. Experts place a slot on the grid, then keep control of it: drag to move it, or click to open a side menu and edit it fully. Correcting a slot is now a small adjustment.</p>
+        </div>
+        <div class="cs-baw-card">
+          <h5>Why</h5>
+          <p>Availability is what lets Dialectica actually schedule the call the whole flow is building toward, so lowering the effort here has a direct operational payoff. It is the one change with a clean, defensible number attached, because the design is the direct mechanism.</p>
+        </div>
+      </div>
+      <div class="cs-image-frame" style="max-width: 380px; margin-left: auto; margin-right: auto;">
+        <img src="Images/Case studies/ToE/%5BM2%5D%20Availabilities.png" alt="Redesigned weekly availability calendar with editable slots">
+      </div>
+      <p class="cs-image-caption">Comparing the same months a year apart, the share of experts submitting availability rose about 4 percentage points, from about 70% to about 74%.</p>
+    </div>
+
+    <div class="cs-divider" style="margin-top: 56px;"></div>
+
+    <!-- Change 04 -->
+    <div class="cs-change-block reveal">
+      <p class="cs-change-eyebrow">Change 04</p>
+      <h3 class="cs-change-title">Experts pick categories and vendors from a shortlist instead of typing them</h3>
+      <div class="cs-baw-grid cs-baw-grid--three">
+        <div class="cs-baw-card">
+          <h5>Before</h5>
+          <p>The product-category and vendor data was chased separately over email, outside Terms of Engagement, after experts had already moved on. It depended on experts coming back to a message, so few ever gave it.</p>
+        </div>
+        <div class="cs-baw-card">
+          <h5>After</h5>
+          <p>It became "Profile Boost," a skippable step inside onboarding. The shipped v2 splits capture into two lighter steps: pick from a shortlist of product categories (or add your own), then pick the vendors behind them (or add your own).</p>
+        </div>
+        <div class="cs-baw-card">
+          <h5>Why</h5>
+          <p>Matching quality depends on structured, expert-provided detail. Capturing it inside the flow, while experts are already engaged, gets richer data than an email chase. Selecting is far quicker than typing from a blank field, and it showed.</p>
+        </div>
+      </div>
+      <div class="cs-two-img">
+        <figure>
+          <img src="Images/Case studies/ToE/%5BD%5D%20KM%202.1%20_%20Categories%20-%20Selected%20categories.png" alt="Profile Boost v2: selecting product categories from a shortlist">
+          <figcaption>Step 1: pick product categories from a shortlist</figcaption>
+        </figure>
+        <figure>
+          <img src="Images/Case studies/ToE/%5BD%5D%20KM%202.1%20_%20Vendors%20-%20Selected%20vendors.png" alt="Profile Boost v2: selecting vendors from a shortlist">
+          <figcaption>Step 2: pick the vendors behind them</figcaption>
+        </figure>
+      </div>
+      <p class="cs-image-caption">Conversion into the step roughly doubled, from about 17% to about 33%, with richer data too: about 6.5 vendors and 3.4 categories per expert, up from 4.2 and 2.0.</p>
+
+      <!-- Deep pocket 2 (nested under Change 04) -->
+      <div class="cs-deep reveal">
+        <span class="cs-deep-label">Deep pocket · under Change 04</span>
+        <h4>Profile Boost, v1 to v2</h4>
+        <p>v1 was the first in-flow version: a skippable step where experts mapped the products they can speak to against the vendors behind them, typed as free text. A parallel layout exploration tried putting Profile Boost on the same step as personal details and experience, surfaced through a per-company "Boost your profile" modal, before it settled as its own dedicated step. v2 then redesigned the capture into the two shortlisted steps above, which roughly doubled uptake.</p>
+        <div class="cs-two-img" style="margin-top: 16px;">
+          <figure>
+            <img src="Images/Case studies/ToE/%5BDeep%5D%20Boost%20profile%20-%20Filled.png" alt="Profile Boost v1: free-text product and vendor rows">
+            <figcaption>v1: free-text product and vendor rows</figcaption>
+          </figure>
+          <figure>
+            <img src="Images/Case studies/ToE/%5BDeep%5D%20Getting%20started%20-%20Modal.png" alt="Layout exploration: a per-company Boost your profile modal">
+            <figcaption>Exploration: a per-company "Boost your profile" modal</figcaption>
+          </figure>
+        </div>
+        <p>Showing v1, the combined-step exploration and the shipped v2 together shows the iteration behind the step, not just the endpoint.</p>
+      </div>
+    </div>
+
+    <div class="cs-divider" style="margin-top: 56px;"></div>
+
+    <!-- ── Section: Experiment ── -->
     <section class="cs-section">
-      <p class="cs-label reveal">Challenge</p>
-      <h2 class="cs-h2 reveal">Working with MUI and making it our own</h2>
-      <p class="cs-body reveal reveal-delay-1">The engineering team used Material UI (MUI) as the component library. This meant I had to design within MUI's constraints while pushing its default look into something that felt like Dialectica's product, not a generic Material Design app. I created a small design system from scratch to bridge the gap between what MUI offered out of the box and the visual quality I was after.</p>
-      <p class="cs-body reveal reveal-delay-1">This also made Design QA more difficult. MUI components have opinionated default styles and spacing, so every detail had to be checked against the design to make sure nothing reverted to defaults during development.</p>
+      <p class="cs-label reveal">Experiment we ran and rolled back</p>
+      <h2 class="cs-h2 reveal">Moving Terms to the end lifted the metric we were chasing and hurt the one that pays</h2>
+      <p class="cs-body reveal reveal-delay-1">Once the redesign had held its completion rate for two weeks, we tested a reordering. Terms sat early inside Getting Started, and our hypothesis was that experts sign it and then leave, because signing is the one thing they came to do. Move Terms behind Profile Boost, the reasoning went, and experts would pass through every step to reach it, giving us far more expertise data.</p>
+      <p class="cs-body reveal reveal-delay-1">We ran it at 25% of experts for two weeks. The data side worked; the flow side did not. Making experts walk the full length of the funnel before the thing they came for made it feel long, and they abandoned it, some writing in to say so. An expert who skips Profile Boost still takes calls; an expert who never signs Terms takes none. That was the wrong trade, so we kept the shipped order.</p>
+
+      <div class="cs-order-grid reveal reveal-delay-1">
+        <div class="cs-order-card">
+          <h5>Shipped order (kept)</h5>
+          <div class="cs-order-steps">
+            <div class="cs-order-step">Getting Started</div>
+            <div class="cs-order-step cs-order-step--highlight">Terms</div>
+            <div class="cs-order-step">Availabilities</div>
+            <div class="cs-order-step">Profile Boost</div>
+          </div>
+        </div>
+        <div class="cs-order-card">
+          <h5>Tested order (rolled back)</h5>
+          <div class="cs-order-steps">
+            <div class="cs-order-step">Getting Started</div>
+            <div class="cs-order-step">Availabilities</div>
+            <div class="cs-order-step">Profile Boost</div>
+            <div class="cs-order-step cs-order-step--highlight">Terms</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-stat-pills reveal reveal-delay-2">
+        <div class="cs-stat-pill">
+          <span class="cs-stat-pill-value">+20%</span>
+          <span class="cs-stat-pill-label">Profile Boost completion in the test</span>
+        </div>
+        <div class="cs-stat-pill">
+          <span class="cs-stat-pill-value">-10%</span>
+          <span class="cs-stat-pill-label">Terms signing, the step the business earns from</span>
+        </div>
+      </div>
     </section>
 
     <div class="cs-divider"></div>
 
-    <!-- ── Section: Key Moments ── -->
+    <!-- ── Section: Outcome ── -->
     <section class="cs-section">
-      <p class="cs-label reveal">Key moments</p>
-      <h2 class="cs-h2 reveal">Decisions that shaped the project</h2>
+      <p class="cs-label reveal">Outcome</p>
+      <h2 class="cs-h2 reveal">Two new mandatory steps added, and completion held flat at about 90%</h2>
+      <p class="cs-body reveal reveal-delay-1">Adding the Tutorial and Questionnaire into the flow meant more mandatory steps than before. The textbook consequence of added friction is drop-off. It did not happen. The flat line is the result: it says the structure absorbed the extra complexity because each new step read as a natural part of one guided journey rather than another task bolted on.</p>
 
-      <div class="cs-moment-grid">
-        <div class="cs-moment-card reveal">
-          <p class="cs-moment-type">Made a decision</p>
-          <h4>Blocking experts who haven't confirmed their current role</h4>
-          <p>This was a deliberate trade-off. Gating the flow on experience confirmation slowed some experts down, but it ensured Dialectica could present accurate profiles to clients, protecting both the expert's reputation and the platform's credibility.</p>
+      <div class="cs-stat-pills reveal reveal-delay-1">
+        <div class="cs-stat-pill">
+          <span class="cs-stat-pill-value">~90%</span>
+          <span class="cs-stat-pill-label">Completion, flat before and after the redesign</span>
         </div>
-        <div class="cs-moment-card reveal reveal-delay-1">
-          <p class="cs-moment-type">Made a change</p>
-          <h4>Restructuring from one page into sub-steps</h4>
-          <p>The original flow tried to do everything at once. Breaking "Getting started" into distinct sub-steps was a design concept change to reduce overwhelm, giving experts a sense of progress rather than a wall of fields to fill.</p>
+        <div class="cs-stat-pill">
+          <span class="cs-stat-pill-value">+4 pts</span>
+          <span class="cs-stat-pill-label">Experts submitting availability, about 70% to 74%</span>
         </div>
+        <div class="cs-stat-pill">
+          <span class="cs-stat-pill-value">~2x</span>
+          <span class="cs-stat-pill-label">Profile Boost conversion, about 17% to 33%</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="cs-divider"></div>
+
+    <!-- ── Section: Retrospective ── -->
+    <section class="cs-section">
+      <p class="cs-label reveal">Retrospective</p>
+      <h2 class="cs-h2 reveal">It changed how I hand off to engineers, and left the business a dataset it has not used yet</h2>
+
+      <div class="cs-retro-part reveal">
+        <h4>Impact on me</h4>
+        <p class="cs-body">Three learnings stand out. About halfway through, engineers kept coming back with questions about interactions the Figma files did not answer, which changed how I think about a finished file: it is done when it holds everything the person building it needs, not when the designs look right. The failed experiment taught me to rank metrics before running a test, not after. And designing against a design system that did not exist yet meant every decision carried both a product and a systems dimension, slower, but grounded in real implementation.</p>
+      </div>
+
+      <div class="cs-retro-part reveal">
+        <h4>Impact on process</h4>
+        <p class="cs-body">The handoff learning did not stay my own habit. It became a session with the whole front-end engineering team on Figma's Dev Mode and on marking designs as "Ready for development" as a shared signal. What began as me fixing my own handoffs became a convention the team works to.</p>
+      </div>
+
+      <div class="cs-retro-part reveal">
+        <h4>Impact on users</h4>
+        <p class="cs-body">This is where the real numbers sit. The redesign added two mandatory steps, and completion still held at about 90% before and after. Availability rose about 4 percentage points, from about 70% to about 74%. Profile Boost conversion roughly doubled, from about 17% to about 33%, with richer data, about 6.5 vendors and 3.4 categories per expert, up from 4.2 and 2.0. One number I would have wanted and do not have is how many experts actually reviewed their current experience during signing, which was never tracked.</p>
+      </div>
+
+      <div class="cs-retro-part reveal">
+        <h4>Impact on the business</h4>
+        <p class="cs-body">The realized win was lowering compliance and eligibility risk: the Tutorial and Questionnaire now sit in one reviewed flow, and current experience is prominent, so experts are properly screened before they reach a client. The project also laid a foundation the business has not cashed in yet. Profile Boost has captured a structured dataset of what experts actually know since launch, and v2 made it far more complete, but using it to match experts to better-fitting projects is a separate initiative still ahead. Naming both the asset and the gap is the honest read.</p>
       </div>
     </section>
 
@@ -1035,20 +1429,14 @@
         return ((clientX - rect.left) / rect.width) * 100;
       }
 
-      // Mouse events
+      // Mouse events — slider follows the cursor while it's inside the image,
+      // no click needed.
+      container.addEventListener('mousemove', function(e) {
+        setPosition(getPercentage(e.clientX));
+      });
+
       container.addEventListener('mousedown', function(e) {
-        isDragging = true;
-        setPosition(getPercentage(e.clientX));
         e.preventDefault();
-      });
-
-      window.addEventListener('mousemove', function(e) {
-        if (!isDragging) return;
-        setPosition(getPercentage(e.clientX));
-      });
-
-      window.addEventListener('mouseup', function() {
-        isDragging = false;
       });
 
       // Touch events
