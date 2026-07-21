@@ -21,120 +21,10 @@
     })();
   </script>
   <style>
-    /* ── Page Tokens ── */
-    :root {
-      --nav-bg:     rgba(253, 252, 253, 0.64); /* light10 @ 64% */
-      --nav-shadow: 0px 20px 30px -10px rgba(25, 30, 40, 0.17), inset 0px 2px 8px 0px var(--light10);
-    }
-
-    [data-theme="dark"] {
-      --nav-bg:     rgba(25, 30, 40, 0.64); /* light110 @ 64% */
-      --nav-shadow: 0px 20px 30px -10px rgba(0, 0, 0, 0.30), inset 0px 2px 5px 0px rgba(65, 72, 85, 0.48);
-    }
-
-    /* ── Reset & Base ── */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    body {
-      font-family: 'Montserrat', sans-serif;
-      color: var(--text-primary);
-      background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
-      min-height: 100vh;
-      line-height: 1.6;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    img { display: block; max-width: 100%; }
-
-    /* ── Page Content Wrapper ── */
-    .page {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 80px 24px 160px;
-    }
-
-    /* ── Wide container for images ── */
-    .page-wide {
-      max-width: 1024px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* ── Section ── */
-    .cs-section {
-      margin-bottom: 80px;
-    }
-
-    .cs-section:last-child {
-      margin-bottom: 0;
-    }
-
-    /* ── Section Label ── */
-    .cs-label {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--text-secondary);
-      margin-bottom: 12px;
-    }
-
-    /* ── Titles ── */
-    .cs-h1 {
-      font-size: clamp(32px, 5vw, 48px);
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-      color: var(--text-primary);
-      margin-bottom: 24px;
-    }
-
-    .cs-h2 {
-      font-size: clamp(26px, 4vw, 36px);
-      font-weight: 700;
-      line-height: 1.14;
-      letter-spacing: -0.03em;
-      color: var(--text-primary);
-      margin-bottom: 16px;
-    }
-
-    .cs-h3 {
-      font-size: 16px;
-      font-weight: 600;
-      line-height: 1.4;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    /* ── Body Text ── */
-    .cs-body {
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 1.7;
-      color: var(--text-body);
-    }
-
-    .cs-body + .cs-body {
-      margin-top: 16px;
-    }
-
-    /* ── In Progress Tag ── */
+    /* ── Tag colors (ToE: yellow) ── */
     .cs-tag-wip {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
       color: #7a6c00;
       background: #fef3c7;
-      padding: 4px 12px;
-      border-radius: 100px;
-      margin-bottom: 16px;
     }
 
     [data-theme="dark"] .cs-tag-wip {
@@ -142,100 +32,123 @@
       background: rgba(254, 243, 199, 0.12);
     }
 
-    /* ── Hero Image ── */
-    .cs-hero-image {
-      margin-top: 40px;
-      border-radius: 20px;
-      overflow: hidden;
-      background: linear-gradient(135deg, var(--hero-gradient-start) 0%, var(--hero-gradient-end) 100%);
-      padding: 32px 32px 0;
+    /* ── Segmented Control (device toggle) ── */
+    .cs-segmented {
+      display: inline-flex;
+      gap: var(--space-4);
+      padding: var(--space-4);
+      background: var(--surface-pill);
+      border: 1px solid var(--border-meta);
+      border-radius: var(--radius-pill);
     }
 
-    .cs-hero-image img {
-      width: 100%;
-      border-radius: 12px 12px 0 0;
-      display: block;
-      box-shadow: var(--hero-img-shadow);
-    }
-
-    /* ── Metadata Row ── */
-    .cs-meta {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-      margin-top: 40px;
-      padding-top: 32px;
-      border-top: 1px solid var(--border-meta);
-    }
-
-    .cs-meta-col h4 {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 12px;
-    }
-
-    .cs-meta-col p,
-    .cs-meta-col li {
-      font-size: 14px;
-      font-weight: 400;
+    .cs-segmented-btn {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: var(--font-small);
+      font-weight: 500;
       color: var(--text-secondary);
-      line-height: 1.8;
-      list-style: none;
-    }
-
-    /* ── Divider ── */
-    .cs-divider {
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--divider-mid), transparent);
-      margin-bottom: 80px;
-    }
-
-    /* ── Image Frame ── */
-    .cs-image-frame {
-      margin-top: 32px;
-      background: var(--image-frame-bg);
-      border-radius: 16px;
-      padding: 24px;
-    }
-
-    .cs-image-frame img {
-      width: 100%;
-      border-radius: 10px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-    }
-
-    .cs-image-caption {
-      margin-top: 12px;
-      font-size: 13px;
-      color: var(--text-secondary);
+      background: transparent;
+      padding: var(--space-8) var(--space-20);
+      border-radius: var(--radius-pill);
       text-align: center;
+      transition: background 0.2s var(--ease), color 0.2s var(--ease);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Reserve the bold (selected) width up front so the option never widens
+       when it becomes active. The hidden ::after always renders the label at
+       weight 600, fixing the button width regardless of the live weight. */
+    .cs-segmented-btn::after {
+      content: attr(data-label);
+      display: block;
+      height: 0;
+      overflow: hidden;
+      visibility: hidden;
+      font-weight: 600;
+    }
+
+    @media (hover: hover) {
+      .cs-segmented-btn:hover { background: var(--hover); }
+    }
+
+    .cs-segmented-btn.is-active {
+      background: var(--surface);
+      color: var(--text-primary);
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Frame spans the full page lane, but is capped so its inner content tops
+       out at the desktop shot's intended 1080px (1080 + 2 * space-24 padding).
+       Below that width it scales down fluidly; the media swaps inside it. */
+    .cs-toggle-frame {
+      grid-column: full;
+      width: 100%;
+      max-width: 1128px;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-24);
+    }
+
+    /* Both shots are the same height, so they crossfade in place with no
+       height change: the desktop image stays in flow to set the frame height,
+       and the mobile image is overlaid centered and matched to it. */
+    .cs-toggle-view {
+      position: relative;
+      width: 100%;
+    }
+
+    .cs-toggle-img {
+      opacity: 0;
+      transition: opacity 0.2s var(--ease);
+    }
+
+    .cs-toggle-img.is-shown { opacity: 1; }
+
+    /* scoped under .cs-toggle-view so these out-specify .cs-image-frame img,
+       which otherwise forces width:100% and stretches the portrait shot */
+    .cs-toggle-view .cs-toggle-img[data-view="desktop"] {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .cs-toggle-view .cs-toggle-img--mobile {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 100%;
+      width: auto;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cs-toggle-img { transition: none; }
     }
 
     /* ── 2-col Opportunity Cards ── */
     .cs-opportunity-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 24px;
-    }
-
-    .cs-opportunity-card {
-      background: var(--surface-card);
-      border-radius: 16px;
-      padding: 24px;
+      gap: var(--space-8);
+      margin-top: var(--space-24);
     }
 
     .cs-opportunity-card h4 {
-      font-size: 14px;
+      font-size: var(--font-small);
       font-weight: 600;
       color: var(--text-primary);
-      margin-bottom: 10px;
+      margin-bottom: var(--space-10);
     }
 
     .cs-opportunity-card p {
-      font-size: 14px;
+      font-size: var(--font-small);
       font-weight: 400;
       color: var(--text-body);
       line-height: 1.6;
@@ -245,20 +158,20 @@
     .cs-goals-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-top: 24px;
+      gap: var(--space-8);
+      margin-top: var(--space-24);
     }
 
     .cs-goal-card {
       background: var(--surface-card);
-      border-radius: 16px;
-      padding: 24px;
+      border-radius: var(--radius-lg);
+      padding: var(--space-24);
     }
 
     .cs-goal-icon {
       width: 36px;
       height: 36px;
-      margin-bottom: 24px;
+      margin-bottom: var(--space-24);
       color: var(--text-primary);
     }
 
@@ -266,24 +179,24 @@
     .cs-kpi-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 24px;
+      gap: var(--space-8);
+      margin-top: var(--space-24);
     }
 
     .cs-kpi-card {
       background: var(--surface-card);
-      border-radius: 16px;
-      padding: 24px;
+      border-radius: var(--radius-lg);
+      padding: var(--space-24);
       display: flex;
       align-items: flex-start;
-      gap: 16px;
+      gap: var(--space-16);
     }
 
     .cs-kpi-icon {
       width: 36px;
       height: 36px;
       background: var(--surface-kpi-icon);
-      border-radius: 10px;
+      border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -292,14 +205,14 @@
     }
 
     .cs-kpi-text h4 {
-      font-size: 14px;
+      font-size: var(--font-small);
       font-weight: 600;
       color: var(--text-primary);
-      margin-bottom: 4px;
+      margin-bottom: var(--space-4);
     }
 
     .cs-kpi-text p {
-      font-size: 13px;
+      font-size: var(--font-caption);
       font-weight: 400;
       color: var(--text-secondary);
       line-height: 1.5;
@@ -309,21 +222,19 @@
     .cs-stat-pills {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-top: 24px;
+      gap: var(--space-8);
+      margin-top: var(--space-24);
     }
 
     .cs-stat-pill {
-      background: var(--surface-card);
-      border-radius: 16px;
-      padding: 20px 20px;
+      padding: var(--space-20) var(--space-20);
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: var(--space-6);
     }
 
     .cs-stat-pill-value {
-      font-size: 28px;
+      font-size: var(--font-stat);
       font-weight: 700;
       letter-spacing: -0.03em;
       color: var(--text-primary);
@@ -331,69 +242,24 @@
     }
 
     .cs-stat-pill-label {
-      font-size: 13px;
+      font-size: var(--font-caption);
       font-weight: 400;
       color: var(--text-secondary);
       line-height: 1.4;
     }
 
-    /* ── Design Change List ── */
-    .cs-change-list {
-      margin-top: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .cs-change-item {
-      background: var(--surface-card);
-      border-radius: 16px;
-      padding: 24px;
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-
-    .cs-change-number {
-      width: 32px;
-      height: 32px;
-      border-radius: 10px;
-      background: var(--surface-kpi-icon);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .cs-change-content h4 {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
-
-    .cs-change-content p {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--text-body);
-      line-height: 1.6;
-    }
-
     /* ── Mobile Showcase ── */
     .cs-mobile-frame {
-      margin-top: 8px;
+      margin-top: var(--space-8);
       background: var(--image-frame-bg);
-      border-radius: 16px;
-      padding: 40px 24px;
+      border-radius: var(--radius-lg);
+      padding: var(--space-40) var(--space-24);
     }
 
     .cs-mobile-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
+      gap: var(--space-24);
       align-items: start;
     }
 
@@ -401,17 +267,17 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 16px;
+      gap: var(--space-16);
     }
 
     .cs-mobile-item img {
       width: 100%;
-      border-radius: 20px;
+      border-radius: var(--radius-xl);
       box-shadow: 0 12px 32px rgba(0,0,0,0.16);
     }
 
     .cs-mobile-caption {
-      font-size: 13px;
+      font-size: var(--font-caption);
       font-weight: 500;
       color: var(--text-secondary);
       text-align: center;
@@ -421,7 +287,7 @@
     .cs-comparison {
       position: relative;
       overflow: hidden;
-      border-radius: 16px;
+      border-radius: var(--radius-lg);
       cursor: ew-resize;
       user-select: none;
       -webkit-user-select: none;
@@ -458,7 +324,7 @@
       top: 0;
       bottom: 0;
       width: 4px;
-      background: var(--text-primary);
+      background: #191e28;
       z-index: 10;
       transform: translateX(-50%);
     }
@@ -472,7 +338,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: var(--text-primary);
+      background: #191e28;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
 
@@ -498,7 +364,7 @@
       z-index: 12;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: var(--space-4);
       pointer-events: none;
     }
 
@@ -510,12 +376,12 @@
     .cs-comparison-label {
       position: absolute;
       top: 16px;
-      font-size: 12px;
+      font-size: var(--font-tag);
       font-weight: 600;
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      padding: 4px 12px;
-      border-radius: 100px;
+      padding: var(--space-4) var(--space-12);
+      border-radius: var(--radius-pill);
       z-index: 5;
       pointer-events: none;
     }
@@ -536,34 +402,34 @@
     .cs-moment-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 24px;
+      gap: var(--space-8);
+      margin-top: var(--space-24);
     }
 
     .cs-moment-card {
       background: var(--surface-card);
-      border-radius: 16px;
-      padding: 24px;
+      border-radius: var(--radius-lg);
+      padding: var(--space-24);
     }
 
     .cs-moment-type {
-      font-size: 12px;
+      font-size: var(--font-tag);
       font-weight: 600;
       letter-spacing: 0.04em;
       text-transform: uppercase;
       color: var(--text-secondary);
-      margin-bottom: 12px;
+      margin-bottom: var(--space-12);
     }
 
     .cs-moment-card h4 {
-      font-size: 14px;
+      font-size: var(--font-small);
       font-weight: 600;
       color: var(--text-primary);
-      margin-bottom: 8px;
+      margin-bottom: var(--space-8);
     }
 
     .cs-moment-card p {
-      font-size: 14px;
+      font-size: var(--font-small);
       font-weight: 400;
       color: var(--text-body);
       line-height: 1.6;
@@ -571,58 +437,58 @@
 
     /* ── Design Change Block (Before / After / Why) ── */
     .cs-change-block {
-      margin-top: 40px;
+      margin-top: var(--space-40);
+    }
+
+    /* In the page grid, margins no longer merge with the divider above,
+       so change blocks placed directly in the page drop their own top margin */
+    .page > .cs-change-block {
+      margin-top: 0;
     }
 
     .cs-change-block:first-of-type {
-      margin-top: 32px;
+      margin-top: var(--space-32);
     }
 
     .cs-change-eyebrow {
-      font-size: 12px;
+      font-size: var(--font-tag);
       font-weight: 600;
       letter-spacing: 0.04em;
       text-transform: uppercase;
       color: var(--text-secondary);
-      margin-bottom: 8px;
+      margin-bottom: var(--space-8);
     }
 
     .cs-change-title {
-      font-size: 20px;
+      font-size: var(--font-title);
       font-weight: 700;
       line-height: 1.3;
       letter-spacing: -0.02em;
       color: var(--text-primary);
-      margin-bottom: 20px;
+      margin-bottom: var(--space-20);
     }
 
     .cs-baw-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      gap: var(--space-8);
     }
 
     .cs-baw-grid--three {
       grid-template-columns: repeat(3, 1fr);
     }
 
-    .cs-baw-card {
-      background: var(--surface-card);
-      border-radius: 16px;
-      padding: 24px;
-    }
-
     .cs-baw-card h5 {
-      font-size: 12px;
+      font-size: var(--font-tag);
       font-weight: 600;
       letter-spacing: 0.04em;
       text-transform: uppercase;
       color: var(--text-secondary);
-      margin-bottom: 10px;
+      margin-bottom: var(--space-10);
     }
 
     .cs-baw-card p {
-      font-size: 14px;
+      font-size: var(--font-small);
       font-weight: 400;
       color: var(--text-body);
       line-height: 1.6;
@@ -632,91 +498,51 @@
     .cs-two-img {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 24px;
+      gap: var(--space-8);
+      margin-top: var(--space-24);
     }
 
     .cs-two-img figure {
       margin: 0;
       background: var(--image-frame-bg);
-      border-radius: 16px;
-      padding: 20px;
+      border-radius: var(--radius-lg);
+      padding: var(--space-20);
     }
 
     .cs-two-img img {
       width: 100%;
-      border-radius: 10px;
+      border-radius: var(--radius-sm);
       box-shadow: 0 8px 24px rgba(0,0,0,0.10);
     }
 
     .cs-two-img figcaption {
-      margin-top: 12px;
-      font-size: 13px;
+      margin-top: var(--space-12);
+      font-size: var(--font-caption);
       color: var(--text-secondary);
       text-align: center;
     }
 
-    /* ── Deep Pocket (nested exploration) ── */
-    .cs-deep {
-      margin-top: 24px;
-      border: 1px solid var(--border-meta);
-      border-radius: 16px;
-      padding: 24px;
-      background: var(--img-wrapper-bg);
-    }
-
-    .cs-deep-label {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      border: 1px solid var(--border-meta);
-      border-radius: 100px;
-      padding: 3px 10px;
-      margin-bottom: 14px;
-    }
-
-    .cs-deep h4 {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    .cs-deep p {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--text-body);
-      line-height: 1.6;
-    }
-
-    .cs-deep p + p {
-      margin-top: 12px;
-    }
-
     /* ── Placeholder (image still needed) ── */
     .cs-placeholder {
-      margin-top: 24px;
+      margin-top: var(--space-24);
       border: 2px dashed var(--divider-mid);
-      border-radius: 16px;
-      padding: 32px 24px;
+      border-radius: var(--radius-lg);
+      padding: var(--space-32) var(--space-24);
       text-align: center;
       background: transparent;
     }
 
     .cs-placeholder-tag {
       display: inline-block;
-      font-size: 11px;
+      font-size: var(--font-badge);
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: #7a6c00;
       background: #fef3c7;
-      padding: 4px 12px;
-      border-radius: 100px;
-      margin-bottom: 12px;
+      padding: var(--space-4) var(--space-12);
+      border-radius: var(--radius-pill);
+      margin-bottom: var(--space-12);
     }
 
     [data-theme="dark"] .cs-placeholder-tag {
@@ -725,7 +551,7 @@
     }
 
     .cs-placeholder p {
-      font-size: 14px;
+      font-size: var(--font-small);
       color: var(--text-secondary);
       line-height: 1.6;
       max-width: 440px;
@@ -736,38 +562,32 @@
     .cs-order-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 24px;
-    }
-
-    .cs-order-card {
-      background: var(--surface-card);
-      border-radius: 16px;
-      padding: 24px;
+      gap: var(--space-8);
+      margin-top: var(--space-24);
     }
 
     .cs-order-card h5 {
-      font-size: 12px;
+      font-size: var(--font-tag);
       font-weight: 600;
       letter-spacing: 0.04em;
       text-transform: uppercase;
       color: var(--text-secondary);
-      margin-bottom: 16px;
+      margin-bottom: var(--space-16);
     }
 
     .cs-order-steps {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: var(--space-6);
     }
 
     .cs-order-step {
-      font-size: 14px;
+      font-size: var(--font-small);
       font-weight: 500;
       color: var(--text-body);
       background: var(--surface-kpi-icon);
-      border-radius: 10px;
-      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      padding: var(--space-12) var(--space-16);
     }
 
     .cs-order-step--highlight {
@@ -783,157 +603,18 @@
 
     /* ── Retrospective parts ── */
     .cs-retro-part {
-      margin-top: 32px;
+      margin-top: var(--space-32);
     }
 
     .cs-retro-part h4 {
-      font-size: 16px;
+      font-size: var(--font-h3);
       font-weight: 600;
       color: var(--text-primary);
-      margin-bottom: 10px;
+      margin-bottom: var(--space-10);
     }
-
-    /* ── Back Nav Dock ── */
-    .back-nav {
-      position: fixed;
-      bottom: 32px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 4px;
-      background: var(--nav-bg);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border-radius: 124px;
-      box-shadow: var(--nav-shadow);
-      z-index: 200;
-      white-space: nowrap;
-    }
-
-    .back-nav-btn {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      height: 48px;
-      padding: 0 8px;
-      border-radius: 100px;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      text-decoration: none;
-      color: var(--icon-color);
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      transition: background 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    @media (hover: hover) {
-      .back-nav-btn:hover {
-        background: var(--hover);
-      }
-
-      .back-nav-btn:active {
-        background: var(--pressed);
-        transform: scale(0.96);
-      }
-    }
-
-    .back-nav-btn.pressed {
-      background: var(--pressed);
-      transform: scale(0.96);
-    }
-
-    .back-nav-separator {
-      width: 1px;
-      height: 24px;
-      background: linear-gradient(to bottom, transparent, var(--divider-mid), transparent);
-      flex-shrink: 0;
-      transform-origin: center;
-    }
-
-    .back-nav-title {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--text-primary);
-      padding: 0 8px;
-    }
-
-    /* ── Theme Toggle Button ── */
-    .back-nav-theme-btn {
-      width: 48px;
-      height: 48px;
-      border-radius: 100px;
-      border: none;
-      background: transparent;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: var(--icon-color);
-      transition: background 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      -webkit-tap-highlight-color: transparent;
-      flex-shrink: 0;
-    }
-
-    @media (hover: hover) {
-      .back-nav-theme-btn:hover {
-        background: var(--hover);
-      }
-      .back-nav-theme-btn:active {
-        background: var(--pressed);
-        transform: scale(0.92);
-      }
-    }
-
-    .back-nav-theme-btn.pressed {
-      background: var(--pressed);
-      transform: scale(0.92);
-    }
-
-    /* ── Theme Icon Swap ── */
-    .icon-sun, .icon-moon { pointer-events: none; }
-    .icon-moon { display: none; }
-    [data-theme="dark"] .icon-sun { display: none; }
-    [data-theme="dark"] .icon-moon { display: block; }
-
-    /* ── Scroll Animations ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
 
     /* ── Responsive ── */
     @media (max-width: 768px) {
-      .back-nav {
-        bottom: 16px;
-      }
-
-      .page {
-        padding: 48px 20px 140px;
-      }
-
-      .cs-meta {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-
       .cs-goals-grid {
         grid-template-columns: 1fr;
       }
@@ -942,21 +623,17 @@
         grid-template-columns: 1fr 1fr;
       }
 
-      .cs-hero-image {
-        padding: 20px 20px 0;
-      }
-
       .cs-moment-grid {
         grid-template-columns: 1fr;
       }
 
       .cs-mobile-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
+        gap: var(--space-20);
       }
 
       .cs-mobile-frame {
-        padding: 28px 20px;
+        padding: var(--space-28) var(--space-20);
       }
 
       .cs-baw-grid,
@@ -984,7 +661,7 @@
 </head>
 <body>
 
-  <div class="page" style="padding-bottom: 56px;">
+  <div class="page">
 
     <!-- ── Section: Hero ── -->
     <section class="cs-section">
@@ -1045,15 +722,15 @@
       <p class="cs-body reveal reveal-delay-1">This was a business decision more than a user-pain fix. Two things have to be true before a client call: the expert has to be an accurate match for the project, and they have to be compliant and eligible to take it. The old flow made both harder to guarantee. Compliance sat in scattered pieces, and current experience had no more prominence than anything else on a crowded single page.</p>
 
       <div class="cs-goals-grid">
-        <div class="cs-opportunity-card reveal">
+        <div class="cs-opportunity-card card reveal">
           <h4>Status quo</h4>
           <p>Every expert passes through the flow before a client call. The Compliance Tutorial and Questionnaire arrived as separate emails, and current experience blended into a crowded page, so experts could move through without really reviewing it.</p>
         </div>
-        <div class="cs-opportunity-card reveal reveal-delay-1">
+        <div class="cs-opportunity-card card reveal reveal-delay-1">
           <h4>If nothing changed</h4>
           <p>Experts would keep reaching client calls on experience they had not confirmed and compliance steps they had skimmed in isolation. At this volume that is a standing business risk: weak data at the front door means worse matches and eligibility gaps downstream.</p>
         </div>
-        <div class="cs-opportunity-card reveal reveal-delay-2">
+        <div class="cs-opportunity-card card reveal reveal-delay-2">
           <h4>Desired outcome</h4>
           <p>One guided flow where the compliance-critical steps are reviewed together and the data that drives matching is captured in the same place, so experts are properly screened and current before they reach a client, and completion holds even with more to do.</p>
         </div>
@@ -1078,7 +755,7 @@
     <div class="cs-divider"></div>
 
     <!-- ── Section: Design changes ── -->
-    <section class="cs-section">
+    <section class="cs-section" style="margin-bottom: 56px;">
       <p class="cs-label reveal">Design changes</p>
       <h2 class="cs-h2 reveal">Four changes to get compliance-critical data reviewed, without hurting completion</h2>
       <p class="cs-body reveal reveal-delay-1">Each change stands on its own and maps back to the problem. The broader structural move, two flat tabs rebuilt into a three-step sidebar with sub-steps, is the container they sit in.</p>
@@ -1088,26 +765,24 @@
         <p class="cs-change-eyebrow">Change 01</p>
         <h3 class="cs-change-title">Current experience got its own section, first in the flow</h3>
         <div class="cs-baw-grid cs-baw-grid--three">
-          <div class="cs-baw-card">
+          <div class="cs-baw-card card">
             <h5>Before</h5>
             <p>Personal details, experience history and legal terms sat together on one crowded page. Current experience had no more visual weight than anything around it, so an expert could scroll straight past the one thing the business most needed confirmed. Past positions were not shown at all.</p>
           </div>
-          <div class="cs-baw-card">
+          <div class="cs-baw-card card">
             <h5>After</h5>
             <p>The Experiences sub-step now opens with current position at the top, in its own clearly labelled section. Past positions sit below in a compact list, a new addition. Personal details move to the bottom; the required ones must be confirmed before moving on.</p>
           </div>
-          <div class="cs-baw-card">
+          <div class="cs-baw-card card">
             <h5>Why</h5>
             <p>This is the headline compliance and data-accuracy move. The problem was never that experts refused to check their data; it was that the structure gave the most important data no prominence. Weight follows importance, and accurate profiles are what let Dialectica match an expert to the right project.</p>
           </div>
         </div>
       </div>
     </section>
-  </div>
 
-  <!-- Wide container for the comparison slider (Change 01 visual: old vs new flow) -->
-  <div class="page-wide">
-    <div class="cs-comparison reveal" id="comparison">
+    <!-- Comparison slider (Change 01 visual: old vs new flow), sits in the wide lane -->
+    <div class="cs-comparison cs-wide reveal" id="comparison">
       <!-- After / new image (bottom layer, fills right side) -->
       <img src="Images/Case studies/ToE/Getting%20started-new.png" alt="Redesigned Terms of Engagement flow: three-step layout with sidebar navigation, current experience first">
       <span class="cs-comparison-label cs-comparison-label--after">After</span>
@@ -1130,18 +805,15 @@
         </div>
       </div>
     </div>
-    <p class="cs-image-caption reveal" style="margin-top: 12px;">Drag to compare the old single page with the new three-step flow, current experience now first</p>
-  </div>
-
-  <div class="page" style="padding-top: 48px;">
+    <p class="cs-image-caption cs-wide reveal" style="margin-top: 12px;">Drag to compare the old single page with the new three-step flow, current experience now first</p>
 
     <!-- Deep pocket 1 (nested under Change 01) -->
-    <div class="cs-deep reveal">
-      <span class="cs-deep-label">Deep pocket · under Change 01</span>
-      <h4>Inline experience editing, designed then cut</h4>
-      <p>Experts were first meant to correct their experience directly in the flow: edit pencils on each role and a single "confirm all experiences are up to date" checkbox. That version needed a whole review layer behind it, a dashboard where Dialectica associates could vet each submitted change before it went live. The overhead was not justified at this volume, so the shipped design used a lighter "Request a change" path that flags inaccurate data for manual review.</p>
-      <p>Showing the cut concept beside the shipped pattern is deliberate: the idea was explored properly, and the scope call was a decision rather than a limitation nobody noticed.</p>
-      <div class="cs-image-frame" style="margin-top: 16px;">
+    <div class="reveal" style="margin-top: 72px;">
+      <p class="cs-change-eyebrow">Deep pocket · under Change 01</p>
+      <h4 class="cs-change-title">Inline experience editing, designed then cut</h4>
+      <p class="cs-body">Experts were first meant to correct their experience directly in the flow: edit pencils on each role and a single "confirm all experiences are up to date" checkbox. That version needed a whole review layer behind it, a dashboard where Dialectica associates could vet each submitted change before it went live. The overhead was not justified at this volume, so the shipped design used a lighter "Request a change" path that flags inaccurate data for manual review.</p>
+      <p class="cs-body">Showing the cut concept beside the shipped pattern is deliberate: the idea was explored properly, and the scope call was a decision rather than a limitation nobody noticed.</p>
+      <div class="cs-image-frame" style="margin-top: 24px;">
         <img src="Images/Case studies/ToE/%5BDeep%5D%20Editable%20experience.png" alt="Cut concept: inline experience editing with edit pencils and a confirm checkbox">
       </div>
       <p class="cs-image-caption">The cut inline-edit concept. The shipped flow above uses a lighter "Request a change" path instead.</p>
@@ -1154,15 +826,15 @@
       <p class="cs-change-eyebrow">Change 02</p>
       <h3 class="cs-change-title">The Compliance Tutorial and Questionnaire moved inside the flow</h3>
       <div class="cs-baw-grid cs-baw-grid--three">
-        <div class="cs-baw-card">
+        <div class="cs-baw-card card">
           <h5>Before</h5>
           <p>Both reached experts as separate emails, outside the main experience. They read as extra admin, homework to do on the side, each handled in isolation rather than as part of screening.</p>
         </div>
-        <div class="cs-baw-card">
+        <div class="cs-baw-card card">
           <h5>After</h5>
           <p>Both became dedicated sub-steps of Getting Started, in one guided sequence. The Tutorial presents compliance obligations to read and confirm; the Questionnaire asks client-configured questions where certain answers automatically disqualify an expert from that project. Each sub-step has one job and one confirm.</p>
         </div>
-        <div class="cs-baw-card">
+        <div class="cs-baw-card card">
           <h5>Why</h5>
           <p>Eligibility is the other half of what has to be true before a client call. Scattering the steps across emails made screening feel optional and easy to skim. Single-purpose sub-steps keep momentum even though there is more to do, which is what let the extra steps land without denting completion.</p>
         </div>
@@ -1180,24 +852,35 @@
       <p class="cs-change-eyebrow">Change 03</p>
       <h3 class="cs-change-title">Availability slots became editable in place, not delete-and-redo</h3>
       <div class="cs-baw-grid cs-baw-grid--three">
-        <div class="cs-baw-card">
+        <div class="cs-baw-card card">
           <h5>Before</h5>
           <p>The availability step was already a weekly calendar, but slots were fixed. Once created, a slot was permanent. To fix a time you deleted it and built a new one from scratch.</p>
         </div>
-        <div class="cs-baw-card">
+        <div class="cs-baw-card card">
           <h5>After</h5>
           <p>The calendar was redesigned so slots became editable. Experts place a slot on the grid, then keep control of it: drag to move it, or click to open a side menu and edit it fully. Correcting a slot is now a small adjustment.</p>
         </div>
-        <div class="cs-baw-card">
+        <div class="cs-baw-card card">
           <h5>Why</h5>
           <p>Availability is what lets Dialectica actually schedule the call the whole flow is building toward, so lowering the effort here has a direct operational payoff. It is the one change with a clean, defensible number attached, because the design is the direct mechanism.</p>
         </div>
       </div>
-      <div class="cs-image-frame" style="max-width: 380px; margin-left: auto; margin-right: auto;">
-        <img src="Images/Case studies/ToE/%5BM2%5D%20Availabilities.png" alt="Redesigned weekly availability calendar with editable slots">
-      </div>
-      <p class="cs-image-caption">Comparing the same months a year apart, the share of experts submitting availability rose about 4 percentage points, from about 70% to about 74%.</p>
     </div>
+
+    <!-- Change 03 visual: device toggle. Pulled into the full lane so the desktop
+         shot renders at its intended 1080px width (and 812px height); the mobile
+         shot is overlaid and matched to that same height, landing at 375px. -->
+    <div class="cs-image-frame cs-toggle-frame reveal" data-view="desktop">
+      <div class="cs-segmented" role="tablist" aria-label="Choose device view">
+        <button type="button" class="cs-segmented-btn is-active" data-view="desktop" data-label="Desktop" role="tab" aria-selected="true">Desktop</button>
+        <button type="button" class="cs-segmented-btn" data-view="mobile" data-label="Mobile" role="tab" aria-selected="false">Mobile</button>
+      </div>
+      <div class="cs-toggle-view">
+        <img class="cs-toggle-img is-shown" data-view="desktop" src="Images/Case studies/ToE/%5BD2%5D%20Availabilities.png" alt="Redesigned availability calendar, desktop view: editable weekly slots">
+        <img class="cs-toggle-img cs-toggle-img--mobile" data-view="mobile" src="Images/Case studies/ToE/%5BM2%5D%20Availabilities.png" alt="Redesigned availability calendar, mobile view: editable weekly slots">
+      </div>
+    </div>
+    <p class="cs-image-caption reveal">Comparing the same months a year apart, the share of experts submitting availability rose about 4 percentage points, from about 70% to about 74%.</p>
 
     <div class="cs-divider" style="margin-top: 56px;"></div>
 
@@ -1206,15 +889,15 @@
       <p class="cs-change-eyebrow">Change 04</p>
       <h3 class="cs-change-title">Experts pick categories and vendors from a shortlist instead of typing them</h3>
       <div class="cs-baw-grid cs-baw-grid--three">
-        <div class="cs-baw-card">
+        <div class="cs-baw-card card">
           <h5>Before</h5>
           <p>The product-category and vendor data was chased separately over email, outside Terms of Engagement, after experts had already moved on. It depended on experts coming back to a message, so few ever gave it.</p>
         </div>
-        <div class="cs-baw-card">
+        <div class="cs-baw-card card">
           <h5>After</h5>
           <p>It became "Profile Boost," a skippable step inside onboarding. The shipped v2 splits capture into two lighter steps: pick from a shortlist of product categories (or add your own), then pick the vendors behind them (or add your own).</p>
         </div>
-        <div class="cs-baw-card">
+        <div class="cs-baw-card card">
           <h5>Why</h5>
           <p>Matching quality depends on structured, expert-provided detail. Capturing it inside the flow, while experts are already engaged, gets richer data than an email chase. Selecting is far quicker than typing from a blank field, and it showed.</p>
         </div>
@@ -1232,11 +915,11 @@
       <p class="cs-image-caption">Conversion into the step roughly doubled, from about 17% to about 33%, with richer data too: about 6.5 vendors and 3.4 categories per expert, up from 4.2 and 2.0.</p>
 
       <!-- Deep pocket 2 (nested under Change 04) -->
-      <div class="cs-deep reveal">
-        <span class="cs-deep-label">Deep pocket · under Change 04</span>
-        <h4>Profile Boost, v1 to v2</h4>
-        <p>v1 was the first in-flow version: a skippable step where experts mapped the products they can speak to against the vendors behind them, typed as free text. A parallel layout exploration tried putting Profile Boost on the same step as personal details and experience, surfaced through a per-company "Boost your profile" modal, before it settled as its own dedicated step. v2 then redesigned the capture into the two shortlisted steps above, which roughly doubled uptake.</p>
-        <div class="cs-two-img" style="margin-top: 16px;">
+      <div class="reveal" style="margin-top: 56px;">
+        <p class="cs-change-eyebrow">Deep pocket · under Change 04</p>
+        <h4 class="cs-change-title">Profile Boost, v1 to v2</h4>
+        <p class="cs-body">v1 was the first in-flow version: a skippable step where experts mapped the products they can speak to against the vendors behind them, typed as free text. A parallel layout exploration tried putting Profile Boost on the same step as personal details and experience, surfaced through a per-company "Boost your profile" modal, before it settled as its own dedicated step. v2 then redesigned the capture into the two shortlisted steps above, which roughly doubled uptake.</p>
+        <div class="cs-two-img" style="margin-top: 24px;">
           <figure>
             <img src="Images/Case studies/ToE/%5BDeep%5D%20Boost%20profile%20-%20Filled.png" alt="Profile Boost v1: free-text product and vendor rows">
             <figcaption>v1: free-text product and vendor rows</figcaption>
@@ -1246,7 +929,7 @@
             <figcaption>Exploration: a per-company "Boost your profile" modal</figcaption>
           </figure>
         </div>
-        <p>Showing v1, the combined-step exploration and the shipped v2 together shows the iteration behind the step, not just the endpoint.</p>
+        <p class="cs-body" style="margin-top: 24px;">Showing v1, the combined-step exploration and the shipped v2 together shows the iteration behind the step, not just the endpoint.</p>
       </div>
     </div>
 
@@ -1260,7 +943,7 @@
       <p class="cs-body reveal reveal-delay-1">We ran it at 25% of experts for two weeks. The data side worked; the flow side did not. Making experts walk the full length of the funnel before the thing they came for made it feel long, and they abandoned it, some writing in to say so. An expert who skips Profile Boost still takes calls; an expert who never signs Terms takes none. That was the wrong trade, so we kept the shipped order.</p>
 
       <div class="cs-order-grid reveal reveal-delay-1">
-        <div class="cs-order-card">
+        <div class="cs-order-card card">
           <h5>Shipped order (kept)</h5>
           <div class="cs-order-steps">
             <div class="cs-order-step">Getting Started</div>
@@ -1269,7 +952,7 @@
             <div class="cs-order-step">Profile Boost</div>
           </div>
         </div>
-        <div class="cs-order-card">
+        <div class="cs-order-card card">
           <h5>Tested order (rolled back)</h5>
           <div class="cs-order-steps">
             <div class="cs-order-step">Getting Started</div>
@@ -1281,11 +964,11 @@
       </div>
 
       <div class="cs-stat-pills reveal reveal-delay-2">
-        <div class="cs-stat-pill">
+        <div class="cs-stat-pill card">
           <span class="cs-stat-pill-value">+20%</span>
           <span class="cs-stat-pill-label">Profile Boost completion in the test</span>
         </div>
-        <div class="cs-stat-pill">
+        <div class="cs-stat-pill card">
           <span class="cs-stat-pill-value">-10%</span>
           <span class="cs-stat-pill-label">Terms signing, the step the business earns from</span>
         </div>
@@ -1301,15 +984,15 @@
       <p class="cs-body reveal reveal-delay-1">Adding the Tutorial and Questionnaire into the flow meant more mandatory steps than before. The textbook consequence of added friction is drop-off. It did not happen. The flat line is the result: it says the structure absorbed the extra complexity because each new step read as a natural part of one guided journey rather than another task bolted on.</p>
 
       <div class="cs-stat-pills reveal reveal-delay-1">
-        <div class="cs-stat-pill">
+        <div class="cs-stat-pill card">
           <span class="cs-stat-pill-value">~90%</span>
           <span class="cs-stat-pill-label">Completion, flat before and after the redesign</span>
         </div>
-        <div class="cs-stat-pill">
+        <div class="cs-stat-pill card">
           <span class="cs-stat-pill-value">+4 pts</span>
           <span class="cs-stat-pill-label">Experts submitting availability, about 70% to 74%</span>
         </div>
-        <div class="cs-stat-pill">
+        <div class="cs-stat-pill card">
           <span class="cs-stat-pill-value">~2x</span>
           <span class="cs-stat-pill-label">Profile Boost conversion, about 17% to 33%</span>
         </div>
@@ -1384,18 +1067,8 @@
     </button>
   </nav>
 
+  <script src="site.js"></script>
   <script>
-    // ── Scroll reveal ──
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('visible');
-        });
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -32px 0px' }
-    );
-    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-
     // ── Before / After Comparison Slider ──
     (function() {
       const container = document.getElementById('comparison');
@@ -1435,6 +1108,12 @@
         setPosition(getPercentage(e.clientX));
       });
 
+      // If the cursor leaves fast, catch its exit position so the slider
+      // still lands where the cursor actually went (edge, or wherever it left).
+      container.addEventListener('mouseleave', function(e) {
+        setPosition(getPercentage(e.clientX));
+      });
+
       container.addEventListener('mousedown', function(e) {
         e.preventDefault();
       });
@@ -1454,108 +1133,33 @@
         isDragging = false;
       });
     })();
+  </script>
 
-    // ── Touch active state ──
-    const backBtn = document.getElementById('backBtn');
-    backBtn.addEventListener('touchstart', () => backBtn.classList.add('pressed'), { passive: true });
-    backBtn.addEventListener('touchend', () => backBtn.classList.remove('pressed'));
-    backBtn.addEventListener('touchcancel', () => backBtn.classList.remove('pressed'));
+  <script>
+    // ── Segmented device toggle (Desktop / Mobile) ──
+    // The two shots are the same height, so switching is a plain crossfade.
+    (function() {
+      document.querySelectorAll('.cs-toggle-frame').forEach(function(frame) {
+        var btns = frame.querySelectorAll('.cs-segmented-btn');
+        var imgs = frame.querySelectorAll('.cs-toggle-img');
 
-    // ── Theme Toggle ──
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('touchstart', () => themeToggle.classList.add('pressed'), { passive: true });
-    themeToggle.addEventListener('touchend', () => themeToggle.classList.remove('pressed'));
-    themeToggle.addEventListener('touchcancel', () => themeToggle.classList.remove('pressed'));
-
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.add('theme-transitioning');
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      if (isDark) {
-        document.documentElement.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'light');
-      } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-      }
-      setTimeout(() => document.body.classList.remove('theme-transitioning'), 400);
-    });
-
-    // ── Nav Transition: Per-element animation map ──
-    const backNav = document.querySelector('.back-nav');
-    const separators = backNav.querySelectorAll('.back-nav-separator');
-    const backNavItems = [
-      { el: backNav.querySelector('.back-nav-btn'),       enterFrom: 'translateX(-8px)', exitTo: 'translateX(8px)'  },
-      { el: separators[0],                                separator: true },
-      { el: backNav.querySelector('.back-nav-title'),     enterFrom: 'translateX(8px)',  exitTo: 'translateX(-8px)' },
-      { el: separators[1],                                separator: true },
-      { el: backNav.querySelector('.back-nav-theme-btn'), enterFrom: 'translateX(8px)',  exitTo: 'translateX(-8px)' },
-    ];
-    const EASING = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-
-    const transition = sessionStorage.getItem('nav-transition');
-
-    if (transition === 'to-case-study') {
-      const sourceWidth = sessionStorage.getItem('nav-source-width');
-      sessionStorage.removeItem('nav-transition');
-      sessionStorage.removeItem('nav-source-width');
-
-      document.fonts.ready.then(() => {
-        const targetWidth = Math.ceil(backNav.offsetWidth);
-        backNavItems.forEach(({ el }) => { el.style.transition = 'none'; });
-        backNavItems.forEach(({ el, enterFrom, separator }) => {
-          el.style.opacity = '0';
-          el.style.transform = separator ? 'scaleY(0)' : enterFrom;
-        });
-        backNav.style.overflow = 'hidden';
-        backNav.style.width = sourceWidth;
-        backNav.offsetHeight;
-        backNav.style.transition = 'width 0.32s ' + EASING;
-        backNav.style.width = targetWidth + 'px';
-        backNavItems.forEach(({ el, separator }, i) => {
-          const delay = 60 + i * 36;
-          el.style.transition =
-            'transform 0.28s ' + EASING + ' ' + delay + 'ms, ' +
-            'opacity 0.28s ' + EASING + ' ' + delay + 'ms';
-          el.style.transform = separator ? 'scaleY(1)' : 'translateX(0)';
-          el.style.opacity = '1';
-        });
-        setTimeout(() => {
-          backNav.style.transition = '';
-          backNav.style.width = '';
-          backNav.style.overflow = '';
-          backNavItems.forEach(({ el }) => {
-            el.style.transition = '';
-            el.style.transform = '';
-            el.style.opacity = '';
+        btns.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var view = btn.dataset.view;
+            if (frame.getAttribute('data-view') === view) return;
+            frame.setAttribute('data-view', view);
+            btns.forEach(function(b) {
+              var on = b.dataset.view === view;
+              b.classList.toggle('is-active', on);
+              b.setAttribute('aria-selected', on ? 'true' : 'false');
+            });
+            imgs.forEach(function(im) {
+              im.classList.toggle('is-shown', im.dataset.view === view);
+            });
           });
-        }, 500);
+        });
       });
-    }
-
-    // ── Nav Transition: Exit (going back to home) ──
-    backBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const href = backBtn.getAttribute('href');
-      sessionStorage.setItem('nav-transition', 'to-home');
-      sessionStorage.setItem('nav-source-width', backNav.offsetWidth + 'px');
-      backNavItems.forEach(({ el, exitTo, separator }, i) => {
-        const delay = i * 40;
-        el.style.transition =
-          'transform 0.22s ' + EASING + ' ' + delay + 'ms, ' +
-          'opacity 0.22s ' + EASING + ' ' + delay + 'ms';
-        el.style.transform = separator ? 'scaleY(0)' : exitTo;
-        el.style.opacity = '0';
-      });
-      setTimeout(() => { window.location.href = href; }, 300);
-    });
-
-    // Keep the home entrance animation working when the visitor uses the
-    // browser's back arrow (which restores home from cache and skips the
-    // click handler above). Stash the nav width on the way out.
-    window.addEventListener('pagehide', () => {
-      sessionStorage.setItem('nav-transition', 'to-home');
-      sessionStorage.setItem('nav-source-width', backNav.offsetWidth + 'px');
-    });
+    })();
   </script>
 
 </body>

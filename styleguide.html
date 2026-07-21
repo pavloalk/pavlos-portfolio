@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design System | Pavlos Aliko</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23FFD600'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="design-system.css">
+  <!-- Flash-free theme: apply before paint -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) { var h = new Date().getHours(); t = (h >= 18 || h < 8) ? 'dark' : 'light'; }
+      if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+  <style>
+    /* ── Styleguide-only helpers (sg- prefix, not part of the system) ── */
+
+    .sg-note {
+      font-size: var(--font-caption);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-16);
+    }
+
+    code {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 0.85em;
+      background: var(--surface-raised);
+      border-radius: var(--radius-xs);
+      padding: 2px 6px;
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+
+    /* Cheat sheet rows */
+    .sg-cheat { display: flex; flex-direction: column; gap: var(--space-10); }
+    .sg-cheat-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-16);
+      align-items: baseline;
+      font-size: var(--font-small);
+      color: var(--text-body);
+      padding-bottom: var(--space-10);
+      border-bottom: 1px solid var(--border-meta);
+    }
+    .sg-cheat-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+    /* Color swatches */
+    .sg-swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: var(--space-10);
+      margin-top: var(--space-16);
+    }
+    .sg-swatch {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-meta);
+      background: var(--surface);
+    }
+    .sg-swatch-color { height: 56px; }
+    .sg-swatch-label {
+      font-size: var(--font-badge);
+      color: var(--text-secondary);
+      padding: var(--space-6) var(--space-8);
+      display: block;
+    }
+
+    /* Type specimens */
+    .sg-type { display: flex; flex-direction: column; gap: var(--space-20); margin-top: var(--space-16); }
+    .sg-type-row { display: flex; flex-direction: column; gap: var(--space-2); }
+    .sg-type-row small { font-size: var(--font-badge); color: var(--text-secondary); }
+    .sg-type-sample { color: var(--text-primary); line-height: 1.2; }
+
+    /* Spacing bars */
+    .sg-space { display: flex; flex-direction: column; gap: var(--space-6); margin-top: var(--space-16); }
+    .sg-space-row { display: flex; align-items: center; gap: var(--space-12); }
+    .sg-space-row small { width: 90px; flex-shrink: 0; font-size: var(--font-badge); color: var(--text-secondary); }
+    .sg-space-bar { height: 14px; border-radius: 3px; background: var(--text-secondary); opacity: 0.55; }
+
+    /* Radius squares */
+    .sg-radius { display: flex; flex-wrap: wrap; gap: var(--space-16); margin-top: var(--space-16); }
+    .sg-radius-box {
+      width: 88px; height: 64px;
+      background: var(--surface-raised);
+      border: 1px solid var(--border-meta);
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--font-badge); color: var(--text-secondary);
+      text-align: center;
+    }
+
+    /* Container diagram */
+    .sg-width-demo {
+      border: 1px dashed var(--divider-mid);
+      border-radius: var(--radius-md);
+      padding: var(--space-8) 0;
+      text-align: center;
+      font-size: var(--font-badge);
+      color: var(--text-secondary);
+      margin: 0 auto var(--space-10);
+    }
+
+    /* Tag color variants (live on their own pages) */
+    .sg-tag-toe { color: #7a6c00; background: #fef3c7; }
+    [data-theme="dark"] .sg-tag-toe { color: #fde68a; background: rgba(254, 243, 199, 0.12); }
+    .sg-tag-velvet { color: #5b2bb3; background: #ede9fe; }
+    [data-theme="dark"] .sg-tag-velvet { color: #ddd6fe; background: rgba(167, 139, 250, 0.14); }
+    .sg-tag-bonuses { color: #0f7a5f; background: #d6f3e9; }
+    [data-theme="dark"] .sg-tag-bonuses { color: #9ff0d4; background: rgba(78, 200, 160, 0.14); }
+
+    /* Inline (non-floating) nav pill demo */
+    .sg-dock-demo .back-nav {
+      position: static;
+      transform: none;
+      display: inline-flex;
+      margin-top: var(--space-16);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Real dock first in the page so shared behavior binds to it, not the demo copy below -->
+  <nav class="back-nav" aria-label="Styleguide navigation">
+    <a href="index.html" class="back-nav-btn" aria-label="Back to home" id="backBtn">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.6709 3.96967C6.96379 3.67678 7.43855 3.67678 7.73145 3.96967C8.02425 4.26257 8.02431 4.73735 7.73145 5.03022L4.51172 8.24996H15.3008C15.715 8.24996 16.0508 8.58574 16.0508 8.99996C16.0508 9.41415 15.715 9.74996 15.3008 9.74996H4.51172L7.73145 12.9697C8.02425 13.2626 8.02431 13.7374 7.73145 14.0302C7.43858 14.3231 6.96379 14.323 6.6709 14.0302L2.1709 9.53023C2.13891 9.49824 2.11094 9.46355 2.08594 9.42769C2.05521 9.38359 2.0286 9.33641 2.00781 9.28609C1.98707 9.23581 1.97223 9.18371 1.96289 9.13082C1.9554 9.08831 1.95118 9.04462 1.95117 8.99996C1.95117 8.95465 1.95519 8.91023 1.96289 8.86714C1.97198 8.81631 1.98622 8.76617 2.00586 8.71773L2.00977 8.70796C2.02135 8.68057 2.03713 8.65546 2.05176 8.62984C2.0842 8.57299 2.12238 8.5182 2.1709 8.46968L6.6709 3.96967Z" fill="currentColor"/>
+      </svg>
+      Back
+    </a>
+    <div class="back-nav-separator"></div>
+    <span class="back-nav-title">Design System</span>
+    <div class="back-nav-separator"></div>
+    <button class="back-nav-theme-btn" aria-label="Toggle theme" id="themeToggle">
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_sg_sun)">
+          <path d="M9 12C10.6569 12 12 10.6569 12 9C12 7.34315 10.6569 6 9 6C7.34315 6 6 7.34315 6 9C6 10.6569 7.34315 12 9 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 1.5V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 15V16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3.69727 3.69727L4.75477 4.75477" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M13.2461 13.2461L14.3036 14.3036" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M1.5 9H3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M15 9H16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4.75477 13.2461L3.69727 14.3036" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14.3036 3.69727L13.2461 4.75477" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <defs>
+          <clipPath id="clip0_sg_sun">
+            <rect width="18" height="18" fill="white"/>
+          </clipPath>
+        </defs>
+      </svg>
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.59435 1.51148C9.09391 1.48434 9.46915 1.78355 9.63732 2.1355C9.79833 2.47282 9.79619 2.89957 9.57189 3.25855L9.57286 3.25953C9.12342 3.97862 8.93101 4.82908 9.02696 5.67163C9.12292 6.51418 9.50156 7.29955 10.1012 7.89917C10.7007 8.49855 11.4855 8.87737 12.3277 8.97339C13.1702 9.06934 14.0208 8.87684 14.7399 8.42749L14.8776 8.35328C15.2038 8.20517 15.5678 8.22112 15.8639 8.36206C16.2167 8.53021 16.5157 8.90531 16.4889 9.40406C16.4108 10.8508 15.9151 12.2446 15.0621 13.4158C14.2092 14.5868 13.0351 15.4854 11.6822 16.0037C10.3293 16.5218 8.85511 16.6373 7.4381 16.3357C6.02097 16.034 4.72146 15.3279 3.69689 14.3035C2.67241 13.2791 1.9666 11.9802 1.66466 10.5632C1.36277 9.14614 1.47765 7.67123 1.99571 6.31812C2.51381 4.96519 3.41263 3.79127 4.58361 2.93824C5.75464 2.08517 7.14766 1.58977 8.59435 1.51148ZM7.96642 3.0896C7.06617 3.24697 6.21017 3.60834 5.46642 4.15015C4.52954 4.83265 3.81056 5.77274 3.39611 6.85523C2.98178 7.93761 2.88997 9.1172 3.13146 10.2507C3.37301 11.3843 3.93786 12.4234 4.75743 13.2429C5.577 14.0624 6.61609 14.6275 7.74962 14.8689C8.88319 15.1103 10.0628 15.0177 11.1451 14.6033C12.2274 14.1888 13.1669 13.4697 13.8492 12.533C14.3909 11.7893 14.7515 10.9331 14.9088 10.033C14.0513 10.4193 13.1019 10.571 12.1588 10.4636C10.9793 10.3293 9.88008 9.79906 9.04064 8.95972C8.20121 8.1203 7.6711 7.02105 7.53673 5.84156C7.42928 4.898 7.57968 3.94743 7.96642 3.0896Z" fill="currentColor"/>
+      </svg>
+    </button>
+  </nav>
+
+  <div class="page">
+
+    <!-- ── Intro ── -->
+    <section class="cs-section">
+      <p class="cs-label">Internal reference</p>
+      <h1 class="cs-h1">Design system</h1>
+      <p class="cs-body">Everything on this page is rendered by the live design-system.css file, so it can never drift out of date. Use the names shown here when asking for changes. Toggle the theme with the pill below to check both modes.</p>
+    </section>
+
+    <div class="cs-divider"></div>
+
+    <!-- ── Cheat sheet ── -->
+    <section class="cs-section">
+      <p class="cs-label">Start here</p>
+      <h2 class="cs-h2">How to ask for things</h2>
+      <p class="cs-body">Plain phrases on the left, the system name to use on the right.</p>
+
+      <div class="card" style="margin-top: var(--space-24);">
+        <div class="sg-cheat">
+          <div class="sg-cheat-row"><span>"Put it in the text column"</span><code>page</code></div>
+          <div class="sg-cheat-row"><span>"Make the image big / breakout width"</span><code>cs-wide</code></div>
+          <div class="sg-cheat-row"><span>"Put this text in a card"</span><code>card</code></div>
+          <div class="sg-cheat-row"><span>"Full-width rounded image"</span><code>cs-hero-image</code></div>
+          <div class="sg-cheat-row"><span>"Hero image on a gradient backdrop"</span><code>cs-hero-image--gradient</code></div>
+          <div class="sg-cheat-row"><span>"Framed screenshot with padding"</span><code>cs-image-frame</code></div>
+          <div class="sg-cheat-row"><span>"Caption under an image"</span><code>cs-image-caption</code></div>
+          <div class="sg-cheat-row"><span>"New section with label and title"</span><code>cs-section</code> + <code>cs-label</code> + <code>cs-h2</code></div>
+          <div class="sg-cheat-row"><span>"Numbered list of design changes"</span><code>cs-change-list</code></div>
+          <div class="sg-cheat-row"><span>"Role / timeline / context columns"</span><code>cs-meta</code></div>
+          <div class="sg-cheat-row"><span>"Soft divider between sections"</span><code>cs-divider</code></div>
+          <div class="sg-cheat-row"><span>"Status tag (shipped, in progress)"</span><code>cs-tag-wip</code></div>
+          <div class="sg-cheat-row"><span>"A gap of 24 pixels"</span><code>space-24</code></div>
+          <div class="sg-cheat-row"><span>"Rounded corners like the cards"</span><code>radius-lg</code></div>
+          <div class="sg-cheat-row"><span>"Same size as case study body text"</span><code>font-body</code></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="cs-divider"></div>
+
+    <!-- ── Colors ── -->
+    <section class="cs-section">
+      <p class="cs-label">Tokens</p>
+      <h2 class="cs-h2">Colors</h2>
+      <p class="cs-body">One cool-neutral scale drives everything. Components never use these directly; they use the semantic names below, which is what makes dark mode a simple value swap.</p>
+
+      <h3 class="cs-h3" style="margin-top: var(--space-32);">Gray scale</h3>
+      <div class="sg-swatch-grid">
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--light10);"></div><span class="sg-swatch-label">light10</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--light20);"></div><span class="sg-swatch-label">light20</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--light30);"></div><span class="sg-swatch-label">light30</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--light40);"></div><span class="sg-swatch-label">light40</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--light50);"></div><span class="sg-swatch-label">light50</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--light60);"></div><span class="sg-swatch-label">light60</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--light70);"></div><span class="sg-swatch-label">light70</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--light80);"></div><span class="sg-swatch-label">light80</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--light90);"></div><span class="sg-swatch-label">light90</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--light100);"></div><span class="sg-swatch-label">light100</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--light110);"></div><span class="sg-swatch-label">light110</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--light120);"></div><span class="sg-swatch-label">light120</span></div>
+      </div>
+
+      <h3 class="cs-h3" style="margin-top: var(--space-32);">Semantic colors</h3>
+      <p class="sg-note">These flip automatically between light and dark mode.</p>
+      <div class="sg-swatch-grid">
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--text-primary);"></div><span class="sg-swatch-label">text-primary</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--text-body);"></div><span class="sg-swatch-label">text-body</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--text-secondary);"></div><span class="sg-swatch-label">text-secondary</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--surface);"></div><span class="sg-swatch-label">surface</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--surface-card);"></div><span class="sg-swatch-label">surface-card</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--surface-raised);"></div><span class="sg-swatch-label">surface-raised</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--image-frame-bg);"></div><span class="sg-swatch-label">image-frame-bg</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--hover);"></div><span class="sg-swatch-label">hover</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--pressed);"></div><span class="sg-swatch-label">pressed</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: var(--divider-mid);"></div><span class="sg-swatch-label">divider-mid</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: linear-gradient(180deg, var(--bg-start), var(--bg-end));"></div><span class="sg-swatch-label">bg-start / bg-end</span></div>
+        <div class="sg-swatch"><div class="sg-swatch-color" style="background: linear-gradient(135deg, var(--hero-gradient-start), var(--hero-gradient-end));"></div><span class="sg-swatch-label">hero gradient</span></div>
+      </div>
+    </section>
+
+    <div class="cs-divider"></div>
+
+    <!-- ── Typography ── -->
+    <section class="cs-section">
+      <p class="cs-label">Tokens</p>
+      <h2 class="cs-h2">Typography</h2>
+      <p class="cs-body">All Montserrat. Say the token name and I'll know the size.</p>
+
+      <div class="sg-type">
+        <div class="sg-type-row"><small>font-display · 36 to 56px · home hero</small><span class="sg-type-sample" style="font-size: var(--font-display); font-weight: 700; letter-spacing: -0.03em;">Display</span></div>
+        <div class="sg-type-row"><small>font-h1 · 32 to 48px · page titles</small><span class="sg-type-sample" style="font-size: var(--font-h1); font-weight: 700; letter-spacing: -0.03em;">Heading 1</span></div>
+        <div class="sg-type-row"><small>font-h1-sm · 28 to 42px · compact page titles</small><span class="sg-type-sample" style="font-size: var(--font-h1-sm); font-weight: 700; letter-spacing: -0.03em;">Heading 1 small</span></div>
+        <div class="sg-type-row"><small>font-h2 · 26 to 36px · section titles</small><span class="sg-type-sample" style="font-size: var(--font-h2); font-weight: 700; letter-spacing: -0.03em;">Heading 2</span></div>
+        <div class="sg-type-row"><small>font-display-sm · 32px · profile name</small><span class="sg-type-sample" style="font-size: var(--font-display-sm); font-weight: 700;">Display small</span></div>
+        <div class="sg-type-row"><small>font-stat-lg · 30px · big stat numbers</small><span class="sg-type-sample" style="font-size: var(--font-stat-lg); font-weight: 700; letter-spacing: -0.03em;">+63%</span></div>
+        <div class="sg-type-row"><small>font-stat · 28px · compact stat numbers</small><span class="sg-type-sample" style="font-size: var(--font-stat); font-weight: 700; letter-spacing: -0.03em;">~90%</span></div>
+        <div class="sg-type-row"><small>font-title-lg · 24px · profile subtitle</small><span class="sg-type-sample" style="font-size: var(--font-title-lg);">Title large</span></div>
+        <div class="sg-type-row"><small>font-title · 20px · change titles</small><span class="sg-type-sample" style="font-size: var(--font-title); font-weight: 700; letter-spacing: -0.02em;">Title</span></div>
+        <div class="sg-type-row"><small>font-title-sm · 18px · card titles</small><span class="sg-type-sample" style="font-size: var(--font-title-sm); font-weight: 600;">Title small</span></div>
+        <div class="sg-type-row"><small>font-lead · 17px · hero paragraph</small><span class="sg-type-sample" style="font-size: var(--font-lead);">Lead paragraph text</span></div>
+        <div class="sg-type-row"><small>font-body / font-h3 · 16px · body text and sub-headings</small><span class="sg-type-sample" style="font-size: var(--font-body);">Body text, the case study reading size</span></div>
+        <div class="sg-type-row"><small>font-callout · 15px · header name, short intros</small><span class="sg-type-sample" style="font-size: var(--font-callout);">Callout text</span></div>
+        <div class="sg-type-row"><small>font-small · 14px · card text, labels, nav</small><span class="sg-type-sample" style="font-size: var(--font-small);">Small text, the workhorse size</span></div>
+        <div class="sg-type-row"><small>font-caption · 13px · captions, footnotes</small><span class="sg-type-sample" style="font-size: var(--font-caption);">Caption text under images</span></div>
+        <div class="sg-type-row"><small>font-tag · 12px · tags, eyebrows</small><span class="sg-type-sample" style="font-size: var(--font-tag); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;">Tag text</span></div>
+        <div class="sg-type-row"><small>font-badge · 11px · tiny badges</small><span class="sg-type-sample" style="font-size: var(--font-badge); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;">Badge text</span></div>
+      </div>
+    </section>
+
+    <div class="cs-divider"></div>
+
+    <!-- ── Spacing ── -->
+    <section class="cs-section">
+      <p class="cs-label">Tokens</p>
+      <h2 class="cs-h2">Spacing</h2>
+      <p class="cs-body">Named by pixel value, so "space-24" is always 24px. Used for margins, paddings, and gaps.</p>
+
+      <div class="sg-space">
+        <div class="sg-space-row"><small>space-2</small><div class="sg-space-bar" style="width: var(--space-2);"></div></div>
+        <div class="sg-space-row"><small>space-4</small><div class="sg-space-bar" style="width: var(--space-4);"></div></div>
+        <div class="sg-space-row"><small>space-6</small><div class="sg-space-bar" style="width: var(--space-6);"></div></div>
+        <div class="sg-space-row"><small>space-8</small><div class="sg-space-bar" style="width: var(--space-8);"></div></div>
+        <div class="sg-space-row"><small>space-10</small><div class="sg-space-bar" style="width: var(--space-10);"></div></div>
+        <div class="sg-space-row"><small>space-12</small><div class="sg-space-bar" style="width: var(--space-12);"></div></div>
+        <div class="sg-space-row"><small>space-16</small><div class="sg-space-bar" style="width: var(--space-16);"></div></div>
+        <div class="sg-space-row"><small>space-20</small><div class="sg-space-bar" style="width: var(--space-20);"></div></div>
+        <div class="sg-space-row"><small>space-24</small><div class="sg-space-bar" style="width: var(--space-24);"></div></div>
+        <div class="sg-space-row"><small>space-28</small><div class="sg-space-bar" style="width: var(--space-28);"></div></div>
+        <div class="sg-space-row"><small>space-32</small><div class="sg-space-bar" style="width: var(--space-32);"></div></div>
+        <div class="sg-space-row"><small>space-40</small><div class="sg-space-bar" style="width: var(--space-40);"></div></div>
+        <div class="sg-space-row"><small>space-48</small><div class="sg-space-bar" style="width: var(--space-48);"></div></div>
+        <div class="sg-space-row"><small>space-56</small><div class="sg-space-bar" style="width: var(--space-56);"></div></div>
+        <div class="sg-space-row"><small>space-64</small><div class="sg-space-bar" style="width: var(--space-64);"></div></div>
+        <div class="sg-space-row"><small>space-80</small><div class="sg-space-bar" style="width: var(--space-80);"></div></div>
+      </div>
+    </section>
+
+    <div class="cs-divider"></div>
+
+    <!-- ── Radius ── -->
+    <section class="cs-section">
+      <p class="cs-label">Tokens</p>
+      <h2 class="cs-h2">Corner radius</h2>
+      <p class="cs-body">Cards use radius-lg. Hero images use radius-xl. Anything pill-shaped uses radius-pill.</p>
+
+      <div class="sg-radius">
+        <div class="sg-radius-box" style="border-radius: var(--radius-xs);">xs<br>8px</div>
+        <div class="sg-radius-box" style="border-radius: var(--radius-sm);">sm<br>10px</div>
+        <div class="sg-radius-box" style="border-radius: var(--radius-md);">md<br>12px</div>
+        <div class="sg-radius-box" style="border-radius: var(--radius-lg);">lg<br>16px</div>
+        <div class="sg-radius-box" style="border-radius: var(--radius-xl);">xl<br>20px</div>
+        <div class="sg-radius-box" style="border-radius: var(--radius-2xl);">2xl<br>24px</div>
+        <div class="sg-radius-box" style="border-radius: var(--radius-pill);">pill</div>
+      </div>
+    </section>
+
+    <div class="cs-divider"></div>
+
+    <!-- ── Containers ── -->
+    <section class="cs-section">
+      <p class="cs-label">Layout</p>
+      <h2 class="cs-h2">The three containers</h2>
+      <p class="cs-body">Every case study is built from these. The page is a grid with two invisible lanes: everything lands in the text lane by default, and anything tagged cs-wide stretches to the wide lane. Grouped text sits in cards.</p>
+
+      <div style="margin-top: var(--space-24);">
+        <div class="sg-width-demo" style="max-width: 100%;">wide lane · 976px content · add cs-wide (the ToE comparison slider lives here)</div>
+        <div class="sg-width-demo" style="max-width: 70%;">text lane · 712px content · the default for everything</div>
+      </div>
+
+      <div class="card" style="margin-top: var(--space-16);">
+        <h4 style="font-size: var(--font-small); font-weight: 600; color: var(--text-primary); margin-bottom: var(--space-4);">card</h4>
+        <p style="font-size: var(--font-small); color: var(--text-body); line-height: 1.6;">The text container: soft surface, radius-lg corners, space-24 padding. Change cards, stat blocks, and experience entries are all this card plus their own layout inside.</p>
+      </div>
+    </section>
+
+    <div class="cs-divider"></div>
+
+    <!-- ── Image containers ── -->
+    <section class="cs-section">
+      <p class="cs-label">Layout</p>
+      <h2 class="cs-h2">Image containers</h2>
+
+      <h3 class="cs-h3" style="margin-top: var(--space-24);">cs-hero-image</h3>
+      <p class="sg-note">Full-width, rounded corners, no padding. The default hero.</p>
+      <div class="cs-hero-image" style="margin-top: 0;">
+        <img src="Images/Case studies/Velvet-Snapshot.png" alt="Plain hero image example">
+      </div>
+
+      <h3 class="cs-h3" style="margin-top: var(--space-40);">cs-hero-image--gradient</h3>
+      <p class="sg-note">Variant: gradient backdrop, image docked to the bottom edge.</p>
+      <div class="cs-hero-image cs-hero-image--gradient" style="margin-top: 0;">
+        <img src="Images/Case studies/ToE-Snapshot.png" alt="Gradient hero image example">
+      </div>
+
+      <h3 class="cs-h3" style="margin-top: var(--space-40);">cs-image-frame</h3>
+      <p class="sg-note">Page-width, padded, soft background. For screenshots that need breathing room. Pairs with cs-image-caption.</p>
+      <div class="cs-image-frame" style="margin-top: 0;">
+        <img src="Images/Case studies/Velvet/logo-creation.jpg" alt="Framed image example">
+        <p class="cs-image-caption">cs-image-caption: a caption like this one</p>
+      </div>
+    </section>
+
+    <h3 class="cs-h3">cs-wide</h3>
+    <p class="sg-note">Add cs-wide to any block placed directly in the page to stretch it to the wide lane. This one has it:</p>
+    <div class="cs-hero-image cs-wide" style="margin-top: 0; margin-bottom: var(--space-80);">
+      <img src="Images/Case studies/KM-Snapshot.png" alt="Wide lane example">
+    </div>
+
+    <div class="cs-divider"></div>
+
+    <!-- ── Components ── -->
+    <section class="cs-section">
+      <p class="cs-label">Components</p>
+      <h2 class="cs-h2">Shared components</h2>
+
+      <h3 class="cs-h3" style="margin-top: var(--space-24);">cs-tag-wip</h3>
+      <p class="sg-note">Status tag. The shape is shared; each page sets its own colors.</p>
+      <span class="cs-tag-wip sg-tag-toe">In progress</span>&nbsp;
+      <span class="cs-tag-wip sg-tag-velvet">Personal project</span>&nbsp;
+      <span class="cs-tag-wip sg-tag-bonuses">Shipped</span>
+
+      <h3 class="cs-h3" style="margin-top: var(--space-40);">cs-change-list</h3>
+      <p class="sg-note">Numbered decision cards. Each item is a card plus the change layout.</p>
+      <div class="cs-change-list" style="margin-top: 0;">
+        <div class="cs-change-item card">
+          <div class="cs-change-number">1</div>
+          <div class="cs-change-content">
+            <h4>Change title goes here</h4>
+            <p>One or two sentences describing the decision and why it earned its place.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="cs-h3" style="margin-top: var(--space-40);">cs-meta</h3>
+      <p class="sg-note">The role / timeline / context columns under a case study hero.</p>
+      <div class="cs-meta" style="margin-top: 0; padding-top: var(--space-16);">
+        <div class="cs-meta-col"><h4>Role</h4><ul><li>Product Designer</li></ul></div>
+        <div class="cs-meta-col"><h4>Timeline</h4><ul><li>3 months</li></ul></div>
+        <div class="cs-meta-col"><h4>Context</h4><ul><li>Web platform</li></ul></div>
+      </div>
+
+      <h3 class="cs-h3" style="margin-top: var(--space-40);">cs-divider</h3>
+      <p class="sg-note">The soft gradient line between sections.</p>
+      <div class="cs-divider" style="margin-bottom: 0;"></div>
+
+      <h3 class="cs-h3" style="margin-top: var(--space-40);">back-nav</h3>
+      <p class="sg-note">The floating dock on subpages (this demo copy sits in the flow; the real one floats below).</p>
+      <div class="sg-dock-demo">
+        <nav class="back-nav" aria-label="Demo navigation">
+          <span class="back-nav-btn">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6.6709 3.96967C6.96379 3.67678 7.43855 3.67678 7.73145 3.96967C8.02425 4.26257 8.02431 4.73735 7.73145 5.03022L4.51172 8.24996H15.3008C15.715 8.24996 16.0508 8.58574 16.0508 8.99996C16.0508 9.41415 15.715 9.74996 15.3008 9.74996H4.51172L7.73145 12.9697C8.02425 13.2626 8.02431 13.7374 7.73145 14.0302C7.43858 14.3231 6.96379 14.323 6.6709 14.0302L2.1709 9.53023C2.13891 9.49824 2.11094 9.46355 2.08594 9.42769C2.05521 9.38359 2.0286 9.33641 2.00781 9.28609C1.98707 9.23581 1.97223 9.18371 1.96289 9.13082C1.9554 9.08831 1.95118 9.04462 1.95117 8.99996C1.95117 8.95465 1.95519 8.91023 1.96289 8.86714C1.97198 8.81631 1.98622 8.76617 2.00586 8.71773L2.00977 8.70796C2.02135 8.68057 2.03713 8.65546 2.05176 8.62984C2.0842 8.57299 2.12238 8.5182 2.1709 8.46968L6.6709 3.96967Z" fill="currentColor"/>
+            </svg>
+            Back
+          </span>
+          <div class="back-nav-separator"></div>
+          <span class="back-nav-title">Page title</span>
+        </nav>
+      </div>
+
+      <h3 class="cs-h3" style="margin-top: var(--space-40);">reveal</h3>
+      <p class="sg-note">The scroll-in animation. Add reveal to any element; add reveal-delay-1 through reveal-delay-5 to stagger. Subpages rise 24px over 0.7s; home rises 32px over 1s.</p>
+    </section>
+
+    <div class="cs-divider"></div>
+
+    <!-- ── Page-specific patterns ── -->
+    <section class="cs-section">
+      <p class="cs-label">Beyond the shared system</p>
+      <h2 class="cs-h2">Page-specific patterns</h2>
+      <p class="cs-body">These live inside their own page, not in the shared files. Name them and I'll know where to look: the stat grids (<code>cs-stats</code> on Bonuses, <code>cs-stat-pills</code> on ToE), the phone screen rows (<code>cs-stage</code>, <code>cs-pair</code>), the before/after/why cards (<code>cs-baw-grid</code> on ToE), the experiment order diagram (<code>cs-order-grid</code> on ToE), the deep-dive pockets (<code>cs-deep</code> on ToE), the drag comparison slider (<code>cs-comparison</code> on ToE), the experience entries (<code>exp-entry</code>), and the homepage snapshots (<code>snapshot</code>).</p>
+    </section>
+
+  </div>
+
+  <script src="site.js"></script>
+
+</body>
+</html>

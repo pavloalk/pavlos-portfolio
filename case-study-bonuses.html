@@ -21,98 +21,10 @@
     })();
   </script>
   <style>
-    /* ── Page Tokens ── */
-    :root {
-      --nav-bg:     rgba(253, 252, 253, 0.64);
-      --nav-shadow: 0px 20px 30px -10px rgba(25, 30, 40, 0.17), inset 0px 2px 8px 0px var(--light10);
-    }
-
-    [data-theme="dark"] {
-      --nav-bg:     rgba(25, 30, 40, 0.64);
-      --nav-shadow: 0px 20px 30px -10px rgba(0, 0, 0, 0.30), inset 0px 2px 5px 0px rgba(65, 72, 85, 0.48);
-    }
-
-    /* ── Reset & Base ── */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    body {
-      font-family: 'Montserrat', sans-serif;
-      color: var(--text-primary);
-      background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
-      min-height: 100vh;
-      line-height: 1.6;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    img { display: block; max-width: 100%; }
-
-    /* ── Page Content Wrapper ── */
-    .page {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 80px 24px 160px;
-    }
-
-    /* ── Section ── */
-    .cs-section { margin-bottom: 80px; }
-    .cs-section:last-child { margin-bottom: 0; }
-
-    /* ── Section Label ── */
-    .cs-label {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--text-secondary);
-      margin-bottom: 12px;
-    }
-
-    /* ── Titles ── */
-    .cs-h1 {
-      font-size: clamp(32px, 5vw, 48px);
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-      color: var(--text-primary);
-      margin-bottom: 24px;
-    }
-
-    .cs-h2 {
-      font-size: clamp(26px, 4vw, 36px);
-      font-weight: 700;
-      line-height: 1.14;
-      letter-spacing: -0.03em;
-      color: var(--text-primary);
-      margin-bottom: 16px;
-    }
-
-    /* ── Body Text ── */
-    .cs-body {
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 1.7;
-      color: var(--text-body);
-    }
-
-    .cs-body + .cs-body { margin-top: 16px; }
-
-    /* ── Tag ── */
+    /* ── Tag colors (Bonuses: green) ── */
     .cs-tag-wip {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
       color: #0f7a5f;
       background: #d6f3e9;
-      padding: 4px 12px;
-      border-radius: 100px;
-      margin-bottom: 16px;
     }
 
     [data-theme="dark"] .cs-tag-wip {
@@ -120,64 +32,22 @@
       background: rgba(78, 200, 160, 0.14);
     }
 
-    /* ── Hero Image ── */
-    .cs-hero-image {
-      margin-top: 40px;
-      border-radius: 20px;
-      overflow: hidden;
-    }
-
-    .cs-hero-image img {
-      width: 100%;
-      display: block;
-      border-radius: 20px;
-    }
-
-    /* ── Metadata Row ── */
-    .cs-meta {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-      margin-top: 40px;
-      padding-top: 32px;
-      border-top: 1px solid var(--border-meta);
-    }
-
-    .cs-meta-col h4 {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 12px;
-    }
-
-    .cs-meta-col p,
-    .cs-meta-col li {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--text-secondary);
-      line-height: 1.8;
-      list-style: none;
-    }
-
-    /* ── Stats Grid (KPI blocks) ── */
+    /* ── Stats Grid (KPI blocks, pairs with .card) ── */
     .cs-stats {
-      margin-top: 28px;
+      margin-top: var(--space-28);
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      gap: var(--space-12);
     }
 
     .cs-stat {
-      background: var(--surface-card);
-      border-radius: 16px;
-      padding: 24px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: var(--space-6);
     }
 
     .cs-stat-value {
-      font-size: 30px;
+      font-size: var(--font-stat-lg);
       font-weight: 700;
       letter-spacing: -0.03em;
       line-height: 1;
@@ -185,7 +55,7 @@
     }
 
     .cs-stat-delta {
-      font-size: 13px;
+      font-size: var(--font-caption);
       font-weight: 600;
       color: #0f9b6c;
     }
@@ -195,253 +65,55 @@
     .cs-stat-delta.is-negative { color: var(--text-secondary); }
 
     .cs-stat-label {
-      font-size: 13px;
+      font-size: var(--font-caption);
       font-weight: 400;
       color: var(--text-secondary);
       line-height: 1.5;
-      margin-top: 2px;
+      margin-top: var(--space-2);
     }
 
-    /* ── Divider ── */
-    .cs-divider {
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--divider-mid), transparent);
-      margin-bottom: 80px;
-    }
-
-    /* ── Design Change List ── */
-    .cs-change-list {
-      margin-top: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .cs-change-item {
-      background: var(--surface-card);
-      border-radius: 16px;
-      padding: 24px;
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-
-    .cs-change-number {
-      width: 32px;
-      height: 32px;
-      border-radius: 10px;
-      background: var(--surface-kpi-icon);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .cs-change-content h4 {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
-
-    .cs-change-content p {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--text-body);
-      line-height: 1.6;
-    }
-
-    /* ── App Screens Stage (3 screens, plain) ── */
-    .cs-stage {
-      margin-top: 24px;
-    }
-
-    .cs-stage-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      align-items: center;
-      justify-items: center;
-    }
-
+    /* ── App screens: deeper radius + shadow ── */
     .cs-stage-grid img {
-      height: 460px;
-      width: auto;
-      max-width: 100%;
-      border-radius: 24px;
+      border-radius: var(--radius-2xl);
       box-shadow: 0 16px 40px -12px rgba(1, 13, 72, 0.32);
     }
 
     .cs-stage-caption {
-      margin-top: 20px;
-      font-size: 13px;
-      color: var(--text-secondary);
-      text-align: center;
-    }
-
-    /* ── Framed Image ── */
-    .cs-image-frame {
-      margin-top: 24px;
-      background: var(--image-frame-bg);
-      border-radius: 16px;
-      padding: 24px;
-    }
-
-    .cs-image-frame img {
-      width: 100%;
-      border-radius: 10px;
-    }
-
-    .cs-image-caption {
-      margin-top: 12px;
-      font-size: 13px;
+      margin-top: var(--space-20);
+      font-size: var(--font-caption);
       color: var(--text-secondary);
       text-align: center;
     }
 
     /* ── Two-screen pair ── */
     .cs-pair {
-      margin-top: 24px;
+      margin-top: var(--space-24);
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: var(--space-16);
       justify-items: center;
     }
 
-    .cs-pair figure { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .cs-pair figure { width: 100%; display: flex; flex-direction: column; align-items: center; gap: var(--space-12); }
 
     .cs-pair img {
       height: 440px;
       width: auto;
       max-width: 100%;
-      border-radius: 22px;
+      border-radius: var(--radius-2xl);
       box-shadow: 0 16px 40px -12px rgba(1, 13, 72, 0.32);
     }
 
     .cs-pair figcaption {
-      font-size: 13px;
+      font-size: var(--font-caption);
       color: var(--text-secondary);
     }
 
-    /* ── Back Nav Dock ── */
-    .back-nav {
-      position: fixed;
-      bottom: 32px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 4px;
-      background: var(--nav-bg);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border-radius: 124px;
-      box-shadow: var(--nav-shadow);
-      z-index: 200;
-      white-space: nowrap;
-    }
-
-    .back-nav-btn {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      height: 48px;
-      padding: 0 8px;
-      border-radius: 100px;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      text-decoration: none;
-      color: var(--icon-color);
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      transition: background 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    @media (hover: hover) {
-      .back-nav-btn:hover { background: var(--hover); }
-      .back-nav-btn:active { background: var(--pressed); transform: scale(0.96); }
-    }
-
-    .back-nav-btn.pressed { background: var(--pressed); transform: scale(0.96); }
-
-    .back-nav-separator {
-      width: 1px;
-      height: 24px;
-      background: linear-gradient(to bottom, transparent, var(--divider-mid), transparent);
-      flex-shrink: 0;
-      transform-origin: center;
-    }
-
-    .back-nav-title {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--text-primary);
-      padding: 0 8px;
-    }
-
-    /* ── Theme Toggle Button ── */
-    .back-nav-theme-btn {
-      width: 48px;
-      height: 48px;
-      border-radius: 100px;
-      border: none;
-      background: transparent;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: var(--icon-color);
-      transition: background 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      -webkit-tap-highlight-color: transparent;
-      flex-shrink: 0;
-    }
-
-    @media (hover: hover) {
-      .back-nav-theme-btn:hover { background: var(--hover); }
-      .back-nav-theme-btn:active { background: var(--pressed); transform: scale(0.92); }
-    }
-
-    .back-nav-theme-btn.pressed { background: var(--pressed); transform: scale(0.92); }
-
-    /* ── Theme Icon Swap ── */
-    .icon-sun, .icon-moon { pointer-events: none; }
-    .icon-moon { display: none; }
-    [data-theme="dark"] .icon-sun { display: none; }
-    [data-theme="dark"] .icon-moon { display: block; }
-
-    /* ── Scroll Animations ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-
     /* ── Responsive ── */
     @media (max-width: 768px) {
-      .back-nav { bottom: 16px; }
-      .page { padding: 48px 20px 140px; }
-      .cs-meta { grid-template-columns: 1fr; gap: 24px; }
       .cs-stats { grid-template-columns: 1fr; }
-      .cs-stage-grid { grid-template-columns: 1fr; gap: 20px; }
-      .cs-stage-grid img { height: auto; width: 100%; max-width: 300px; }
-      .cs-pair { grid-template-columns: 1fr; gap: 28px; }
+      .cs-stage-grid img { max-width: 300px; }
+      .cs-pair { grid-template-columns: 1fr; gap: var(--space-28); }
       .cs-pair img { height: auto; width: 100%; max-width: 300px; }
     }
   </style>
@@ -499,15 +171,15 @@
       <p class="cs-body reveal reveal-delay-1">A weekly email is a poor home for something drivers need to act on every day. To check what they could earn, a driver had to leave the app, dig out Sunday's email, and hold the requirements in their head while they drove. Many simply forgot the email existed. The drop-off compounded at every step: fewer drivers saw the Incentives, fewer engaged with them, and fewer requests turned into completed rides.</p>
 
       <div class="cs-stats reveal reveal-delay-1">
-        <div class="cs-stat">
+        <div class="cs-stat card">
           <span class="cs-stat-value">31%</span>
           <span class="cs-stat-label">Open rate for the weekly Incentives email</span>
         </div>
-        <div class="cs-stat">
+        <div class="cs-stat card">
           <span class="cs-stat-value">24%</span>
           <span class="cs-stat-label">Of drivers completed at least one Incentive</span>
         </div>
-        <div class="cs-stat">
+        <div class="cs-stat card">
           <span class="cs-stat-value">40%</span>
           <span class="cs-stat-label">Of total requests converted to completed rides</span>
         </div>
@@ -524,21 +196,21 @@
       <p class="cs-body reveal reveal-delay-1">The same friction surfaced again and again. 73% of drivers had forgotten to check the Incentives email altogether. 56% lost track of an Incentive's requirements partway through the week. Many were keeping their own running tally (in a notebook, a spreadsheet, a notes app) because the app gave them nothing to track against. Drivers weren't unmotivated; they were doing our product's job by hand.</p>
 
       <div class="cs-change-list">
-        <div class="cs-change-item reveal">
+        <div class="cs-change-item card reveal">
           <div class="cs-change-number">›</div>
           <div class="cs-change-content">
             <h4>"I forget the requirements halfway through the week"</h4>
             <p>Nothing in the app reminded drivers what they were working toward, so the goal faded as soon as the email was closed.</p>
           </div>
         </div>
-        <div class="cs-change-item reveal reveal-delay-1">
+        <div class="cs-change-item card reveal reveal-delay-1">
           <div class="cs-change-number">›</div>
           <div class="cs-change-content">
             <h4>"I track my progress on paper"</h4>
             <p>Drivers built their own tally systems to know how close they were, a clear signal that progress belonged inside the app.</p>
           </div>
         </div>
-        <div class="cs-change-item reveal reveal-delay-2">
+        <div class="cs-change-item card reveal reveal-delay-2">
           <div class="cs-change-number">›</div>
           <div class="cs-change-content">
             <h4>"Switching between email and the app is tedious"</h4>
@@ -574,28 +246,28 @@
       <h2 class="cs-h2 reveal">Where the design earned its keep</h2>
 
       <div class="cs-change-list">
-        <div class="cs-change-item reveal">
+        <div class="cs-change-item card reveal">
           <div class="cs-change-number">1</div>
           <div class="cs-change-content">
             <h4>Daily view, not weekly: a constraint that improved the UX</h4>
             <p>I'd designed a full week's view, but in grooming the engineers flagged that the larger payload hurt performance on the low-end phones many drivers used. Switching to a daily view fixed the performance problem and, it turned out, made the screen calmer, one day's Incentives at a time instead of seven.</p>
           </div>
         </div>
-        <div class="cs-change-item reveal reveal-delay-1">
+        <div class="cs-change-item card reveal reveal-delay-1">
           <div class="cs-change-number">2</div>
           <div class="cs-change-content">
             <h4>Make the active Incentive unmistakable</h4>
             <p>Drivers needed to know at a glance which Incentive was live right now. The active card gets stronger contrast and a prominent time indicator, so the answer to "what counts at this moment?" never requires a second look.</p>
           </div>
         </div>
-        <div class="cs-change-item reveal reveal-delay-2">
+        <div class="cs-change-item card reveal reveal-delay-2">
           <div class="cs-change-number">3</div>
           <div class="cs-change-content">
             <h4>Make the cards feel tappable</h4>
             <p>Each Incentive opens a details screen, but testing showed drivers didn't realise the cards were interactive. A simple chevron affordance signalled "there's more here" and pulled people into the detail without a tutorial.</p>
           </div>
         </div>
-        <div class="cs-change-item reveal reveal-delay-3">
+        <div class="cs-change-item card reveal reveal-delay-3">
           <div class="cs-change-number">4</div>
           <div class="cs-change-content">
             <h4>A timeline for multiple daily Incentives</h4>
@@ -628,17 +300,17 @@
       <p class="cs-body reveal reveal-delay-1">We monitored the feature for a month after launch. Moving Incentives into the app didn't just lift visibility, it changed behaviour. Most drivers checked their Bonuses every day, and the share completing at least one Incentive nearly quadrupled.</p>
 
       <div class="cs-stats reveal reveal-delay-1">
-        <div class="cs-stat">
+        <div class="cs-stat card">
           <span class="cs-stat-value">92%</span>
           <span class="cs-stat-delta">+69% visibility</span>
           <span class="cs-stat-label">Of drivers tapped the Bonuses tab at least once a day</span>
         </div>
-        <div class="cs-stat">
+        <div class="cs-stat card">
           <span class="cs-stat-value">87%</span>
           <span class="cs-stat-delta">+63% engagement</span>
           <span class="cs-stat-label">Of drivers completed at least one Incentive</span>
         </div>
-        <div class="cs-stat">
+        <div class="cs-stat card">
           <span class="cs-stat-value">42%</span>
           <span class="cs-stat-delta">+2% rides completed</span>
           <span class="cs-stat-label">Of total requests converted to completed rides</span>
@@ -716,120 +388,7 @@
     </button>
   </nav>
 
-  <script>
-    // ── Scroll reveal ──
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('visible');
-        });
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -32px 0px' }
-    );
-    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-
-    // ── Touch active state ──
-    const backBtn = document.getElementById('backBtn');
-    backBtn.addEventListener('touchstart', () => backBtn.classList.add('pressed'), { passive: true });
-    backBtn.addEventListener('touchend', () => backBtn.classList.remove('pressed'));
-    backBtn.addEventListener('touchcancel', () => backBtn.classList.remove('pressed'));
-
-    // ── Theme Toggle ──
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('touchstart', () => themeToggle.classList.add('pressed'), { passive: true });
-    themeToggle.addEventListener('touchend', () => themeToggle.classList.remove('pressed'));
-    themeToggle.addEventListener('touchcancel', () => themeToggle.classList.remove('pressed'));
-
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.add('theme-transitioning');
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      if (isDark) {
-        document.documentElement.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'light');
-      } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-      }
-      setTimeout(() => document.body.classList.remove('theme-transitioning'), 400);
-    });
-
-    // ── Nav Transition: Per-element animation map ──
-    const backNav = document.querySelector('.back-nav');
-    const separators = backNav.querySelectorAll('.back-nav-separator');
-    const backNavItems = [
-      { el: backNav.querySelector('.back-nav-btn'),       enterFrom: 'translateX(-8px)', exitTo: 'translateX(8px)'  },
-      { el: separators[0],                                separator: true },
-      { el: backNav.querySelector('.back-nav-title'),     enterFrom: 'translateX(8px)',  exitTo: 'translateX(-8px)' },
-      { el: separators[1],                                separator: true },
-      { el: backNav.querySelector('.back-nav-theme-btn'), enterFrom: 'translateX(8px)',  exitTo: 'translateX(-8px)' },
-    ];
-    const EASING = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-
-    const transition = sessionStorage.getItem('nav-transition');
-
-    if (transition === 'to-case-study') {
-      const sourceWidth = sessionStorage.getItem('nav-source-width');
-      sessionStorage.removeItem('nav-transition');
-      sessionStorage.removeItem('nav-source-width');
-
-      document.fonts.ready.then(() => {
-        const targetWidth = Math.ceil(backNav.offsetWidth);
-        backNavItems.forEach(({ el }) => { el.style.transition = 'none'; });
-        backNavItems.forEach(({ el, enterFrom, separator }) => {
-          el.style.opacity = '0';
-          el.style.transform = separator ? 'scaleY(0)' : enterFrom;
-        });
-        backNav.style.overflow = 'hidden';
-        backNav.style.width = sourceWidth;
-        backNav.offsetHeight;
-        backNav.style.transition = 'width 0.32s ' + EASING;
-        backNav.style.width = targetWidth + 'px';
-        backNavItems.forEach(({ el, separator }, i) => {
-          const delay = 60 + i * 36;
-          el.style.transition =
-            'transform 0.28s ' + EASING + ' ' + delay + 'ms, ' +
-            'opacity 0.28s ' + EASING + ' ' + delay + 'ms';
-          el.style.transform = separator ? 'scaleY(1)' : 'translateX(0)';
-          el.style.opacity = '1';
-        });
-        setTimeout(() => {
-          backNav.style.transition = '';
-          backNav.style.width = '';
-          backNav.style.overflow = '';
-          backNavItems.forEach(({ el }) => {
-            el.style.transition = '';
-            el.style.transform = '';
-            el.style.opacity = '';
-          });
-        }, 500);
-      });
-    }
-
-    // ── Nav Transition: Exit (going back to home) ──
-    backBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const href = backBtn.getAttribute('href');
-      sessionStorage.setItem('nav-transition', 'to-home');
-      sessionStorage.setItem('nav-source-width', backNav.offsetWidth + 'px');
-      backNavItems.forEach(({ el, exitTo, separator }, i) => {
-        const delay = i * 40;
-        el.style.transition =
-          'transform 0.22s ' + EASING + ' ' + delay + 'ms, ' +
-          'opacity 0.22s ' + EASING + ' ' + delay + 'ms';
-        el.style.transform = separator ? 'scaleY(0)' : exitTo;
-        el.style.opacity = '0';
-      });
-      setTimeout(() => { window.location.href = href; }, 300);
-    });
-
-    // Keep the home entrance animation working when the visitor uses the
-    // browser's back arrow (which restores home from cache and skips the
-    // click handler above). Stash the nav width on the way out.
-    window.addEventListener('pagehide', () => {
-      sessionStorage.setItem('nav-transition', 'to-home');
-      sessionStorage.setItem('nav-source-width', backNav.offsetWidth + 'px');
-    });
-  </script>
+  <script src="site.js"></script>
 
 </body>
 </html>

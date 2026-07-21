@@ -1,7 +1,91 @@
 /* ═══════════════════════════════════════════════════════
    Design System — Pavlos Aliko Portfolio
-   12-step cool-neutral scale: --light10 → --light120
+   This file has two parts:
+   1. Tokens — colors, type, spacing, radius, motion.
+   2. Components — shared styles used across every page.
+   Page-specific styles stay inside each page.
    ═══════════════════════════════════════════════════════ */
+
+
+/* ── Typography ── */
+
+:root {
+  --font-sans: 'Montserrat', sans-serif;
+
+  /* Type scale — headings & display */
+  --font-display:    clamp(36px, 5vw, 56px); /* home hero */
+  --font-display-sm: 32px;                   /* profile name */
+  --font-h1:         clamp(32px, 5vw, 48px); /* page titles */
+  --font-h1-sm:      clamp(28px, 6vw, 42px); /* compact page titles (coming soon) */
+  --font-h2:         clamp(26px, 4vw, 36px); /* section titles */
+  --font-title-lg:   24px;                   /* profile subtitle */
+  --font-title:      20px;                   /* change titles */
+  --font-title-sm:   18px;                   /* card titles */
+  --font-h3:         16px;                   /* sub-headings */
+
+  /* Type scale — text */
+  --font-lead:    17px; /* hero paragraph */
+  --font-body:    16px; /* case study body text */
+  --font-callout: 15px; /* header name, short intros */
+  --font-small:   14px; /* card text, labels, nav */
+  --font-caption: 13px; /* captions, footnotes */
+  --font-tag:     12px; /* tags, eyebrows, uppercase labels */
+  --font-badge:   11px; /* tiny badges */
+
+  /* Type scale — numbers */
+  --font-stat-lg: 30px; /* big stat numbers */
+  --font-stat:    28px; /* compact stat numbers */
+}
+
+
+/* ── Spacing (named by pixel value) ── */
+
+:root {
+  --space-2:  2px;
+  --space-4:  4px;
+  --space-6:  6px;
+  --space-8:  8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-28: 28px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-56: 56px;
+  --space-64: 64px;
+  --space-80: 80px;
+}
+
+
+/* ── Radius ── */
+
+:root {
+  --radius-xs:   8px;
+  --radius-sm:   10px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   20px;
+  --radius-2xl:  24px;
+  --radius-pill: 100px;
+}
+
+
+/* ── Motion ── */
+
+:root {
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+
+/* ── Layout ── */
+
+:root {
+  --container-text: 760px;  /* text lane of the page grid */
+  --container-wide: 1024px; /* wide lane of the page grid (.cs-wide) */
+}
 
 
 /* ── Color Primitives ── */
@@ -51,6 +135,8 @@
 
   /* Navigation — overridden per page */
   --header-bg: rgba(253, 252, 253, 0.92); /* light10 @ 92% */
+  --nav-bg:     rgba(253, 252, 253, 0.64); /* light10 @ 64% */
+  --nav-shadow: 0px 20px 30px -10px rgba(25, 30, 40, 0.17), inset 0px 2px 8px 0px var(--light10);
 
   /* Interactive */
   --hover:   var(--light40);
@@ -110,6 +196,8 @@
 
   /* Navigation — overridden per page */
   --header-bg: rgba(12, 16, 21, 0.92); /* light120 @ 92% */
+  --nav-bg:     rgba(25, 30, 40, 0.64); /* light110 @ 64% */
+  --nav-shadow: 0px 20px 30px -10px rgba(0, 0, 0, 0.30), inset 0px 2px 5px 0px rgba(65, 72, 85, 0.48);
 
   /* Interactive */
   --hover:   var(--light90);
@@ -147,4 +235,424 @@ body.theme-transitioning *,
 body.theme-transitioning *::before,
 body.theme-transitioning *::after {
   transition: background-color 0.32s ease, color 0.32s ease, border-color 0.32s ease, box-shadow 0.32s ease, background 0.32s ease !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   COMPONENTS
+   Shared styles used across every page.
+   Tokens for these live in the section above.
+   Page-specific styles stay inside each page.
+   ═══════════════════════════════════════════════════════ */
+
+
+/* ── Reset & Base ── */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+a { color: inherit; text-decoration: none; }
+
+img { display: block; max-width: 100%; }
+
+
+/* ═══════════════════════════════════════════════════════
+   Containers
+   .page is a content grid with two lanes:
+   - text lane (760px incl. gutters) — every child lands here by default
+   - wide lane (1024px incl. gutters) — add .cs-wide to a direct child
+     of .page to stretch it (big images, the comparison slider)
+   .card is the text container: surface, padding, radius.
+   .cs-hero-image and .cs-image-frame are the image containers.
+   ═══════════════════════════════════════════════════════ */
+
+.page {
+  --page-gutter: var(--space-24);
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(var(--page-gutter), 1fr)
+    [wide-start] minmax(0, calc((var(--container-wide) - var(--container-text)) / 2))
+    [text-start] min(calc(var(--container-text) - 2 * var(--page-gutter)), calc(100% - 2 * var(--page-gutter))) [text-end]
+    minmax(0, calc((var(--container-wide) - var(--container-text)) / 2)) [wide-end]
+    minmax(var(--page-gutter), 1fr) [full-end];
+  padding: var(--space-80) 0 160px;
+}
+
+.page > * { grid-column: text; }
+
+.cs-wide { grid-column: wide; }
+
+.card {
+  background: var(--surface-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+}
+
+
+/* ── Section ── */
+
+.cs-section { margin-bottom: var(--space-80); }
+.cs-section:last-child { margin-bottom: 0; }
+
+
+/* ── Section Label ── */
+
+.cs-label {
+  font-size: var(--font-small);
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-12);
+}
+
+
+/* ── Titles ── */
+
+.cs-h1 {
+  font-size: var(--font-h1);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: var(--space-24);
+}
+
+.cs-h2 {
+  font-size: var(--font-h2);
+  font-weight: 700;
+  line-height: 1.14;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: var(--space-16);
+}
+
+.cs-h3 {
+  font-size: var(--font-h3);
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-primary);
+  margin-bottom: var(--space-8);
+}
+
+
+/* ── Body Text ── */
+
+.cs-body {
+  font-size: var(--font-body);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--text-body);
+}
+
+.cs-body + .cs-body { margin-top: var(--space-16); }
+
+
+/* ── Divider ── */
+
+.cs-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--divider-mid), transparent);
+  margin-bottom: var(--space-80);
+}
+
+
+/* ── Tag (colors set per page) ── */
+
+.cs-tag-wip {
+  display: inline-block;
+  font-size: var(--font-tag);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: var(--space-4) var(--space-12);
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-16);
+}
+
+
+/* ── Hero Image ── */
+
+.cs-hero-image {
+  margin-top: var(--space-40);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.cs-hero-image img {
+  width: 100%;
+  display: block;
+  border-radius: var(--radius-xl);
+}
+
+/* Gradient variant: colored backdrop, image fully framed with equal padding */
+.cs-hero-image--gradient {
+  background: linear-gradient(135deg, var(--hero-gradient-start) 0%, var(--hero-gradient-end) 100%);
+  padding: var(--space-32);
+}
+
+.cs-hero-image--gradient img {
+  border-radius: var(--radius-md);
+  box-shadow: var(--hero-img-shadow);
+}
+
+
+/* ── Framed Image ── */
+
+.cs-image-frame {
+  margin-top: var(--space-24);
+  background: var(--image-frame-bg);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+}
+
+.cs-image-frame img {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  /* drop-shadow follows the image's alpha channel, so PNGs with transparent
+     rounded corners cast a shadow that hugs their real silhouette — no white
+     corner gap. Opaque images fall back to the rounded box, same as box-shadow. */
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.10));
+}
+
+.cs-image-caption {
+  margin-top: var(--space-12);
+  font-size: var(--font-caption);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+
+/* ── Metadata Row ── */
+
+.cs-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-32);
+  margin-top: var(--space-40);
+  padding-top: var(--space-32);
+  /*border-top: 1px solid var(--border-meta);*/
+}
+
+.cs-meta-col h4 {
+  font-size: var(--font-small);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-12);
+}
+
+.cs-meta-col p,
+.cs-meta-col li {
+  font-size: var(--font-small);
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  list-style: none;
+}
+
+
+/* ── Design Change List (pairs with .card in markup) ── */
+
+.cs-change-list {
+  margin-top: var(--space-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.cs-change-item {
+  display: flex;
+  gap: var(--space-16);
+  align-items: flex-start;
+}
+
+.cs-change-number {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-kpi-icon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: var(--font-small);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.cs-change-content h4 {
+  font-size: var(--font-small);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.cs-change-content p {
+  font-size: var(--font-small);
+  font-weight: 400;
+  color: var(--text-body);
+  line-height: 1.6;
+}
+
+
+/* ── App Screens Stage (radius/shadow set per page) ── */
+
+.cs-stage { margin-top: var(--space-24); }
+
+.cs-stage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-16);
+  align-items: center;
+  justify-items: center;
+}
+
+.cs-stage-grid img {
+  height: 460px;
+  width: auto;
+  max-width: 100%;
+}
+
+
+/* ── Back Nav Dock ── */
+
+.back-nav {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: var(--space-4);
+  background: var(--nav-bg);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--nav-shadow);
+  z-index: 200;
+  white-space: nowrap;
+}
+
+.back-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  height: 48px;
+  padding: 0 var(--space-8);
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--icon-color);
+  font-family: var(--font-sans);
+  font-size: var(--font-small);
+  font-weight: 500;
+  transition: background 0.2s var(--ease),
+              transform 0.15s var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .back-nav-btn:hover { background: var(--hover); }
+  .back-nav-btn:active { background: var(--pressed); transform: scale(0.96); }
+}
+
+.back-nav-btn.pressed { background: var(--pressed); transform: scale(0.96); }
+
+.back-nav-separator {
+  width: 1px;
+  height: 24px;
+  background: linear-gradient(to bottom, transparent, var(--divider-mid), transparent);
+  flex-shrink: 0;
+  transform-origin: center;
+}
+
+.back-nav-title {
+  font-size: var(--font-small);
+  font-weight: 400;
+  color: var(--text-primary);
+  padding: 0 var(--space-8);
+}
+
+
+/* ── Theme Toggle Button ── */
+
+.back-nav-theme-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--icon-color);
+  transition: background 0.2s var(--ease),
+              transform 0.15s var(--ease);
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+
+@media (hover: hover) {
+  .back-nav-theme-btn:hover { background: var(--hover); }
+  .back-nav-theme-btn:active { background: var(--pressed); transform: scale(0.92); }
+}
+
+.back-nav-theme-btn.pressed { background: var(--pressed); transform: scale(0.92); }
+
+
+/* ── Theme Icon Swap ── */
+
+.icon-sun, .icon-moon { pointer-events: none; }
+.icon-moon { display: none; }
+[data-theme="dark"] .icon-sun { display: none; }
+[data-theme="dark"] .icon-moon { display: block; }
+
+
+/* ── Scroll Animations ── */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s var(--ease),
+              transform 0.7s var(--ease);
+}
+
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+
+/* ── Responsive ── */
+
+@media (max-width: 768px) {
+  .back-nav { bottom: 16px; }
+
+  .page { --page-gutter: var(--space-20); padding: var(--space-48) 0 140px; }
+
+  .cs-meta { grid-template-columns: 1fr; gap: var(--space-24); }
+
+  .cs-stage-grid { grid-template-columns: 1fr; gap: var(--space-20); }
+  .cs-stage-grid img { height: auto; width: 100%; }
+
+  .cs-hero-image--gradient { padding: var(--space-20); }
 }

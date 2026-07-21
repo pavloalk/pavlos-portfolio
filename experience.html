@@ -21,110 +21,66 @@
     })();
   </script>
   <style>
-    /* ── Page Tokens ── */
-    :root {
-      --nav-bg:     rgba(253, 252, 253, 0.64); /* light10 @ 64% */
-      --nav-shadow: 0px 20px 30px -10px rgba(25, 30, 40, 0.17), inset 0px 2px 8px 0px var(--light10);
-    }
-
-    [data-theme="dark"] {
-      --nav-bg:     rgba(25, 30, 40, 0.64); /* light110 @ 64% */
-      --nav-shadow: 0px 20px 30px -10px rgba(0, 0, 0, 0.30), inset 0px 2px 5px 0px rgba(65, 72, 85, 0.48);
-    }
-
-    /* ── Reset & Base ── */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    body {
-      font-family: 'Montserrat', sans-serif;
-      color: var(--text-primary);
-      background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
-      min-height: 100vh;
-      line-height: 1.6;
-    }
-
-    a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
-
-    /* ── Page Wrapper ── */
-    .page {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 80px 24px 160px;
-    }
-
     /* ── Page Header ── */
     .page-label {
-      font-size: 14px;
+      font-size: var(--font-small);
       font-weight: 400;
       color: var(--text-secondary);
-      margin-bottom: 12px;
+      margin-bottom: var(--space-12);
     }
 
     .page-title {
-      font-size: clamp(32px, 5vw, 48px);
+      font-size: var(--font-h1);
       font-weight: 700;
       line-height: 1.1;
       letter-spacing: -0.03em;
       color: var(--text-primary);
-      margin-bottom: 48px;
+      margin-bottom: var(--space-48);
     }
 
     /* ── Experience List ── */
     .exp-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: var(--space-8);
     }
 
-    /* ── Entry Card ── */
-    .exp-entry {
-      background: var(--surface-card);
-      border-radius: 16px;
-      padding: 24px;
-    }
-
+    /* ── Entry Card (pairs with .card in markup) ── */
     .exp-entry-header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 16px;
+      gap: var(--space-16);
     }
 
     .exp-company {
-      font-size: 16px;
+      font-size: var(--font-h3);
       font-weight: 700;
       color: var(--text-primary);
       letter-spacing: -0.02em;
       line-height: 1.3;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: var(--space-8);
       flex-wrap: wrap;
     }
 
     .exp-present-badge {
-      font-size: 11px;
+      font-size: var(--font-badge);
       font-weight: 500;
       color: var(--text-secondary);
       background: var(--present-bg);
-      border-radius: 100px;
-      padding: 2px 10px;
+      border-radius: var(--radius-pill);
+      padding: var(--space-2) var(--space-10);
       letter-spacing: 0;
       white-space: nowrap;
     }
 
     .exp-role {
-      font-size: 14px;
+      font-size: var(--font-small);
       font-weight: 500;
       color: var(--text-body);
-      margin-top: 4px;
+      margin-top: var(--space-4);
       line-height: 1.4;
     }
 
@@ -134,7 +90,7 @@
     }
 
     .exp-dates {
-      font-size: 13px;
+      font-size: var(--font-caption);
       font-weight: 400;
       color: var(--text-secondary);
       display: block;
@@ -143,30 +99,30 @@
     }
 
     .exp-location {
-      font-size: 12px;
+      font-size: var(--font-tag);
       font-weight: 400;
       color: var(--text-secondary);
       display: block;
-      margin-top: 2px;
+      margin-top: var(--space-2);
       opacity: 0.7;
     }
 
     /* ── Entry Body ── */
     .exp-body {
-      margin-top: 16px;
-      padding-top: 16px;
+      margin-top: var(--space-16);
+      padding-top: var(--space-16);
       border-top: 1px solid var(--border-entry);
     }
 
     .exp-body p {
-      font-size: 14px;
+      font-size: var(--font-small);
       font-weight: 400;
       line-height: 1.7;
       color: var(--text-body);
     }
 
     .exp-body p + p {
-      margin-top: 12px;
+      margin-top: var(--space-12);
     }
 
     /* ── Bullet List ── */
@@ -174,15 +130,15 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: var(--space-10);
     }
 
     .exp-bullets li {
-      font-size: 14px;
+      font-size: var(--font-small);
       font-weight: 400;
       line-height: 1.7;
       color: var(--text-body);
-      padding-left: 16px;
+      padding-left: var(--space-16);
       position: relative;
     }
 
@@ -198,145 +154,24 @@
     .exp-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 12px;
+      gap: var(--space-6);
+      margin-top: var(--space-12);
     }
 
     .exp-tag {
-      font-size: 12px;
+      font-size: var(--font-tag);
       font-weight: 500;
       color: var(--text-secondary);
       background: var(--tag-bg);
-      border-radius: 100px;
-      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      padding: var(--space-4) var(--space-12);
     }
-
-    /* ── Back Nav Dock ── */
-    .back-nav {
-      position: fixed;
-      bottom: 32px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 4px;
-      background: var(--nav-bg);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border-radius: 124px;
-      box-shadow: var(--nav-shadow);
-      z-index: 200;
-      white-space: nowrap;
-    }
-
-    .back-nav-btn {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      height: 48px;
-      padding: 0 8px;
-      border-radius: 100px;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      text-decoration: none;
-      color: var(--icon-color);
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      transition: background 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    @media (hover: hover) {
-      .back-nav-btn:hover { background: var(--hover); }
-      .back-nav-btn:active { background: var(--pressed); transform: scale(0.96); }
-    }
-
-    .back-nav-btn.pressed {
-      background: var(--pressed);
-      transform: scale(0.96);
-    }
-
-    .back-nav-separator {
-      width: 1px;
-      height: 24px;
-      background: linear-gradient(to bottom, transparent, var(--divider-mid), transparent);
-      flex-shrink: 0;
-      transform-origin: center;
-    }
-
-    .back-nav-title {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--text-primary);
-      padding: 0 8px;
-    }
-
-    /* ── Theme Toggle Button ── */
-    .back-nav-theme-btn {
-      width: 48px;
-      height: 48px;
-      border-radius: 100px;
-      border: none;
-      background: transparent;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: var(--icon-color);
-      transition: background 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      -webkit-tap-highlight-color: transparent;
-      flex-shrink: 0;
-    }
-
-    @media (hover: hover) {
-      .back-nav-theme-btn:hover { background: var(--hover); }
-      .back-nav-theme-btn:active { background: var(--pressed); transform: scale(0.92); }
-    }
-
-    .back-nav-theme-btn.pressed {
-      background: var(--pressed);
-      transform: scale(0.92);
-    }
-
-    /* ── Theme Icon Swap ── */
-    .icon-sun, .icon-moon { pointer-events: none; }
-    .icon-moon { display: none; }
-    [data-theme="dark"] .icon-sun { display: none; }
-    [data-theme="dark"] .icon-moon { display: block; }
-
-    /* ── Scroll Animations ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                  transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-    .reveal-delay-5 { transition-delay: 0.5s; }
 
     /* ── Responsive ── */
     @media (max-width: 768px) {
-      .back-nav { bottom: 16px; }
-
-      .page { padding: 48px 20px 140px; }
-
       .exp-entry-header {
         flex-direction: column;
-        gap: 6px;
+        gap: var(--space-6);
       }
 
       .exp-meta {
@@ -345,7 +180,7 @@
     }
   </style>
 </head>
-<body>
+<body data-reveal-threshold="0.08" data-reveal-margin="0px 0px -24px 0px" data-nav-enter="to-experience">
 
   <div class="page">
 
@@ -355,7 +190,7 @@
     <div class="exp-list">
 
       <!-- Dialectica -->
-      <div class="exp-entry reveal reveal-delay-1">
+      <div class="exp-entry card reveal reveal-delay-1">
         <div class="exp-entry-header">
           <div>
             <h2 class="exp-company">
@@ -372,7 +207,7 @@
       </div>
 
       <!-- Sensora -->
-      <div class="exp-entry reveal reveal-delay-2">
+      <div class="exp-entry card reveal reveal-delay-2">
         <div class="exp-entry-header">
           <div>
             <h2 class="exp-company">Sensora</h2>
@@ -390,7 +225,7 @@
       </div>
 
       <!-- PNOĒ -->
-      <div class="exp-entry reveal reveal-delay-2">
+      <div class="exp-entry card reveal reveal-delay-2">
         <div class="exp-entry-header">
           <div>
             <h2 class="exp-company">PNOĒ</h2>
@@ -410,7 +245,7 @@
       </div>
 
       <!-- Skroutz -->
-      <div class="exp-entry reveal reveal-delay-3">
+      <div class="exp-entry card reveal reveal-delay-3">
         <div class="exp-entry-header">
           <div>
             <h2 class="exp-company">Skroutz</h2>
@@ -430,7 +265,7 @@
       </div>
 
       <!-- Beat -->
-      <div class="exp-entry reveal reveal-delay-3">
+      <div class="exp-entry card reveal reveal-delay-3">
         <div class="exp-entry-header">
           <div>
             <h2 class="exp-company">Beat</h2>
@@ -450,7 +285,7 @@
       </div>
 
       <!-- Tripsta -->
-      <div class="exp-entry reveal reveal-delay-4">
+      <div class="exp-entry card reveal reveal-delay-4">
         <div class="exp-entry-header">
           <div>
             <h2 class="exp-company">Tripsta</h2>
@@ -463,7 +298,7 @@
       </div>
 
       <!-- Another Circus -->
-      <div class="exp-entry reveal reveal-delay-4">
+      <div class="exp-entry card reveal reveal-delay-4">
         <div class="exp-entry-header">
           <div>
             <h2 class="exp-company">Another Circus Creative Agency</h2>
@@ -521,122 +356,7 @@
     </button>
   </nav>
 
-  <script>
-    // Scroll reveal
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('visible');
-        });
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -24px 0px' }
-    );
-    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-
-    // ── Touch active state ──
-    const backBtn = document.getElementById('backBtn');
-    backBtn.addEventListener('touchstart', () => backBtn.classList.add('pressed'), { passive: true });
-    backBtn.addEventListener('touchend', () => backBtn.classList.remove('pressed'));
-    backBtn.addEventListener('touchcancel', () => backBtn.classList.remove('pressed'));
-
-    // ── Theme Toggle ──
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('touchstart', () => themeToggle.classList.add('pressed'), { passive: true });
-    themeToggle.addEventListener('touchend', () => themeToggle.classList.remove('pressed'));
-    themeToggle.addEventListener('touchcancel', () => themeToggle.classList.remove('pressed'));
-
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.add('theme-transitioning');
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      if (isDark) {
-        document.documentElement.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'light');
-      } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-      }
-      setTimeout(() => document.body.classList.remove('theme-transitioning'), 400);
-    });
-
-    // ── Nav Transition: Per-element animation map ──
-    const backNav = document.querySelector('.back-nav');
-    const separators = backNav.querySelectorAll('.back-nav-separator');
-    const backNavItems = [
-      { el: backNav.querySelector('.back-nav-btn'),       enterFrom: 'translateX(-8px)', exitTo: 'translateX(8px)'  },
-      { el: separators[0],                                separator: true },
-      { el: backNav.querySelector('.back-nav-title'),     enterFrom: 'translateX(8px)',  exitTo: 'translateX(-8px)' },
-      { el: separators[1],                                separator: true },
-      { el: backNav.querySelector('.back-nav-theme-btn'), enterFrom: 'translateX(8px)',  exitTo: 'translateX(-8px)' },
-    ];
-    const EASING = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-
-    const transition = sessionStorage.getItem('nav-transition');
-
-    if (transition === 'to-experience') {
-      const sourceWidth = sessionStorage.getItem('nav-source-width');
-      sessionStorage.removeItem('nav-transition');
-      sessionStorage.removeItem('nav-source-width');
-
-      document.fonts.ready.then(() => {
-        const targetWidth = Math.ceil(backNav.offsetWidth);
-
-        backNavItems.forEach(({ el }) => { el.style.transition = 'none'; });
-
-        backNavItems.forEach(({ el, enterFrom, separator }) => {
-          el.style.opacity = '0';
-          el.style.transform = separator ? 'scaleY(0)' : enterFrom;
-        });
-
-        backNav.style.overflow = 'hidden';
-        backNav.style.width = sourceWidth;
-
-        backNav.offsetHeight;
-
-        backNav.style.transition = 'width 0.32s ' + EASING;
-        backNav.style.width = targetWidth + 'px';
-
-        backNavItems.forEach(({ el, separator }, i) => {
-          const delay = 60 + i * 36;
-          el.style.transition =
-            'transform 0.28s ' + EASING + ' ' + delay + 'ms, ' +
-            'opacity 0.28s ' + EASING + ' ' + delay + 'ms';
-          el.style.transform = separator ? 'scaleY(1)' : 'translateX(0)';
-          el.style.opacity = '1';
-        });
-
-        setTimeout(() => {
-          backNav.style.transition = '';
-          backNav.style.width = '';
-          backNav.style.overflow = '';
-          backNavItems.forEach(({ el }) => {
-            el.style.transition = '';
-            el.style.transform = '';
-            el.style.opacity = '';
-          });
-        }, 500);
-      });
-    }
-
-    // ── Nav Transition: Exit (going back to home) ──
-    backBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const href = backBtn.getAttribute('href');
-
-      sessionStorage.setItem('nav-transition', 'to-home');
-      sessionStorage.setItem('nav-source-width', backNav.offsetWidth + 'px');
-
-      backNavItems.forEach(({ el, exitTo, separator }, i) => {
-        const delay = i * 40;
-        el.style.transition =
-          'transform 0.22s ' + EASING + ' ' + delay + 'ms, ' +
-          'opacity 0.22s ' + EASING + ' ' + delay + 'ms';
-        el.style.transform = separator ? 'scaleY(0)' : exitTo;
-        el.style.opacity = '0';
-      });
-
-      setTimeout(() => { window.location.href = href; }, 300);
-    });
-  </script>
+  <script src="site.js"></script>
 
 </body>
 </html>
