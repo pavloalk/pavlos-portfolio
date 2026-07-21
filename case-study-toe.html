@@ -81,15 +81,10 @@
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
     }
 
-    /* Frame spans the full page lane, but is capped so its inner content tops
-       out at the desktop shot's intended 1080px (1080 + 2 * space-24 padding).
-       Below that width it scales down fluidly; the media swaps inside it. */
+    /* Sits in the page's text lane like every other .cs-image-frame — it
+       inherits `grid-column: text` from `.page > *`, so it never outruns the
+       body copy. Both shots scale fluidly inside it as the window resizes. */
     .cs-toggle-frame {
-      grid-column: full;
-      width: 100%;
-      max-width: 1128px;
-      margin-left: auto;
-      margin-right: auto;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -104,12 +99,28 @@
       width: 100%;
     }
 
-    .cs-toggle-img {
-      opacity: 0;
-      transition: opacity 0.2s var(--ease);
+    /* ══ Device toggle animation — tune these two ══
+       --toggle-fade:       how long the crossfade + scale takes
+       --toggle-scale-from: size of the inactive shot. The outgoing one shrinks
+                            to this as it fades out, the incoming one grows from
+                            it to full size as it fades in. Closer to 1 = subtler.
+       Easing is --ease from design-system.css. */
+    .cs-toggle-frame {
+      --toggle-fade: 0.3s;
+      --toggle-scale-from: 0.96;
     }
 
-    .cs-toggle-img.is-shown { opacity: 1; }
+    .cs-toggle-img {
+      opacity: 0;
+      transform: scale(var(--toggle-scale-from));
+      transition: opacity var(--toggle-fade) var(--ease),
+                  transform var(--toggle-fade) var(--ease);
+    }
+
+    .cs-toggle-img.is-shown {
+      opacity: 1;
+      transform: scale(1);
+    }
 
     /* scoped under .cs-toggle-view so these out-specify .cs-image-frame img,
        which otherwise forces width:100% and stretches the portrait shot */
@@ -123,12 +134,24 @@
       position: absolute;
       top: 0;
       left: 50%;
-      transform: translateX(-50%);
+      /* centring lives in the transform here, so the scale composes with it
+         rather than replacing it */
+      transform: translateX(-50%) scale(var(--toggle-scale-from));
       height: 100%;
       width: auto;
     }
 
+    .cs-toggle-view .cs-toggle-img--mobile.is-shown {
+      transform: translateX(-50%) scale(1);
+    }
+
+    /* Applied while JS picks the starting view, so the default doesn't
+       animate in on page load. */
+    .cs-toggle-frame.is-setting-up .cs-toggle-img { transition: none; }
+
     @media (prefers-reduced-motion: reduce) {
+      /* no scale, no crossfade — just a straight swap */
+      .cs-toggle-frame { --toggle-scale-from: 1; }
       .cs-toggle-img { transition: none; }
     }
 
@@ -327,6 +350,12 @@
       background: #191e28;
       z-index: 10;
       transform: translateX(-50%);
+      /* The full-height bar is decorative: pointer-events is re-enabled only
+         on the round grip below, so a touch anywhere else in the image scrolls
+         the page normally instead of grabbing the slider. */
+      pointer-events: none;
+      /* A touch that starts on the grip drags it and never scrolls the page. */
+      touch-action: none;
     }
 
     .cs-comparison-handle::after {
@@ -340,6 +369,8 @@
       border-radius: 50%;
       background: #191e28;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      pointer-events: auto;
+      cursor: ew-resize;
     }
 
     .cs-comparison-handle::before {
@@ -641,6 +672,43 @@
       .cs-two-img,
       .cs-order-grid {
         grid-template-columns: 1fr;
+      }
+
+      /* Height-matching the two shots squeezes the portrait one down to about
+         100px wide on a phone. Below this width each shot instead fills the
+         frame and sets the container height itself: the active one sits in
+         flow, the inactive one is overlaid at opacity 0 so the crossfade still
+         works. Toggling changes the container height — that's the trade. */
+      /* No translateX to compose with down here — both shots are centred by
+         auto margins instead — so the scale stands on its own. */
+      .cs-toggle-view .cs-toggle-img,
+      .cs-toggle-view .cs-toggle-img--mobile {
+        display: block;
+        width: 100%;
+        height: auto;
+        left: auto;
+        transform: scale(var(--toggle-scale-from));
+      }
+
+      .cs-toggle-view .cs-toggle-img.is-shown {
+        position: relative;
+        transform: scale(1);
+      }
+
+      /* Never render the phone shot wider than a real phone screen. On a phone
+         the frame is narrower than this anyway, so the cap only bites at tablet
+         widths, where filling the lane would upscale a 750px asset to ~670px
+         and run the frame past 1.5 screens tall. */
+      .cs-toggle-view .cs-toggle-img--mobile {
+        max-width: 430px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .cs-toggle-view .cs-toggle-img:not(.is-shown) {
+        position: absolute;
+        top: 0;
+        left: 0;
       }
     }
 
@@ -1077,10 +1145,11 @@
       if (!container || !afterEl || !handle) return;
 
       let isDragging = false;
-      let startPos = 50; // percentage
+      let currentPct = 50; // where the grip is now, for the touch grab offset
 
       function setPosition(pct) {
         pct = Math.max(0, Math.min(100, pct));
+        currentPct = pct;
         afterEl.style.clipPath = 'inset(0 0 0 0)';
         afterEl.style.width = pct + '%';
         afterEl.querySelector('img').style.width = (100 / pct * 100) + '%';
@@ -1102,31 +1171,41 @@
         return ((clientX - rect.left) / rect.width) * 100;
       }
 
-      // Mouse events — slider follows the cursor while it's inside the image,
-      // no click needed.
-      container.addEventListener('mousemove', function(e) {
-        setPosition(getPercentage(e.clientX));
-      });
+      // Hover-to-scrub is a mouse affordance only. Touch browsers synthesise
+      // mousemove on tap, so binding these unconditionally made a tap anywhere
+      // in the image jump the slider on a phone.
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        // Slider follows the cursor while it's inside the image, no click needed.
+        container.addEventListener('mousemove', function(e) {
+          setPosition(getPercentage(e.clientX));
+        });
 
-      // If the cursor leaves fast, catch its exit position so the slider
-      // still lands where the cursor actually went (edge, or wherever it left).
-      container.addEventListener('mouseleave', function(e) {
-        setPosition(getPercentage(e.clientX));
-      });
+        // If the cursor leaves fast, catch its exit position so the slider
+        // still lands where the cursor actually went (edge, or wherever it left).
+        container.addEventListener('mouseleave', function(e) {
+          setPosition(getPercentage(e.clientX));
+        });
 
-      container.addEventListener('mousedown', function(e) {
-        e.preventDefault();
-      });
+        container.addEventListener('mousedown', function(e) {
+          e.preventDefault();
+        });
+      }
 
-      // Touch events
-      container.addEventListener('touchstart', function(e) {
+      // Touch: drag the grip only. Bound to the handle rather than the
+      // container so scrolling past the section doesn't move the slider.
+      // grabOffset keeps the grip under the finger instead of snapping its
+      // centre to wherever the finger first landed.
+      var grabOffset = 0;
+
+      handle.addEventListener('touchstart', function(e) {
+        var rect = container.getBoundingClientRect();
         isDragging = true;
-        setPosition(getPercentage(e.touches[0].clientX));
+        grabOffset = e.touches[0].clientX - (rect.left + (currentPct / 100) * rect.width);
       }, { passive: true });
 
       window.addEventListener('touchmove', function(e) {
         if (!isDragging) return;
-        setPosition(getPercentage(e.touches[0].clientX));
+        setPosition(getPercentage(e.touches[0].clientX - grabOffset));
       }, { passive: true });
 
       window.addEventListener('touchend', function() {
@@ -1137,27 +1216,54 @@
 
   <script>
     // ── Segmented device toggle (Desktop / Mobile) ──
-    // The two shots are the same height, so switching is a plain crossfade.
+    // Switching crossfades the two shots and scales them in/out; see the
+    // --toggle-fade / --toggle-scale-from custom properties in the stylesheet.
     (function() {
       document.querySelectorAll('.cs-toggle-frame').forEach(function(frame) {
         var btns = frame.querySelectorAll('.cs-segmented-btn');
         var imgs = frame.querySelectorAll('.cs-toggle-img');
 
+        function setView(view, animate) {
+          if (frame.getAttribute('data-view') === view) return;
+          // Suppress the transition when we're only establishing the starting
+          // view, so the page doesn't visibly crossfade as it loads.
+          if (!animate) frame.classList.add('is-setting-up');
+
+          frame.setAttribute('data-view', view);
+          btns.forEach(function(b) {
+            var on = b.dataset.view === view;
+            b.classList.toggle('is-active', on);
+            b.setAttribute('aria-selected', on ? 'true' : 'false');
+          });
+          imgs.forEach(function(im) {
+            im.classList.toggle('is-shown', im.dataset.view === view);
+          });
+
+          if (!animate) {
+            void frame.offsetWidth; // flush the swap before re-enabling transitions
+            frame.classList.remove('is-setting-up');
+          }
+        }
+
         btns.forEach(function(btn) {
           btn.addEventListener('click', function() {
-            var view = btn.dataset.view;
-            if (frame.getAttribute('data-view') === view) return;
-            frame.setAttribute('data-view', view);
-            btns.forEach(function(b) {
-              var on = b.dataset.view === view;
-              b.classList.toggle('is-active', on);
-              b.setAttribute('aria-selected', on ? 'true' : 'false');
-            });
-            imgs.forEach(function(im) {
-              im.classList.toggle('is-shown', im.dataset.view === view);
-            });
+            setView(btn.dataset.view, true);
           });
         });
+
+        // Phones lead with Mobile — it's the relevant shot there, the one that
+        // fills the frame below 768px, and it reads first in the control.
+        // Desktop keeps Desktop first. The buttons are moved in the DOM rather
+        // than flipped with CSS `order`/`row-reverse`, so tab order and screen
+        // reader order still match what's on screen (they're role="tab").
+        // Decided once on load — resizing past the breakpoint won't re-switch,
+        // so it never overrides a choice the reader has made.
+        if (window.matchMedia('(max-width: 768px)').matches) {
+          var list = frame.querySelector('.cs-segmented');
+          var mobileBtn = frame.querySelector('.cs-segmented-btn[data-view="mobile"]');
+          if (list && mobileBtn) list.insertBefore(mobileBtn, list.firstElementChild);
+          setView('mobile', false);
+        }
       });
     })();
   </script>

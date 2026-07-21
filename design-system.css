@@ -122,8 +122,8 @@
   /* Surfaces */
   --surface:          var(--light10);
   --surface-raised:   var(--light30);
-  --surface-card:     rgba(253, 252, 253, 0.72); /* light10 @ 72% */
-  --surface-pill:     rgba(253, 252, 253, 0.72); /* light10 @ 72% */
+  --surface-card:     var(--light10);
+  --surface-pill:     var(--light10);
   --surface-tag:      var(--light30);
   --surface-kpi-icon: var(--light30);
 
@@ -160,7 +160,7 @@
   --avatar-bg:           var(--light40);
   --tag-bg:              var(--light30);
   --present-bg:          rgba(25, 30, 40, 0.07);  /* light110 @ 7% */
-  --image-frame-bg:      var(--light30);
+  --image-frame-bg:      var(--light10);
   --hero-gradient-start: #dce8ff;
   --hero-gradient-end:   #f5d0d0;
   --hero-img-shadow:     0px 20px 40px -10px rgba(1, 13, 72, 0.30);
@@ -183,8 +183,8 @@
   /* Surfaces */
   --surface:          var(--light110);
   --surface-raised:   var(--light100);
-  --surface-card:     rgba(40, 46, 58, 0.72);  /* light100 @ 72% */
-  --surface-pill:     rgba(40, 46, 58, 0.72);  /* light100 @ 72% */
+  --surface-card:     var(--light100);
+  --surface-pill:     var(--light100);
   --surface-tag:      var(--light100);
   --surface-kpi-icon: var(--light100);
 
