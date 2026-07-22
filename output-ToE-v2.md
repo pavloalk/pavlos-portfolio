@@ -11,6 +11,7 @@
 > ✅ Done (confirmed by Pavlos 2026-07-14). Rebuilt from `5.3/` PDF via Q&A.
 > Title angle: compliance / data accuracy. Headings: general + insightful, stacked. Current experience is treated as *prominent*, not a hard gate. No findings count cited. Outdated-profile metric still unavailable.
 > Updated 2026-07-13: em dashes removed (house style), title proposals replaced with understated options, Design change 01 rewritten to drop old-flow/validation detail, Profile Boost mention added.
+> Updated 2026-07-21: Research heading and description finalized (confirmed by Pavlos). "Heuristic review/analysis" replaced with an informal expert walkthrough of the flow with the researcher, since Pavlos couldn't stand behind a formal heuristic audit under questioning. Heading no longer names the method. Description leads with the completion data and frames the walkthrough as the "why"; closing line reframed as structural vs visual problems (dropped the "visible in the old screens" phrasing). Live page (case-study-toe.html) synced.
 
 ### Title
 
@@ -36,7 +37,7 @@ Rebuilding expert onboarding at Dialectica to lower compliance risk across 25,00
 |---|---|---|
 | 1 | Context | The flow verifies 25,000 to 35,000 experts a month before they take client calls |
 | 2 | Problem area | The data Dialectica most needed verified was the easiest to scroll past |
-| 3 | Research | A heuristic review showed the problem was structure, not expert effort |
+| 3 | Research | Walking through the flow showed the problem was structure, not expert effort |
 | 4 | Design change 01 | I gave current experience its own section, so it's the first thing an expert sees |
 | 5 | Design change 02 | I moved the Compliance Tutorial and Questionnaire inside the flow |
 | 6 | Design change 03 | Making availability slots editable in place lifted submissions ~4 points |
@@ -57,8 +58,8 @@ Dialectica is an expert network. Its Terms of Engagement flow is where experts, 
 **Problem area. The data Dialectica most needed verified was the easiest to scroll past**
 The old flow crammed personal details and experience history onto a single page, navigated by two flat tabs. There was no hierarchy and no guided progression. Current experience wasn't visually distinct from anything else, so an expert could glance past the one thing the business most needed them to check. Past positions weren't shown at all, and the Compliance Tutorial and Questionnaire arrived as separate links outside the flow, extra admin that felt like homework. The result was a flow that asked for a lot of attention and gave experts no reason to spend it where it mattered.
 
-**Research. A heuristic review showed the problem was structure, not expert effort**
-I ran a heuristic analysis of the existing flow alongside a review of the completion data. The issues clustered around structure: no clear information hierarchy, current and past experience blurred together, the most compliance-sensitive content given no more prominence than anything else, and key steps living outside the flow entirely. These weren't cosmetic complaints. Each one made it easier for an expert to move through the flow without engaging with the data Dialectica depended on.
+**Research. Walking through the flow showed the problem was structure, not expert effort**
+The completion data showed me where experts were dropping off. Walking through the existing flow with my researcher, an informal expert review, showed me why. The issues clustered around structure: no clear information hierarchy, current and past experience blurred together, the most compliance-sensitive content given no more prominence than anything else, and key steps living outside the flow entirely. These were structural problems, not visual ones, and they had the same effect: an expert could complete the flow without ever engaging with the data Dialectica depended on.
 
 **Design change 01. I gave current experience its own section, so it's the first thing an expert sees**
 In the redesign, the Experiences sub-step opens with current position at the top, in its own clearly labelled section. Past positions sit below it in a compact list, a new addition that gives experts a full view of their history without competing for attention. Personal details follow at the bottom in a more compact layout; the required ones have to be confirmed before the expert can move to the next step. The point is prominence: put the compliance-critical data first and on its own, and experts are far more likely to actually review it.

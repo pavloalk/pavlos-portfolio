@@ -81,6 +81,46 @@
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
     }
 
+    /* Unfilled label under a toggle, marking the shots as work that was never
+       shipped. The dot carries the weight so the text can stay plain. No margin
+       of its own: it sits as a plain child of the frame's flex column, so the
+       frame's gap falls evenly above and below it. */
+    .cs-frame-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-6);
+      height: 32px;
+      font-size: var(--font-tag);
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: transparent;
+    }
+
+    .cs-frame-tag::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-secondary);
+      flex-shrink: 0;
+    }
+
+    /* Any frame carrying a tag tightens up, so the tag and the shot read as one
+       group. Out-specifies the base .cs-toggle-frame gap below regardless of
+       order; untagged toggles keep the roomier default.
+       The dashed stroke borrows the .cs-placeholder language further down the
+       page: unfinished, not a shipped screen. Dash length is whatever the
+       browser picks — CSS has no control over it, so it varies a little
+       between Chrome, Safari and Firefox. */
+    .cs-toggle-frame:has(.cs-frame-tag) {
+      gap: var(--space-12);
+      border: 2px dotted var(--divider-mid);
+      border-style: dashed;
+      /* 8px off .cs-image-frame's 24px: the tag is lighter than a screenshot,
+         so the full inset left it looking low in the frame. */
+      padding-top: var(--space-16);
+    }
+
     /* Sits in the page's text lane like every other .cs-image-frame — it
        inherits `grid-column: text` from `.page > *`, so it never outruns the
        body copy. Both shots scale fluidly inside it as the window resizes. */
@@ -99,27 +139,58 @@
       width: 100%;
     }
 
-    /* ══ Device toggle animation — tune these two ══
+    /* ══ Device toggle animation — tune these three ══
        --toggle-fade:       how long the crossfade + scale takes
        --toggle-scale-from: size of the inactive shot. The outgoing one shrinks
                             to this as it fades out, the incoming one grows from
                             it to full size as it fades in. Closer to 1 = subtler.
+       --toggle-shift:      how far the inactive shot sits below its resting
+                            position. The incoming shot rises this far as it
+                            fades in, the outgoing one sinks the same distance.
+                            Smaller on phones, where the frame itself is smaller.
+       Transforms are never animated on layout — the hidden shot is transformed
+       while invisible, so the frame height never moves.
        Easing is --ease from design-system.css. */
     .cs-toggle-frame {
       --toggle-fade: 0.3s;
       --toggle-scale-from: 0.96;
+      --toggle-shift: 16px;
     }
 
     .cs-toggle-img {
       opacity: 0;
-      transform: scale(var(--toggle-scale-from));
+      transform: translateY(var(--toggle-shift)) scale(var(--toggle-scale-from));
       transition: opacity var(--toggle-fade) var(--ease),
                   transform var(--toggle-fade) var(--ease);
     }
 
     .cs-toggle-img.is-shown {
       opacity: 1;
-      transform: scale(1);
+      transform: translateY(0) scale(1);
+    }
+
+    /* The inactive shot is only faded out, so without this it still swallows
+       clicks meant for the visible one (and would open the wrong lightbox). */
+    .cs-toggle-img:not(.is-shown) { pointer-events: none; }
+
+    /* ── Stacked variant (two desktop shots) ──
+       Change 03 height-matches a landscape and a portrait shot, so one is
+       overlaid absolutely. Change 02's two sub-steps are both desktop shots at
+       the same width but different heights, so there is nothing to match: they
+       share one grid cell instead. The row sizes to the taller shot, so the
+       frame keeps a fixed height and nothing below it reflows on toggle; both
+       shots hang from the top edge, so the app chrome stays put across the
+       swap and any leftover space falls below the shorter one. */
+    .cs-toggle-view--stack {
+      display: grid;
+    }
+
+    .cs-toggle-view--stack .cs-toggle-img {
+      grid-area: 1 / 1;
+      align-self: start;
+      display: block;
+      width: 100%;
+      height: auto;
     }
 
     /* scoped under .cs-toggle-view so these out-specify .cs-image-frame img,
@@ -134,15 +205,15 @@
       position: absolute;
       top: 0;
       left: 50%;
-      /* centring lives in the transform here, so the scale composes with it
-         rather than replacing it */
-      transform: translateX(-50%) scale(var(--toggle-scale-from));
+      /* centring lives in the transform here, so the scale and the rise compose
+         with it rather than replacing it */
+      transform: translateX(-50%) translateY(var(--toggle-shift)) scale(var(--toggle-scale-from));
       height: 100%;
       width: auto;
     }
 
     .cs-toggle-view .cs-toggle-img--mobile.is-shown {
-      transform: translateX(-50%) scale(1);
+      transform: translateX(-50%) translateY(0) scale(1);
     }
 
     /* Applied while JS picks the starting view, so the default doesn't
@@ -150,8 +221,11 @@
     .cs-toggle-frame.is-setting-up .cs-toggle-img { transition: none; }
 
     @media (prefers-reduced-motion: reduce) {
-      /* no scale, no crossfade — just a straight swap */
-      .cs-toggle-frame { --toggle-scale-from: 1; }
+      /* no scale, no rise, no crossfade — just a straight swap */
+      .cs-toggle-frame {
+        --toggle-scale-from: 1;
+        --toggle-shift: 0px;
+      }
       .cs-toggle-img { transition: none; }
     }
 
@@ -525,34 +599,6 @@
       line-height: 1.6;
     }
 
-    /* ── Two-image row ── */
-    .cs-two-img {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-8);
-      margin-top: var(--space-24);
-    }
-
-    .cs-two-img figure {
-      margin: 0;
-      background: var(--image-frame-bg);
-      border-radius: var(--radius-lg);
-      padding: var(--space-20);
-    }
-
-    .cs-two-img img {
-      width: 100%;
-      border-radius: var(--radius-sm);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-    }
-
-    .cs-two-img figcaption {
-      margin-top: var(--space-12);
-      font-size: var(--font-caption);
-      color: var(--text-secondary);
-      text-align: center;
-    }
-
     /* ── Placeholder (image still needed) ── */
     .cs-placeholder {
       margin-top: var(--space-24);
@@ -669,7 +715,6 @@
 
       .cs-baw-grid,
       .cs-baw-grid--three,
-      .cs-two-img,
       .cs-order-grid {
         grid-template-columns: 1fr;
       }
@@ -679,20 +724,24 @@
          frame and sets the container height itself: the active one sits in
          flow, the inactive one is overlaid at opacity 0 so the crossfade still
          works. Toggling changes the container height — that's the trade. */
+      /* Half the desktop rise: the frame is roughly a third the width down here,
+         so 16px reads as a lurch rather than a lift. */
+      .cs-toggle-frame { --toggle-shift: 8px; }
+
       /* No translateX to compose with down here — both shots are centred by
-         auto margins instead — so the scale stands on its own. */
+         auto margins instead — so the scale and the rise stand on their own. */
       .cs-toggle-view .cs-toggle-img,
       .cs-toggle-view .cs-toggle-img--mobile {
         display: block;
         width: 100%;
         height: auto;
         left: auto;
-        transform: scale(var(--toggle-scale-from));
+        transform: translateY(var(--toggle-shift)) scale(var(--toggle-scale-from));
       }
 
       .cs-toggle-view .cs-toggle-img.is-shown {
         position: relative;
-        transform: scale(1);
+        transform: translateY(0) scale(1);
       }
 
       /* Never render the phone shot wider than a real phone screen. On a phone
@@ -804,10 +853,10 @@
         </div>
       </div>
 
-      <div class="cs-placeholder reveal reveal-delay-1">
-        <span class="cs-placeholder-tag">Image needed</span>
-        <p><strong>Annotated old-flow screenshot.</strong> The old single page with two flat tabs, marked up to point at the two flat tabs (no hierarchy, no guided progression) and the block where current experience sits undifferentiated among personal details and legal terms. Held back until the annotations land, per spec.</p>
+      <div class="cs-image-frame reveal reveal-delay-1">
+        <img src="Images/Case studies/ToE/%5BD0%5D%20Getting%20started-old.png" alt="The old Terms of Engagement flow: one dense page with two flat tabs, Terms and Availabilities, where personal details, experience history and legal terms all sit together">
       </div>
+      <p class="cs-image-caption reveal">The old flow: two flat tabs, no guided progression, and current experience sitting undifferentiated between personal details and the legal terms.</p>
     </section>
 
     <div class="cs-divider"></div>
@@ -815,9 +864,9 @@
     <!-- ── Section: Research ── -->
     <section class="cs-section">
       <p class="cs-label reveal">Research</p>
-      <h2 class="cs-h2 reveal">A heuristic review showed the problem was structure, not expert effort</h2>
-      <p class="cs-body reveal reveal-delay-1">I ran a heuristic analysis of the existing flow alongside a review of the completion data. The issues clustered around structure: no clear information hierarchy, current and past experience blurred together, the most compliance-sensitive content given no more prominence than anything else, and key steps living outside the flow entirely.</p>
-      <p class="cs-body reveal reveal-delay-1">These were not cosmetic complaints. Each one made it easier for an expert to move through the flow without engaging with the data Dialectica depended on.</p>
+      <h2 class="cs-h2 reveal">Walking through the flow showed the problem was structure, not expert effort</h2>
+      <p class="cs-body reveal reveal-delay-1">The completion data showed me where experts were dropping off. Walking through the existing flow with my researcher, an informal expert review, showed me why. The issues clustered around structure: no clear information hierarchy, current and past experience blurred together, the most compliance-sensitive content given no more prominence than anything else, and key steps living outside the flow entirely.</p>
+      <p class="cs-body reveal reveal-delay-1">These were structural problems, not visual ones, and they had the same effect: an expert could complete the flow without ever engaging with the data Dialectica depended on.</p>
     </section>
 
     <div class="cs-divider"></div>
@@ -857,7 +906,7 @@
 
       <!-- Before / old image (top layer, clipped, reveals left side) -->
       <div class="cs-comparison-after" id="comparisonAfter">
-        <img src="Images/Case studies/ToE/Getting%20started-old.png" alt="Old Terms of Engagement flow: single dense page with two flat tabs">
+        <img src="Images/Case studies/ToE/%5BD0%5D%20Getting%20started-old.png" alt="Old Terms of Engagement flow: single dense page with two flat tabs">
         <span class="cs-comparison-label cs-comparison-label--before">Before</span>
       </div>
 
@@ -907,11 +956,22 @@
           <p>Eligibility is the other half of what has to be true before a client call. Scattering the steps across emails made screening feel optional and easy to skim. Single-purpose sub-steps keep momentum even though there is more to do, which is what let the extra steps land without denting completion.</p>
         </div>
       </div>
-      <div class="cs-placeholder">
-        <span class="cs-placeholder-tag">Image needed</span>
-        <p><strong>Getting Started sidebar with the Tutorial and Questionnaire as sub-steps.</strong> No screenshot of these two sub-steps exists yet. Text-only for this draft.</p>
+    </div>
+
+    <!-- Change 02 visual: sub-step toggle. Both shots are desktop and the same
+         width, so they stack in one grid cell rather than being height-matched
+         like Change 03's device toggle. -->
+    <div class="cs-image-frame cs-toggle-frame reveal" data-view="terms">
+      <div class="cs-segmented" role="tablist" aria-label="Choose sub-step">
+        <button type="button" class="cs-segmented-btn is-active" data-view="terms" data-label="Terms" role="tab" aria-selected="true">Terms</button>
+        <button type="button" class="cs-segmented-btn" data-view="questionnaire" data-label="Questionnaire" role="tab" aria-selected="false">Questionnaire</button>
+      </div>
+      <div class="cs-toggle-view cs-toggle-view--stack">
+        <img class="cs-toggle-img is-shown" data-view="terms" src="Images/Case studies/ToE/%5BD1.2%5D%20Terms.png" alt="The Terms sub-step of Getting Started: obligations to read, with two consent checkboxes and a single Confirm">
+        <img class="cs-toggle-img" data-view="questionnaire" src="Images/Case studies/ToE/%5BD1.3%5D%20Questionnaire.png" alt="The Questionnaire sub-step of Getting Started: client-configured yes/no questions with inline validation">
       </div>
     </div>
+    <p class="cs-image-caption reveal">Each sub-step has one job and one confirm, with the sidebar holding the sequence together.</p>
 
     <div class="cs-divider" style="margin-top: 56px;"></div>
 
@@ -970,33 +1030,46 @@
           <p>Matching quality depends on structured, expert-provided detail. Capturing it inside the flow, while experts are already engaged, gets richer data than an email chase. Selecting is far quicker than typing from a blank field, and it showed.</p>
         </div>
       </div>
-      <div class="cs-two-img">
-        <figure>
-          <img src="Images/Case studies/ToE/%5BD%5D%20KM%202.1%20_%20Categories%20-%20Selected%20categories.png" alt="Profile Boost v2: selecting product categories from a shortlist">
-          <figcaption>Step 1: pick product categories from a shortlist</figcaption>
-        </figure>
-        <figure>
-          <img src="Images/Case studies/ToE/%5BD%5D%20KM%202.1%20_%20Vendors%20-%20Selected%20vendors.png" alt="Profile Boost v2: selecting vendors from a shortlist">
-          <figcaption>Step 2: pick the vendors behind them</figcaption>
-        </figure>
+      <!-- Change 04 visual: step toggle. Both shots are desktop and the same
+           size, so they stack like the Change 02 sub-step toggle. -->
+      <div class="cs-image-frame cs-toggle-frame reveal" data-view="categories">
+        <div class="cs-segmented" role="tablist" aria-label="Choose Profile Boost step">
+          <button type="button" class="cs-segmented-btn is-active" data-view="categories" data-label="Categories" role="tab" aria-selected="true">Categories</button>
+          <button type="button" class="cs-segmented-btn" data-view="vendors" data-label="Vendors" role="tab" aria-selected="false">Vendors</button>
+        </div>
+        <div class="cs-toggle-view cs-toggle-view--stack">
+          <img class="cs-toggle-img is-shown" data-view="categories" src="Images/Case studies/ToE/%5BD3%5D%20KM%20-%20Categories.png" alt="Profile Boost step 1: product categories offered as selectable chips, with an Add a category field and a Skip option">
+          <img class="cs-toggle-img" data-view="vendors" src="Images/Case studies/ToE/%5BD3%5D%20KM%20-%20Vendors.png" alt="Profile Boost step 2: vendor chips shown one category at a time, with a search field to add more">
+        </div>
       </div>
-      <p class="cs-image-caption">Conversion into the step roughly doubled, from about 17% to about 33%, with richer data too: about 6.5 vendors and 3.4 categories per expert, up from 4.2 and 2.0.</p>
+      <p class="cs-image-caption">Step 1 picks the product categories, step 2 the vendors behind each one. Conversion into the step roughly doubled, from about 17% to about 33%, with richer data too: about 6.5 vendors and 3.4 categories per expert, up from 4.2 and 2.0.</p>
 
       <!-- Deep pocket 2 (nested under Change 04) -->
       <div class="reveal" style="margin-top: 56px;">
         <p class="cs-change-eyebrow">Deep pocket · under Change 04</p>
         <h4 class="cs-change-title">Profile Boost, v1 to v2</h4>
         <p class="cs-body">v1 was the first in-flow version: a skippable step where experts mapped the products they can speak to against the vendors behind them, typed as free text. A parallel layout exploration tried putting Profile Boost on the same step as personal details and experience, surfaced through a per-company "Boost your profile" modal, before it settled as its own dedicated step. v2 then redesigned the capture into the two shortlisted steps above, which roughly doubled uptake.</p>
-        <div class="cs-two-img" style="margin-top: 24px;">
-          <figure>
-            <img src="Images/Case studies/ToE/%5BDeep%5D%20Boost%20profile%20-%20Filled.png" alt="Profile Boost v1: free-text product and vendor rows">
-            <figcaption>v1: free-text product and vendor rows</figcaption>
-          </figure>
-          <figure>
-            <img src="Images/Case studies/ToE/%5BDeep%5D%20Getting%20started%20-%20Modal.png" alt="Layout exploration: a per-company Boost your profile modal">
-            <figcaption>Exploration: a per-company "Boost your profile" modal</figcaption>
-          </figure>
+        <div class="cs-image-frame cs-toggle-frame">
+          <span class="cs-frame-tag">First version</span>
+          <img src="Images/Case studies/ToE/%5BDeep%5D%20Boost%20profile%20-%20Filled.png" alt="Profile Boost v1: free-text product and vendor rows">
         </div>
+        <p class="cs-image-caption">v1: free-text product and vendor rows</p>
+
+        <!-- The exploration is one screen in two states, so the toggle shows
+             the modal opening on the step rather than two separate images. -->
+        <div class="cs-image-frame cs-toggle-frame reveal" data-view="step">
+          <span class="cs-frame-tag">Early exploration</span>
+          <div class="cs-segmented" role="tablist" aria-label="Choose exploration state">
+            <button type="button" class="cs-segmented-btn is-active" data-view="step" data-label="Step" role="tab" aria-selected="true">Step</button>
+            <button type="button" class="cs-segmented-btn" data-view="modal" data-label="Modal" role="tab" aria-selected="false">Modal</button>
+          </div>
+          
+          <div class="cs-toggle-view cs-toggle-view--stack">
+            <img class="cs-toggle-img is-shown" data-view="step" src="Images/Case studies/ToE/%5BDeep%5D%20Getting%20started%20-%20Boost%20profile.png" alt="Layout exploration: Profile Boost sharing one step with personal details and experience, with a Boost your profile prompt at the bottom">
+            <img class="cs-toggle-img" data-view="modal" src="Images/Case studies/ToE/%5BDeep%5D%20Getting%20started%20-%20Boost%20profile%20-%20Modal.png" alt="The same step with the Boost your profile modal open, listing each company with its own Boost button">
+          </div>
+        </div>
+        <p class="cs-image-caption">Exploration: Profile Boost folded into the same step, surfaced through a per-company "Boost your profile" modal.</p>
         <p class="cs-body" style="margin-top: 24px;">Showing v1, the combined-step exploration and the shipped v2 together shows the iteration behind the step, not just the endpoint.</p>
       </div>
     </div>
@@ -1258,11 +1331,16 @@
         // reader order still match what's on screen (they're role="tab").
         // Decided once on load — resizing past the breakpoint won't re-switch,
         // so it never overrides a choice the reader has made.
+        // Only applies to a frame that actually has a Mobile option — the
+        // Change 02 sub-step toggle has no such view, and forcing it here
+        // would leave that frame on a data-view matching neither shot.
         if (window.matchMedia('(max-width: 768px)').matches) {
           var list = frame.querySelector('.cs-segmented');
           var mobileBtn = frame.querySelector('.cs-segmented-btn[data-view="mobile"]');
-          if (list && mobileBtn) list.insertBefore(mobileBtn, list.firstElementChild);
-          setView('mobile', false);
+          if (list && mobileBtn) {
+            list.insertBefore(mobileBtn, list.firstElementChild);
+            setView('mobile', false);
+          }
         }
       });
     })();

@@ -35,6 +35,87 @@
   });
 })();
 
+// ── Image lightbox ──
+// Click a case-study image to open it full size over a dimmed page. Close with
+// the X, a click on the backdrop, or Escape. The comparison slider is left out
+// on purpose — clicking it is how you scrub it.
+(function () {
+  var ZOOMABLE = [
+    '.cs-image-frame img',
+    '.cs-hero-image img',
+    '.cs-two-img img',
+    '.cs-mobile-item img'
+  ].join(', ');
+
+  var targets = document.querySelectorAll(ZOOMABLE);
+  if (!targets.length) return;
+
+  var overlay = null;
+  var overlayImg = null;
+  var lastFocused = null;
+
+  function build() {
+    overlay = document.createElement('div');
+    overlay.className = 'cs-lightbox';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+
+    overlayImg = document.createElement('img');
+
+    var close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'cs-lightbox-close';
+    close.setAttribute('aria-label', 'Close image');
+    close.innerHTML =
+      '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+      '<path d="M4 4L14 14M14 4L4 14" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>' +
+      '</svg>';
+    close.addEventListener('click', hide);
+
+    // A click on the image itself shouldn't dismiss; anywhere else should.
+    overlayImg.addEventListener('click', function (e) { e.stopPropagation(); });
+    overlay.addEventListener('click', hide);
+
+    overlay.appendChild(overlayImg);
+    overlay.appendChild(close);
+    document.body.appendChild(overlay);
+  }
+
+  function show(img) {
+    if (!overlay) build();
+    overlayImg.src = img.currentSrc || img.src;
+    overlayImg.alt = img.alt || '';
+    lastFocused = document.activeElement;
+
+    overlay.style.display = 'flex';
+    document.body.classList.add('is-lightbox-open');
+    void overlay.offsetWidth; // flush before transitioning in
+    overlay.classList.add('is-open');
+    overlay.querySelector('.cs-lightbox-close').focus();
+  }
+
+  function hide() {
+    if (!overlay || !overlay.classList.contains('is-open')) return;
+    overlay.classList.remove('is-open');
+    document.body.classList.remove('is-lightbox-open');
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
+
+    // Keep it in the DOM but out of the way once the fade has finished.
+    setTimeout(function () {
+      if (!overlay.classList.contains('is-open')) overlay.style.display = 'none';
+    }, 240);
+  }
+
+  targets.forEach(function (img) {
+    img.classList.add('cs-zoomable');
+    img.addEventListener('click', function () { show(img); });
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') hide();
+  });
+})();
+
 // ── Theme toggle ──
 (function () {
   var themeToggle = document.getElementById('themeToggle');
