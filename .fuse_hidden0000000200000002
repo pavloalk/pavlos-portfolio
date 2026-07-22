@@ -10,7 +10,7 @@
 
 > ✅ Done (confirmed by Pavlos 2026-07-14). Rebuilt from `5.3/` PDF via Q&A.
 > Title angle: compliance / data accuracy. Headings: general + insightful, stacked. Current experience is treated as *prominent*, not a hard gate. No findings count cited. Outdated-profile metric still unavailable.
-> Updated 2026-07-13: em dashes removed (house style), title proposals replaced with understated options, Design decision 1 rewritten to drop old-flow/validation detail, Profile Boost mention added.
+> Updated 2026-07-13: em dashes removed (house style), title proposals replaced with understated options, Design change 01 rewritten to drop old-flow/validation detail, Profile Boost mention added.
 > Updated 2026-07-21: Research heading and description finalized (confirmed by Pavlos). "Heuristic review/analysis" replaced with an informal expert walkthrough of the flow with the researcher, since Pavlos couldn't stand behind a formal heuristic audit under questioning. Heading no longer names the method. Description leads with the completion data and frames the walkthrough as the "why"; closing line reframed as structural vs visual problems (dropped the "visible in the old screens" phrasing). Live page (case-study-toe.html) synced.
 
 ### Title
@@ -38,10 +38,10 @@ Rebuilding expert onboarding at Dialectica to lower compliance risk across 25,00
 | 1 | Context | The flow verifies 25,000 to 35,000 experts a month before they take client calls |
 | 2 | Problem area | The data Dialectica most needed verified was the easiest to scroll past |
 | 3 | Research | Walking through the flow showed the problem was structure, not expert effort |
-| 4 | Design decision 1 | I gave current experience its own section, so it's the first thing an expert sees |
-| 5 | Design decision 2 | I moved the Compliance Tutorial and Questionnaire inside the flow |
-| 6 | Design decision 3 | Making availability slots editable in place lifted submissions ~4 points |
-| 7 | Design decision 4 | Letting experts pick categories and vendors from a shortlist, instead of typing them, roughly doubled Profile Boost completion |
+| 4 | Design change 01 | I gave current experience its own section, so it's the first thing an expert sees |
+| 5 | Design change 02 | I moved the Compliance Tutorial and Questionnaire inside the flow |
+| 6 | Design change 03 | Making availability slots editable in place lifted submissions ~4 points |
+| 7 | Design change 04 | Letting experts pick categories and vendors from a shortlist, instead of typing them, roughly doubled Profile Boost completion |
 | 8 | Experiment | Moving Terms to the end of the flow lifted the metric we were chasing and hurt the one that pays |
 | 9 | Outcome | Two new steps added, and completion held flat at ~90% |
 | 10 | Retrospective | The project changed how I hand off to engineers, and left the business a matching dataset it hasn't used yet |
@@ -53,7 +53,7 @@ Rebuilding expert onboarding at Dialectica to lower compliance risk across 25,00
 *Each expands its heading and focuses on the "why." Written with a short/long rhythm and kept to scannable chunks.*
 
 **Context. The flow verifies 25,000 to 35,000 experts a month before they take client calls**
-Dialectica is an expert network. Its Terms of Engagement flow is where experts, after receiving a secure link, review and update their professional experience (roles, companies, responsibilities) and set the days and hours they're free for client calls. The point of the flow is data accuracy: Dialectica needs each expert's background to be current before a consultation goes ahead. At 25,000 to 35,000 experts a month, that's not an edge concern. It's the front door to the whole product. (A later step, Profile Boost, captures structured product-category and vendor data from experts; a v2 redesign of it appears as a design decision in this case study.)
+Dialectica is an expert network. Its Terms of Engagement flow is where experts, after receiving a secure link, review and update their professional experience (roles, companies, responsibilities) and set the days and hours they're free for client calls. The point of the flow is data accuracy: Dialectica needs each expert's background to be current before a consultation goes ahead. At 25,000 to 35,000 experts a month, that's not an edge concern. It's the front door to the whole product. (A later step, Profile Boost, captures structured product-category and vendor data from experts; a v2 redesign of it appears as a design change in this case study.)
 
 **Problem area. The data Dialectica most needed verified was the easiest to scroll past**
 The old flow crammed personal details and experience history onto a single page, navigated by two flat tabs. There was no hierarchy and no guided progression. Current experience wasn't visually distinct from anything else, so an expert could glance past the one thing the business most needed them to check. Past positions weren't shown at all, and the Compliance Tutorial and Questionnaire arrived as separate links outside the flow, extra admin that felt like homework. The result was a flow that asked for a lot of attention and gave experts no reason to spend it where it mattered.
@@ -61,16 +61,16 @@ The old flow crammed personal details and experience history onto a single page,
 **Research. Walking through the flow showed the problem was structure, not expert effort**
 The completion data showed me where experts were dropping off. Walking through the existing flow with my researcher, an informal expert review, showed me why. The issues clustered around structure: no clear information hierarchy, current and past experience blurred together, the most compliance-sensitive content given no more prominence than anything else, and key steps living outside the flow entirely. These were structural problems, not visual ones, and they had the same effect: an expert could complete the flow without ever engaging with the data Dialectica depended on.
 
-**Design decision 1. I gave current experience its own section, so it's the first thing an expert sees**
+**Design change 01. I gave current experience its own section, so it's the first thing an expert sees**
 In the redesign, the Experiences sub-step opens with current position at the top, in its own clearly labelled section. Past positions sit below it in a compact list, a new addition that gives experts a full view of their history without competing for attention. Personal details follow at the bottom in a more compact layout; the required ones have to be confirmed before the expert can move to the next step. The point is prominence: put the compliance-critical data first and on its own, and experts are far more likely to actually review it.
 
-**Design decision 2. I moved the Compliance Tutorial and Questionnaire inside the flow**
+**Design change 02. I moved the Compliance Tutorial and Questionnaire inside the flow**
 Both used to arrive as separate links, outside the main experience. Bringing them in as dedicated sub-steps of Getting Started changed their status from side-errands to part of a single guided journey. The Tutorial presents compliance obligations to read and confirm; the Questionnaire asks a set of client-configured questions, where certain answers automatically disqualify an expert from that specific project, a fast, client-defined filter that already existed but now sits inside the flow. Each sub-step has one job and one confirm, which keeps momentum even though there's more to do.
 
-**Design decision 3. Making availability slots editable in place lifted submissions ~4 points**
+**Design change 03. Making availability slots editable in place lifted submissions ~4 points**
 The Availabilities step kept its weekly calendar but was rebuilt so slots became editable in place. Before, a slot was permanent: to fix a time you deleted it and built a new one. Now experts drag a slot to move it, or click to edit it fully. Availability is a direct operational lever, it's what lets Dialectica actually schedule the call. Comparing the same months a year apart (old design vs new), the share of experts who submitted availability rose about 4 percentage points, from about 70% to about 74%.
 
-**Design decision 4. Letting experts pick categories and vendors from a shortlist, instead of typing them, roughly doubled Profile Boost completion**
+**Design change 04. Letting experts pick categories and vendors from a shortlist, instead of typing them, roughly doubled Profile Boost completion**
 Before the redesign, this expertise data was chased over a separate email after experts had already moved on, so few ever gave it. The redesign folded it into the flow as Profile Boost, a skippable step where experts describe their expertise in the same place they confirm everything else. In that first in-flow version they still had to type their product categories and vendors as free text, and completion stayed low, so the step was redesigned again to replace typing with selection. First the expert picks from a shortlist of about ten product categories derived from their own experience ("What product categories are you using or familiar with in your role as Head of IT Procurement at Atlassian?"), then on the next step the vendors behind them ("What vendors are you using in the product categories you selected?"). Both steps still let an expert add their own if the shortlist misses something. Selecting is far quicker than typing from a blank field, and it showed: conversion into the step roughly doubled, from about 17% to about 33%, with richer data too (about 6.5 vendors and 3.4 categories per expert, up from 4.2 and 2.0).
 
 **Experiment. Moving Terms to the end of the flow lifted the metric we were chasing and hurt the one that pays**
@@ -107,15 +107,15 @@ Use `Old ToE.jpg` as a "zoom out" shot so the reader sees where the problem sits
 
 ---
 
-## 5.5 · Design decisions
+## 5.5 · Design change
 
 > ✅ Done (confirmed by Pavlos 2026-07-17). Rebuilt from `5.5/` PDF via Q&A (sessions 2026-07-15 and 2026-07-17).
 > Updated 2026-07-18: added **the experiment we ran and rolled back** (Terms moved to the end of the flow). Not yet re-confirmed by Pavlos; open data points flagged inline in that section.
-> Presentation approach: **Flat** (four individual changes) plus one rolled-back experiment and two small **Earlier explorations**, one under Decision 1 (inline editing, cut) and one under Decision 4 (Profile Boost v1 to v2). Each change follows the lesson structure: show the change, explain the "why," pair with a before/after visual. Confirmed metrics only: the ~4 percentage point availability lift (Decision 3), the flat ~89.5% completion (Outcome, 5.3), and the v2 Profile Boost results (conversion roughly doubled, ~17% to ~33%; ~6.5 vendors and ~3.4 categories per expert, up from 4.2 and 2.0). Baseline ~17% is sourced from the KM v1 column of the completion data table. All exploration and v2 image assets are in `Images/`.
+> Presentation approach: **Flat** (four individual changes) plus one rolled-back experiment and two small **Deep** pockets, one under Change 01 (inline editing, cut) and one under Change 04 (Profile Boost v1 to v2). Each change follows the lesson structure: show the change, explain the "why," pair with a before/after visual. Confirmed metrics only: the ~4 percentage point availability lift (Change 03), the flat ~89.5% completion (Outcome, 5.3), and the v2 Profile Boost results (conversion roughly doubled, ~17% to ~33%; ~6.5 vendors and ~3.4 categories per expert, up from 4.2 and 2.0). Baseline ~17% is sourced from the KM v1 column of the completion data table. All Deep and v2 image assets are in `Images/`.
 
 *The design-change section answers the "How might we" of the problem area: how do you get experts to review compliance-critical data and clear the eligibility steps, at 25,000 to 35,000 a month, without hurting completion? Four changes carry the answer. They aren't linked into a single flow here; each stands on its own and each maps back to the problem.*
 
-### Decision 1. Current experience got its own section, first in the flow
+### Change 01. Current experience got its own section, first in the flow
 
 **Before.** Personal details, experience history and legal terms sat together on one crowded page. Current experience had no more visual weight than anything around it, so an expert could scroll straight past the one thing the business most needed confirmed. Past positions weren't shown at all.
 
@@ -125,7 +125,7 @@ Use `Old ToE.jpg` as a "zoom out" shot so the reader sees where the problem sits
 
 *Visual: before/after of the Experiences screen. Before = the single crowded page; after = current position isolated at top, past positions compact below, personal details at the bottom.*
 
-### Decision 2. The Compliance Tutorial and Questionnaire moved inside the flow
+### Change 02. The Compliance Tutorial and Questionnaire moved inside the flow
 
 **Before.** The Compliance Tutorial and the Questionnaire reached experts as separate emails, outside the main experience. They read as extra admin, homework to do on the side, and each one an expert handled in isolation rather than as part of screening.
 
@@ -135,7 +135,7 @@ Use `Old ToE.jpg` as a "zoom out" shot so the reader sees where the problem sits
 
 *Visual: before/after. Before = the separate email links; after = the Getting Started sidebar with Tutorial and Questionnaire as sub-steps.*
 
-### Decision 3. Availability slots became editable in place, not delete-and-redo
+### Change 03. Availability slots became editable in place, not delete-and-redo
 
 **Before.** The availability step was already a weekly calendar, but slots were fixed. Once created, a slot was permanent, with no way to adjust it. If you got the time wrong, you deleted it and built a new one from scratch.
 
@@ -145,7 +145,7 @@ Use `Old ToE.jpg` as a "zoom out" shot so the reader sees where the problem sits
 
 *Visual: before/after of the Availabilities step. Before = the old weekly calendar with fixed, non-editable slots; after = the redesigned calendar, ideally a short capture showing a slot being dragged and the side-menu edit.*
 
-### Decision 4. Knowledge Mapping was folded into onboarding to capture experts' own expertise data
+### Change 04. Knowledge Mapping was folded into onboarding to capture experts' own expertise data
 
 **Before.** Knowledge Mapping was never part of the onboarding flow. The product-category and vendor data it gathers, the qualitative detail experts give about their own areas of expertise, was chased separately over email, outside Terms of Engagement. It was a second touch-point that depended on experts coming back to a message after they'd already moved on.
 
@@ -155,9 +155,9 @@ Use `Old ToE.jpg` as a "zoom out" shot so the reader sees where the problem sits
 
 **Later: a v2 redesign that roughly doubled uptake.** The first version proved the idea; about a month in, the step was redesigned. v2 split the capture into two lighter steps: pick from a shortlist of product categories (or add your own), then pick the vendors behind them (or add your own). The structure did the work. Conversion into the step roughly doubled, from about 17% to about 33%, and the experts who filled it in gave more: about 6.5 vendors and 3.4 categories each, up from 4.2 and 2.0. The gain held when the flow rolled out to 100% of experts.
 
-*Visual: before/after contrasts the old email chase with the in-flow skippable Profile Boost step. The v1 screen and the v1-to-v2 evolution sit in the Profile Boost v1-to-v2 exploration below; the shipped two-step v2 is `KM v2 _ Categories - Selected categories.png` and `KM v2 _ Vendors - Selected vendors.png`.*
+*Visual: before/after contrasts the old email chase with the in-flow skippable Profile Boost step. The v1 screen and the v1-to-v2 evolution sit in Deep pocket 2 below; the shipped two-step v2 is `KM v2 _ Categories - Selected categories.png` and `KM v2 _ Vendors - Selected vendors.png`.*
 
-### Experiment. Moving Terms to the end of the flow
+### The experiment we ran and rolled back. Moving Terms to the end of the flow
 
 *This one didn't ship. It's here because the reasoning behind it, and the reason it was wrong, say more about the project than another win would.*
 
@@ -173,19 +173,19 @@ Use `Old ToE.jpg` as a "zoom out" shot so the reader sees where the problem sits
 
 *Visual: a simple side-by-side of the two sidebars, shipped order against tested order, with Terms highlighted in each. No new screens needed.*
 
-### Earlier explorations: Inline experience editing
+### Deep pocket 1. Inline experience editing, designed then cut
 
 Experts were first meant to correct their experience directly in the flow: edit pencils on each role and a single "confirm all experiences are up to date" checkbox (`[Deep] Editable experience.png`). That version needed a whole review layer behind it, a dashboard where Dialectica associates could vet each submitted change before it went live. The overhead wasn't justified at 25,000 to 35,000 experts a month, so the shipped design used a lighter "Request a change" CTA that flags inaccurate data for manual review. Showing the cut concept beside the shipped pattern demonstrates divergent-then-convergent thinking: the idea was explored properly, and the scope call was deliberate rather than a limitation nobody noticed.
 
 *Visual: the inline-edit concept (`[Deep] Editable experience.png`) beside the shipped Request-a-change pattern.*
 
-### Earlier explorations: Profile Boost v1 to v2
+### Deep pocket 2. Profile Boost, v1 to v2
 
 v1 was the first in-flow version: a skippable "Profile boost" step where experts mapped the products they can speak to against the vendors behind them (`[Deep] Boost profile - Filled.png`). A parallel layout exploration tried putting Profile Boost on the same step as personal details and experience, surfaced through a per-company "Boost your profile" modal (`[Deep] Getting started.png`, `[Deep] Getting started - Modal.png`), before it settled as its own dedicated step. v2 then redesigned the capture into two shortlisted steps, categories then vendors (`KM v2 _ Categories - Selected categories.png`, `KM v2 _ Vendors - Selected vendors.png`), which roughly doubled uptake. Showing v1, the combined-step variation and the shipped v2 together demonstrates the iteration behind the step, not just the endpoint.
 
 *Visual: v1 (`[Deep] Boost profile - Filled.png`), the combined-step variation (`[Deep] Getting started.png`, `[Deep] Getting started - Modal.png`), and shipped v2 (`KM v2 _ Categories - Selected categories.png`, `KM v2 _ Vendors - Selected vendors.png`).*
 
-*Note on scope: these four decisions are the Flat set. The broader structural move (two flat tabs rebuilt into a three-step sidebar with sub-steps) is the container they sit in; it's described in the Problem area and Outcome rather than as its own decision, to keep this section a clean list rather than a flow walkthrough.*
+*Note on scope: these four changes are the Flat set. The broader structural move (two flat tabs rebuilt into a three-step sidebar with sub-steps) is the container they sit in; it's described in the Problem area and Outcome rather than as its own change, to keep this section a clean list rather than a flow walkthrough.*
 
 ---
 
