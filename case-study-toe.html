@@ -570,11 +570,13 @@
       margin-top: var(--space-32);
     }
 
+    /* Matches .cs-label exactly. These sit in the same pinned bar as the
+       section headings, and the collapsed title takes its type from whatever
+       eyebrow is above it, so anything different here reads as two competing
+       treatments in the same slot. */
     .cs-change-eyebrow {
-      font-size: var(--font-tag);
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      font-size: var(--font-small);
+      font-weight: 400;
       color: var(--text-secondary);
       margin-bottom: var(--space-8);
     }
@@ -886,11 +888,18 @@
 
     <div class="cs-divider"></div>
 
-    <!-- ── Section: Design decisions ── -->
-    <section class="cs-section" style="margin-bottom: 56px;">
-      <p class="cs-label reveal">Design decisions</p>
-      <h2 class="cs-h2 reveal">Four changes to get compliance-critical data reviewed, without hurting completion</h2>
-      <p class="cs-body reveal reveal-delay-1">Each change stands on its own and maps back to the problem. The broader structural move, two flat tabs rebuilt into a three-step sidebar with sub-steps, is the container they sit in.</p>
+    <!-- ── Section: Design decisions ──
+         Unlike the other sections this one holds several headings, so each gets
+         its own box to be sticky within — the section heading a .cs-shead-group,
+         every decision its own .cs-change-block. Each box has to run to the end
+         of what its heading covers, screenshot and caption included, or the
+         heading unpins early. -->
+    <section class="cs-section" style="margin-bottom: 0;">
+      <div class="cs-shead-group">
+        <p class="cs-label reveal">Design decisions</p>
+        <h2 class="cs-h2 reveal">Four changes to get compliance-critical data reviewed, without hurting completion</h2>
+        <p class="cs-body reveal reveal-delay-1">Each change stands on its own and maps back to the problem. The broader structural move, two flat tabs rebuilt into a three-step sidebar with sub-steps, is the container they sit in.</p>
+      </div>
 
       <!-- Decision 1 -->
       <div class="cs-change-block reveal">
@@ -910,156 +919,157 @@
             <p>This is the headline compliance and data-accuracy move. The problem was never that experts refused to check their data; it was that the structure gave the most important data no prominence. Weight follows importance, and accurate profiles are what let Dialectica match an expert to the right project.</p>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- Comparison slider (Decision 1 visual: old vs new flow), sits in the wide lane -->
-    <div class="cs-comparison cs-wide reveal" id="comparison">
-      <!-- After / new image (bottom layer, fills right side) -->
-      <img src="Images/Case studies/ToE/Getting%20started-new.png" alt="Redesigned Terms of Engagement flow: three-step layout with sidebar navigation, current experience first">
-      <span class="cs-comparison-label cs-comparison-label--after">After</span>
+        <!-- Comparison slider (Decision 1 visual: old vs new flow), sits in the wide lane -->
+        <div class="cs-comparison cs-wide reveal" id="comparison" style="margin-top: 56px;">
+          <!-- After / new image (bottom layer, fills right side) -->
+          <img src="Images/Case studies/ToE/Getting%20started-new.png" alt="Redesigned Terms of Engagement flow: three-step layout with sidebar navigation, current experience first">
+          <span class="cs-comparison-label cs-comparison-label--after">After</span>
 
-      <!-- Before / old image (top layer, clipped, reveals left side) -->
-      <div class="cs-comparison-after" id="comparisonAfter">
-        <img src="Images/Case studies/ToE/%5BD0%5D%20Getting%20started-old.png" alt="Old Terms of Engagement flow: single dense page with two flat tabs">
-        <span class="cs-comparison-label cs-comparison-label--before">Before</span>
-      </div>
+          <!-- Before / old image (top layer, clipped, reveals left side) -->
+          <div class="cs-comparison-after" id="comparisonAfter">
+            <img src="Images/Case studies/ToE/%5BD0%5D%20Getting%20started-old.png" alt="Old Terms of Engagement flow: single dense page with two flat tabs">
+            <span class="cs-comparison-label cs-comparison-label--before">Before</span>
+          </div>
 
-      <!-- Draggable handle -->
-      <div class="cs-comparison-handle" id="comparisonHandle">
-        <div class="cs-comparison-handle-arrows">
-          <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 1L2 5L6 9" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 1L8 5L4 9" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          <!-- Draggable handle -->
+          <div class="cs-comparison-handle" id="comparisonHandle">
+            <div class="cs-comparison-handle-arrows">
+              <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 1L2 5L6 9" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 1L8 5L4 9" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
         </div>
+        <p class="cs-image-caption cs-wide reveal" style="margin-top: 12px;">Drag to compare the old single page with the new three-step flow, current experience now first</p>
       </div>
-    </div>
-    <p class="cs-image-caption cs-wide reveal" style="margin-top: 12px;">Drag to compare the old single page with the new three-step flow, current experience now first</p>
 
-    <!-- Earlier explorations 1 (nested under Decision 1) -->
-    <div class="reveal" style="margin-top: 72px;">
-      <p class="cs-change-eyebrow">Earlier explorations: Inline experience editing</p>
-      <h4 class="cs-change-title">Inline experience editing, designed then cut</h4>
-      <p class="cs-body">Experts were first meant to correct their experience directly in the flow: edit pencils on each role and a single "confirm all experiences are up to date" checkbox. That version needed a whole review layer behind it, a dashboard where Dialectica associates could vet each submitted change before it went live. The overhead was not justified at this volume, so the shipped design used a lighter "Request a change" path that flags inaccurate data for manual review.</p>
-      <p class="cs-body">Showing the cut concept beside the shipped pattern is deliberate: the idea was explored properly, and the scope call was a decision rather than a limitation nobody noticed.</p>
-      <div class="cs-image-frame" style="margin-top: 24px;">
-        <img src="Images/Case studies/ToE/%5BDeep%5D%20Editable%20experience.png" alt="Cut concept: inline experience editing with edit pencils and a confirm checkbox">
+      <!-- Earlier explorations 1 (nested under Decision 1) -->
+      <div class="reveal" style="margin-top: 72px;">
+        <p class="cs-change-eyebrow">Earlier explorations: Inline experience editing</p>
+        <h4 class="cs-change-title">Inline experience editing, designed then cut</h4>
+        <p class="cs-body">Experts were first meant to correct their experience directly in the flow: edit pencils on each role and a single "confirm all experiences are up to date" checkbox. That version needed a whole review layer behind it, a dashboard where Dialectica associates could vet each submitted change before it went live. The overhead was not justified at this volume, so the shipped design used a lighter "Request a change" path that flags inaccurate data for manual review.</p>
+        <p class="cs-body">Showing the cut concept beside the shipped pattern is deliberate: the idea was explored properly, and the scope call was a decision rather than a limitation nobody noticed.</p>
+        <div class="cs-image-frame" style="margin-top: 24px;">
+          <img src="Images/Case studies/ToE/%5BDeep%5D%20Editable%20experience.png" alt="Cut concept: inline experience editing with edit pencils and a confirm checkbox">
+        </div>
+        <p class="cs-image-caption">The cut inline-edit concept. The shipped flow above uses a lighter "Request a change" path instead.</p>
       </div>
-      <p class="cs-image-caption">The cut inline-edit concept. The shipped flow above uses a lighter "Request a change" path instead.</p>
-    </div>
 
-    <div class="cs-divider" style="margin-top: 56px;"></div>
+      <div class="cs-divider" style="margin-top: 56px;"></div>
 
-    <!-- Decision 2 -->
-    <div class="cs-change-block reveal">
-      <p class="cs-change-eyebrow">Decision 2</p>
-      <h3 class="cs-change-title">The Compliance Tutorial and Questionnaire moved inside the flow</h3>
-      <div class="cs-baw-grid cs-baw-grid--three">
-        <div class="cs-baw-card card">
-          <h5>Before</h5>
-          <p>Both reached experts as separate emails, outside the main experience. They read as extra admin, homework to do on the side, each handled in isolation rather than as part of screening.</p>
+      <!-- Decision 2 -->
+      <div class="cs-change-block reveal">
+        <p class="cs-change-eyebrow">Decision 2</p>
+        <h3 class="cs-change-title">The Compliance Tutorial and Questionnaire moved inside the flow</h3>
+        <div class="cs-baw-grid cs-baw-grid--three">
+          <div class="cs-baw-card card">
+            <h5>Before</h5>
+            <p>Both reached experts as separate emails, outside the main experience. They read as extra admin, homework to do on the side, each handled in isolation rather than as part of screening.</p>
+          </div>
+          <div class="cs-baw-card card">
+            <h5>After</h5>
+            <p>Both became dedicated sub-steps of Getting Started, in one guided sequence. The Tutorial presents compliance obligations to read and confirm; the Questionnaire asks client-configured questions where certain answers automatically disqualify an expert from that project. Each sub-step has one job and one confirm.</p>
+          </div>
+          <div class="cs-baw-card card">
+            <h5>Why</h5>
+            <p>Eligibility is the other half of what has to be true before a client call. Scattering the steps across emails made screening feel optional and easy to skim. Single-purpose sub-steps keep momentum even though there is more to do, which is what let the extra steps land without denting completion.</p>
+          </div>
         </div>
-        <div class="cs-baw-card card">
-          <h5>After</h5>
-          <p>Both became dedicated sub-steps of Getting Started, in one guided sequence. The Tutorial presents compliance obligations to read and confirm; the Questionnaire asks client-configured questions where certain answers automatically disqualify an expert from that project. Each sub-step has one job and one confirm.</p>
+
+        <!-- Decision 2 visual: sub-step toggle. Both shots are desktop and the same
+             width, so they stack in one grid cell rather than being height-matched
+             like Decision 3's device toggle. -->
+        <div class="cs-image-frame cs-toggle-frame reveal" data-view="terms">
+          <div class="cs-segmented" role="tablist" aria-label="Choose sub-step">
+            <button type="button" class="cs-segmented-btn is-active" data-view="terms" data-label="Terms" role="tab" aria-selected="true">Terms</button>
+            <button type="button" class="cs-segmented-btn" data-view="questionnaire" data-label="Questionnaire" role="tab" aria-selected="false">Questionnaire</button>
+          </div>
+          <div class="cs-toggle-view cs-toggle-view--stack">
+            <img class="cs-toggle-img is-shown" data-view="terms" src="Images/Case studies/ToE/%5BD1.2%5D%20Terms.png" alt="The Terms sub-step of Getting Started: obligations to read, with two consent checkboxes and a single Confirm">
+            <img class="cs-toggle-img" data-view="questionnaire" src="Images/Case studies/ToE/%5BD1.3%5D%20Questionnaire.png" alt="The Questionnaire sub-step of Getting Started: client-configured yes/no questions with inline validation">
+          </div>
         </div>
-        <div class="cs-baw-card card">
-          <h5>Why</h5>
-          <p>Eligibility is the other half of what has to be true before a client call. Scattering the steps across emails made screening feel optional and easy to skim. Single-purpose sub-steps keep momentum even though there is more to do, which is what let the extra steps land without denting completion.</p>
-        </div>
+        <p class="cs-image-caption reveal">Each sub-step has one job and one confirm, with the sidebar holding the sequence together.</p>
       </div>
-    </div>
 
-    <!-- Decision 2 visual: sub-step toggle. Both shots are desktop and the same
-         width, so they stack in one grid cell rather than being height-matched
-         like Decision 3's device toggle. -->
-    <div class="cs-image-frame cs-toggle-frame reveal" data-view="terms">
-      <div class="cs-segmented" role="tablist" aria-label="Choose sub-step">
-        <button type="button" class="cs-segmented-btn is-active" data-view="terms" data-label="Terms" role="tab" aria-selected="true">Terms</button>
-        <button type="button" class="cs-segmented-btn" data-view="questionnaire" data-label="Questionnaire" role="tab" aria-selected="false">Questionnaire</button>
-      </div>
-      <div class="cs-toggle-view cs-toggle-view--stack">
-        <img class="cs-toggle-img is-shown" data-view="terms" src="Images/Case studies/ToE/%5BD1.2%5D%20Terms.png" alt="The Terms sub-step of Getting Started: obligations to read, with two consent checkboxes and a single Confirm">
-        <img class="cs-toggle-img" data-view="questionnaire" src="Images/Case studies/ToE/%5BD1.3%5D%20Questionnaire.png" alt="The Questionnaire sub-step of Getting Started: client-configured yes/no questions with inline validation">
-      </div>
-    </div>
-    <p class="cs-image-caption reveal">Each sub-step has one job and one confirm, with the sidebar holding the sequence together.</p>
+      <div class="cs-divider" style="margin-top: 56px;"></div>
 
-    <div class="cs-divider" style="margin-top: 56px;"></div>
+      <!-- Decision 3 -->
+      <div class="cs-change-block reveal">
+        <p class="cs-change-eyebrow">Decision 3</p>
+        <h3 class="cs-change-title">Availability slots became editable in place, not delete-and-redo</h3>
+        <div class="cs-baw-grid cs-baw-grid--three">
+          <div class="cs-baw-card card">
+            <h5>Before</h5>
+            <p>The availability step was already a weekly calendar, but slots were fixed. Once created, a slot was permanent. To fix a time you deleted it and built a new one from scratch.</p>
+          </div>
+          <div class="cs-baw-card card">
+            <h5>After</h5>
+            <p>The calendar was redesigned so slots became editable. Experts place a slot on the grid, then keep control of it: drag to move it, or click to open a side menu and edit it fully. Correcting a slot is now a small adjustment.</p>
+          </div>
+          <div class="cs-baw-card card">
+            <h5>Why</h5>
+            <p>Availability is what lets Dialectica actually schedule the call the whole flow is building toward, so lowering the effort here has a direct operational payoff. It is the one change with a clean, defensible number attached, because the design is the direct mechanism.</p>
+          </div>
+        </div>
 
-    <!-- Decision 3 -->
-    <div class="cs-change-block reveal">
-      <p class="cs-change-eyebrow">Decision 3</p>
-      <h3 class="cs-change-title">Availability slots became editable in place, not delete-and-redo</h3>
-      <div class="cs-baw-grid cs-baw-grid--three">
-        <div class="cs-baw-card card">
-          <h5>Before</h5>
-          <p>The availability step was already a weekly calendar, but slots were fixed. Once created, a slot was permanent. To fix a time you deleted it and built a new one from scratch.</p>
+        <!-- Decision 3 visual: device toggle. Pulled into the full lane so the desktop
+             shot renders at its intended 1080px width (and 812px height); the mobile
+             shot is overlaid and matched to that same height, landing at 375px. -->
+        <div class="cs-image-frame cs-toggle-frame reveal" data-view="desktop">
+          <div class="cs-segmented" role="tablist" aria-label="Choose device view">
+            <button type="button" class="cs-segmented-btn is-active" data-view="desktop" data-label="Desktop" role="tab" aria-selected="true">Desktop</button>
+            <button type="button" class="cs-segmented-btn" data-view="mobile" data-label="Mobile" role="tab" aria-selected="false">Mobile</button>
+          </div>
+          <div class="cs-toggle-view">
+            <img class="cs-toggle-img is-shown" data-view="desktop" src="Images/Case studies/ToE/%5BD2%5D%20Availabilities.png" alt="Redesigned availability calendar, desktop view: editable weekly slots">
+            <img class="cs-toggle-img cs-toggle-img--mobile" data-view="mobile" src="Images/Case studies/ToE/%5BM2%5D%20Availabilities.png" alt="Redesigned availability calendar, mobile view: editable weekly slots">
+          </div>
         </div>
-        <div class="cs-baw-card card">
-          <h5>After</h5>
-          <p>The calendar was redesigned so slots became editable. Experts place a slot on the grid, then keep control of it: drag to move it, or click to open a side menu and edit it fully. Correcting a slot is now a small adjustment.</p>
-        </div>
-        <div class="cs-baw-card card">
-          <h5>Why</h5>
-          <p>Availability is what lets Dialectica actually schedule the call the whole flow is building toward, so lowering the effort here has a direct operational payoff. It is the one change with a clean, defensible number attached, because the design is the direct mechanism.</p>
-        </div>
+        <p class="cs-image-caption reveal">Comparing the same months a year apart, the share of experts submitting availability rose about 4 percentage points, from about 70% to about 74%.</p>
       </div>
-    </div>
 
-    <!-- Decision 3 visual: device toggle. Pulled into the full lane so the desktop
-         shot renders at its intended 1080px width (and 812px height); the mobile
-         shot is overlaid and matched to that same height, landing at 375px. -->
-    <div class="cs-image-frame cs-toggle-frame reveal" data-view="desktop">
-      <div class="cs-segmented" role="tablist" aria-label="Choose device view">
-        <button type="button" class="cs-segmented-btn is-active" data-view="desktop" data-label="Desktop" role="tab" aria-selected="true">Desktop</button>
-        <button type="button" class="cs-segmented-btn" data-view="mobile" data-label="Mobile" role="tab" aria-selected="false">Mobile</button>
-      </div>
-      <div class="cs-toggle-view">
-        <img class="cs-toggle-img is-shown" data-view="desktop" src="Images/Case studies/ToE/%5BD2%5D%20Availabilities.png" alt="Redesigned availability calendar, desktop view: editable weekly slots">
-        <img class="cs-toggle-img cs-toggle-img--mobile" data-view="mobile" src="Images/Case studies/ToE/%5BM2%5D%20Availabilities.png" alt="Redesigned availability calendar, mobile view: editable weekly slots">
-      </div>
-    </div>
-    <p class="cs-image-caption reveal">Comparing the same months a year apart, the share of experts submitting availability rose about 4 percentage points, from about 70% to about 74%.</p>
+      <div class="cs-divider" style="margin-top: 56px;"></div>
 
-    <div class="cs-divider" style="margin-top: 56px;"></div>
-
-    <!-- Decision 4 -->
-    <div class="cs-change-block reveal">
-      <p class="cs-change-eyebrow">Decision 4</p>
-      <h3 class="cs-change-title">Experts pick categories and vendors from a shortlist instead of typing them</h3>
-      <div class="cs-baw-grid cs-baw-grid--three">
-        <div class="cs-baw-card card">
-          <h5>Before</h5>
-          <p>The product-category and vendor data was chased separately over email, outside Terms of Engagement, after experts had already moved on. It depended on experts coming back to a message, so few ever gave it.</p>
+      <!-- Decision 4 -->
+      <div class="cs-change-block reveal">
+        <p class="cs-change-eyebrow">Decision 4</p>
+        <h3 class="cs-change-title">Experts pick categories and vendors from a shortlist instead of typing them</h3>
+        <div class="cs-baw-grid cs-baw-grid--three">
+          <div class="cs-baw-card card">
+            <h5>Before</h5>
+            <p>The product-category and vendor data was chased separately over email, outside Terms of Engagement, after experts had already moved on. It depended on experts coming back to a message, so few ever gave it.</p>
+          </div>
+          <div class="cs-baw-card card">
+            <h5>After</h5>
+            <p>It became "Profile Boost," a skippable step inside onboarding. The shipped v2 splits capture into two lighter steps: pick from a shortlist of product categories (or add your own), then pick the vendors behind them (or add your own).</p>
+          </div>
+          <div class="cs-baw-card card">
+            <h5>Why</h5>
+            <p>Matching quality depends on structured, expert-provided detail. Capturing it inside the flow, while experts are already engaged, gets richer data than an email chase. Selecting is far quicker than typing from a blank field, and it showed.</p>
+          </div>
         </div>
-        <div class="cs-baw-card card">
-          <h5>After</h5>
-          <p>It became "Profile Boost," a skippable step inside onboarding. The shipped v2 splits capture into two lighter steps: pick from a shortlist of product categories (or add your own), then pick the vendors behind them (or add your own).</p>
+        <!-- Decision 4 visual: step toggle. Both shots are desktop and the same
+             size, so they stack like the Decision 2 sub-step toggle. -->
+        <div class="cs-image-frame cs-toggle-frame reveal" data-view="categories">
+          <div class="cs-segmented" role="tablist" aria-label="Choose Profile Boost step">
+            <button type="button" class="cs-segmented-btn is-active" data-view="categories" data-label="Categories" role="tab" aria-selected="true">Categories</button>
+            <button type="button" class="cs-segmented-btn" data-view="vendors" data-label="Vendors" role="tab" aria-selected="false">Vendors</button>
+          </div>
+          <div class="cs-toggle-view cs-toggle-view--stack">
+            <img class="cs-toggle-img is-shown" data-view="categories" src="Images/Case studies/ToE/%5BD3%5D%20KM%20-%20Categories.png" alt="Profile Boost step 1: product categories offered as selectable chips, with an Add a category field and a Skip option">
+            <img class="cs-toggle-img" data-view="vendors" src="Images/Case studies/ToE/%5BD3%5D%20KM%20-%20Vendors.png" alt="Profile Boost step 2: vendor chips shown one category at a time, with a search field to add more">
+          </div>
         </div>
-        <div class="cs-baw-card card">
-          <h5>Why</h5>
-          <p>Matching quality depends on structured, expert-provided detail. Capturing it inside the flow, while experts are already engaged, gets richer data than an email chase. Selecting is far quicker than typing from a blank field, and it showed.</p>
-        </div>
+        <p class="cs-image-caption">Step 1 picks the product categories, step 2 the vendors behind each one. Conversion into the step roughly doubled, from about 17% to about 33%, with richer data too: about 6.5 vendors and 3.4 categories per expert, up from 4.2 and 2.0.</p>
       </div>
-      <!-- Decision 4 visual: step toggle. Both shots are desktop and the same
-           size, so they stack like the Decision 2 sub-step toggle. -->
-      <div class="cs-image-frame cs-toggle-frame reveal" data-view="categories">
-        <div class="cs-segmented" role="tablist" aria-label="Choose Profile Boost step">
-          <button type="button" class="cs-segmented-btn is-active" data-view="categories" data-label="Categories" role="tab" aria-selected="true">Categories</button>
-          <button type="button" class="cs-segmented-btn" data-view="vendors" data-label="Vendors" role="tab" aria-selected="false">Vendors</button>
-        </div>
-        <div class="cs-toggle-view cs-toggle-view--stack">
-          <img class="cs-toggle-img is-shown" data-view="categories" src="Images/Case studies/ToE/%5BD3%5D%20KM%20-%20Categories.png" alt="Profile Boost step 1: product categories offered as selectable chips, with an Add a category field and a Skip option">
-          <img class="cs-toggle-img" data-view="vendors" src="Images/Case studies/ToE/%5BD3%5D%20KM%20-%20Vendors.png" alt="Profile Boost step 2: vendor chips shown one category at a time, with a search field to add more">
-        </div>
-      </div>
-      <p class="cs-image-caption">Step 1 picks the product categories, step 2 the vendors behind each one. Conversion into the step roughly doubled, from about 17% to about 33%, with richer data too: about 6.5 vendors and 3.4 categories per expert, up from 4.2 and 2.0.</p>
 
-      <!-- Earlier explorations 2 (nested under Decision 4) -->
+      <!-- Earlier explorations 2 (follows on from Decision 4). A sibling, not a
+           child: nested boxes would keep Decision 4 pinned underneath it. -->
       <div class="reveal" style="margin-top: 56px;">
         <p class="cs-change-eyebrow">Earlier explorations: Profile Boost v1 to v2</p>
         <h4 class="cs-change-title">Profile Boost, v1 to v2</h4>
@@ -1087,7 +1097,7 @@
         <p class="cs-image-caption">Exploration: Profile Boost folded into the same step, surfaced through a per-company "Boost your profile" modal.</p>
         <p class="cs-body" style="margin-top: 24px;">Showing v1, the combined-step exploration and the shipped v2 together shows the iteration behind the step, not just the endpoint.</p>
       </div>
-    </div>
+    </section>
 
     <div class="cs-divider" style="margin-top: 56px;"></div>
 

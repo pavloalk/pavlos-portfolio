@@ -187,6 +187,7 @@
           <div class="sg-cheat-row"><span>"Framed screenshot with padding"</span><code>cs-image-frame</code></div>
           <div class="sg-cheat-row"><span>"Caption under an image"</span><code>cs-image-caption</code></div>
           <div class="sg-cheat-row"><span>"New section with label and title"</span><code>cs-section</code> + <code>cs-label</code> + <code>cs-h2</code></div>
+          <div class="sg-cheat-row"><span>"A second heading inside one section"</span><code>cs-shead-group</code></div>
           <div class="sg-cheat-row"><span>"Numbered list of design changes"</span><code>cs-change-list</code></div>
           <div class="sg-cheat-row"><span>"Role / timeline / context columns"</span><code>cs-meta</code></div>
           <div class="sg-cheat-row"><span>"Soft divider between sections"</span><code>cs-divider</code></div>
@@ -333,6 +334,10 @@
         <h4 style="font-size: var(--font-small); font-weight: 600; color: var(--text-primary); margin-bottom: var(--space-4);">card</h4>
         <p style="font-size: var(--font-small); color: var(--text-body); line-height: 1.6;">The text container: soft surface, radius-lg corners, space-24 padding. Change cards, stat blocks, and experience entries are all this card plus their own layout inside.</p>
       </div>
+
+      <h3 class="cs-h3" style="margin-top: var(--space-40);">cs-shead-group</h3>
+      <p class="sg-note">One rule keeps the sticky headings working: a heading's immediate parent is the box holding everything that heading owns, screenshots and captions included. The browser pins it while that box is on screen and pushes it out as the box ends, so a box that stops early unpins the heading early.</p>
+      <p class="sg-note">Usually cs-section is that box and there is nothing to do. When a section carries more than one heading — as Design decisions does in ToE — wrap each heading and its content in its own box: cs-shead-group for the section's own heading, cs-change-block for each decision. Keep them siblings; nesting one inside another leaves both pinned at once.</p>
     </section>
 
     <div class="cs-divider"></div>
@@ -363,7 +368,7 @@
     </section>
 
     <h3 class="cs-h3">cs-wide</h3>
-    <p class="sg-note">Add cs-wide to any block placed directly in the page to stretch it to the wide lane. This one has it:</p>
+    <p class="sg-note">Add cs-wide to any block to stretch it to the wide lane. It works at any depth, so a wide image can sit inside the box its heading owns — see cs-shead-group below. This one has it:</p>
     <div class="cs-hero-image cs-wide" style="margin-top: 0; margin-bottom: var(--space-80);">
       <img src="Images/Case studies/KM-Snapshot.png" alt="Wide lane example">
     </div>

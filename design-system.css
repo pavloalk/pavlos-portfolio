@@ -146,6 +146,9 @@
   --divider-mid:  var(--light60);
   --divider-edge: var(--light40);
 
+  /* Sticky section heading */
+  --shead-tint: rgba(253, 252, 253, 0.72); /* light10 @ 72% */
+
   /* Icons */
   --icon-color: var(--light110);
 
@@ -207,6 +210,9 @@
   --divider-mid:  var(--light80);
   --divider-edge: var(--light100);
 
+  /* Sticky section heading */
+  --shead-tint: rgba(25, 30, 40, 0.72); /* light110 @ 72% */
+
   /* Icons */
   --icon-color: var(--light50);
 
@@ -262,6 +268,10 @@ body {
   background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
   min-height: 100vh;
   line-height: 1.6;
+  /* Trims the 100vw .cs-shead-scrim. Must be `clip`, not `hidden`: `hidden`
+     would make body a scroll container and every sticky heading would pin to
+     it instead of the viewport, which is to say not at all. */
+  overflow-x: clip;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -293,7 +303,18 @@ img { display: block; max-width: 100%; }
 
 .page > * { grid-column: text; }
 
-.cs-wide { grid-column: wide; }
+/* Works at any depth, not just on a direct child of .page — a wide element has
+   to be able to sit inside the box its heading owns. The width is stated
+   outright and the negative margin centres it, which is a no-op when the
+   element does land in the wide lane and the lane is already that width. */
+.cs-wide {
+  --wide-w: min(calc(var(--container-wide) - 2 * var(--page-gutter)),
+                calc(100vw - 2 * var(--page-gutter)));
+  grid-column: wide;
+  width: var(--wide-w);
+  max-width: none;
+  margin-left: calc((100% - var(--wide-w)) / 2);
+}
 
 .card {
   background: var(--surface-card);
@@ -344,6 +365,200 @@ img { display: block; max-width: 100%; }
   line-height: 1.4;
   color: var(--text-primary);
   margin-bottom: var(--space-8);
+}
+
+
+/* ── Sticky Section Heading ──
+   site.js wraps every eyebrow immediately followed by its title — .cs-label +
+   .cs-h2, and .cs-change-eyebrow + .cs-change-title — in a .cs-sticky-head and
+   pins the pair to the top of the viewport. 8px after it pins, the title
+   cross-fades into a copy of itself set at eyebrow size (.cs-title-mini); the
+   two share one grid cell, so the collapse happens in place. site.js copies the
+   eyebrow's own type onto the copy, so each pattern shrinks to its own scale.
+
+   Nothing here is positioned by script. Scrolling runs on the compositor and
+   so does `position: sticky`, but anything JavaScript moves during a scroll
+   arrives a frame late and visibly wobbles. So the browser does the pinning,
+   and site.js only ever toggles a class.
+
+   That works because of one rule the markup has to keep: a heading's immediate
+   parent is the box holding everything that heading owns. Sticky pins it while
+   that box is on screen and pushes it out as the box ends — so the box has to
+   end where the heading's content does. `.cs-section` is that box for most
+   headings; see .cs-shead-group below.
+
+   The box carries no height beyond the bar — the title overflows it and
+   .cs-shead-spacer holds the rest of the space in the flow. Sticky lets go
+   when the element's own bottom reaches the bottom of its box, so a box tall
+   enough for the full title would release about 100px early, snapping the
+   title back to full size while the bar still looked pinned. */
+
+.cs-sticky-head {
+  --shead-pad-t: var(--space-16);
+  --shead-pad-b: var(--space-24);
+  --shead-bar: calc(var(--shead-pad-t) + var(--shead-pad-b) + var(--font-small) * 3.2);
+
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  height: var(--shead-bar);
+  padding: var(--shead-pad-t) 0 var(--shead-pad-b);
+  /* Only the text itself should catch clicks — the rest of the pinned box sits
+     over content that is still scrolling behind it. */
+  pointer-events: none;
+}
+
+.cs-shead-label,
+.cs-shead-title { pointer-events: auto; }
+
+/* Scoped to the wrapper only to outrank the page-level rules on the patterns
+   these are applied to — the bar owns its own spacing in both directions. */
+.cs-sticky-head .cs-shead-label,
+.cs-sticky-head .cs-shead-title { margin-bottom: 0; }
+
+.cs-title-swap { display: grid; }
+.cs-title-swap > * { grid-area: 1 / 1; }
+
+/* Holds the space the title gives up by overflowing the pinned box above.
+   site.js sets the height. */
+.cs-shead-spacer { height: 0; }
+
+/* A box that exists only so the heading inside it has something to be sticky
+   within. Needed wherever a section holds more than one heading — the section
+   would otherwise keep the first one pinned across all the others. */
+.cs-shead-group { display: block; }
+
+/* The swap has direction: the big title leaves upward, the small one arrives
+   from below, both travelling 8px. */
+.cs-shead-title {
+  transition: opacity 0.16s var(--ease),
+              transform 0.16s var(--ease);
+}
+
+.cs-title-mini {
+  align-self: start;
+  /* Type is copied off the eyebrow by site.js; this is only the pre-script
+     fallback. */
+  font-size: var(--font-small);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text-primary);
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.22s var(--ease) 0.06s,
+              transform 0.22s var(--ease) 0.06s;
+
+  /* Long titles wrap to two lines at most; site.js sizes the fill to match. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.cs-sticky-head.is-stuck .cs-shead-title {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+
+.cs-sticky-head.is-stuck .cs-title-mini {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* The scroll edge. There is no panel and no border — content simply blurs and
+   darkens as it passes under the heading, the way iOS does it.
+
+   A single backdrop-filter would blur evenly and stop on a visible line, so
+   site.js builds a stack of five layers instead. Each one is masked to its own
+   band, and because each blurs whatever the layer beneath it already produced,
+   the blur compounds toward the top of the screen and ramps off to nothing at
+   the bottom. Fixed rather than absolute so it can span the full width without
+   pushing the page sideways.
+
+   Absolute inside the heading rather than fixed to the viewport, so it is
+   carried by the same sticky positioning and needs no script to keep up with
+   it — including on the way out, when the two leave together.
+
+   Opacity never goes on .cs-shead-scrim itself, only on the layers: an ancestor
+   with opacity < 1 becomes a backdrop root and the children would have nothing
+   left to blur. */
+.cs-shead-scrim {
+  position: absolute;
+  top: 0;
+  /* Edge to edge from inside the text lane. Relies on body's overflow-x. */
+  width: 100vw;
+  margin-left: calc((100% - 100vw) / 2);
+  height: calc(var(--shead-bar) + 40px);
+  z-index: -1; /* behind the heading's own text, over the page */
+  pointer-events: none;
+}
+
+.cs-shead-scrim > span {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+
+/* Tint — strongest at the top edge, gone well before the bottom. */
+.cs-shead-scrim::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+  background: linear-gradient(180deg, var(--shead-tint) 0%, transparent 100%);
+}
+
+.cs-sticky-head.is-stuck .cs-shead-scrim > span,
+.cs-sticky-head.is-stuck .cs-shead-scrim::after { opacity: 1; }
+
+/* Bands run bottom to top: weakest and lowest first, strongest against the
+   top edge, each overlapping its neighbours so no step is visible. */
+.cs-shead-scrim > span:nth-child(1) {
+  -webkit-backdrop-filter: blur(0.5px);
+          backdrop-filter: blur(0.5px);
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 14%, #000 29%, transparent 43%);
+          mask-image: linear-gradient(to top, transparent 0%, #000 14%, #000 29%, transparent 43%);
+}
+
+.cs-shead-scrim > span:nth-child(2) {
+  -webkit-backdrop-filter: blur(1px);
+          backdrop-filter: blur(1px);
+  -webkit-mask-image: linear-gradient(to top, transparent 14%, #000 29%, #000 43%, transparent 57%);
+          mask-image: linear-gradient(to top, transparent 14%, #000 29%, #000 43%, transparent 57%);
+}
+
+.cs-shead-scrim > span:nth-child(3) {
+  -webkit-backdrop-filter: blur(2px);
+          backdrop-filter: blur(2px);
+  -webkit-mask-image: linear-gradient(to top, transparent 29%, #000 43%, #000 57%, transparent 71%);
+          mask-image: linear-gradient(to top, transparent 29%, #000 43%, #000 57%, transparent 71%);
+}
+
+.cs-shead-scrim > span:nth-child(4) {
+  -webkit-backdrop-filter: blur(4px);
+          backdrop-filter: blur(4px);
+  -webkit-mask-image: linear-gradient(to top, transparent 43%, #000 57%, #000 71%, transparent 86%);
+          mask-image: linear-gradient(to top, transparent 43%, #000 57%, #000 71%, transparent 86%);
+}
+
+/* Stays solid to the very top so the blurriest part is the screen edge. */
+.cs-shead-scrim > span:nth-child(5) {
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+  -webkit-mask-image: linear-gradient(to top, transparent 57%, #000 71%, #000 100%);
+          mask-image: linear-gradient(to top, transparent 57%, #000 71%, #000 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-shead-scrim > span,
+  .cs-shead-scrim::after,
+  .cs-shead-title,
+  .cs-title-mini { transition: none; }
 }
 
 
@@ -710,7 +925,9 @@ body.is-lightbox-open { overflow: hidden; }
               transform 0.7s var(--ease);
 }
 
-.reveal.visible { opacity: 1; transform: translateY(0); }
+/* Settles on `none`, not translateY(0): a lingering transform would make every
+   revealed block a containing block for the fixed .cs-shead-scrim inside it. */
+.reveal.visible { opacity: 1; transform: none; }
 
 .reveal-delay-1 { transition-delay: 0.1s; }
 .reveal-delay-2 { transition-delay: 0.2s; }

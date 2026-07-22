@@ -9,6 +9,138 @@
    - data-nav-enter         (default "to-case-study")
    ═══════════════════════════════════════════════════════ */
 
+// ── Sticky section headings ──
+// Every eyebrow immediately followed by its title gets wrapped in a
+// .cs-sticky-head that pins to the top of the viewport. COLLAPSE_AT px after it
+// pins, the big title cross-fades into a copy of itself set at eyebrow size, so
+// the pinned bar stays two short lines tall.
+//
+// Nothing here positions anything. The pinning is CSS `position: sticky`, which
+// the compositor handles along with the scroll itself; script that moves an
+// element during a scroll always lands a frame late and wobbles. All this does
+// is build the markup once and flip a class at a threshold, which cannot.
+//
+// Headings replace each other rather than stacking, and sticky gives that for
+// free — provided each heading's immediate parent is the box holding what that
+// heading owns, so it is pushed out exactly as its own content ends. See the
+// note on .cs-sticky-head in design-system.css.
+//
+// Runs before the reveal block on purpose: it moves the .reveal class off the
+// title and onto the wrapper (the title's own opacity is needed for the
+// cross-fade), and the observer below picks up whichever elements carry it.
+(function () {
+  var COLLAPSE_AT = 8; // extra scroll past the pin before the title collapses
+  var TITLE_FOR = { 'cs-label': 'cs-h2', 'cs-change-eyebrow': 'cs-change-title' };
+
+  var heads = [];
+
+  document.querySelectorAll('.cs-label, .cs-change-eyebrow').forEach(function (label) {
+    var wanted = TITLE_FOR[label.classList.contains('cs-label') ? 'cs-label' : 'cs-change-eyebrow'];
+    var title = label.nextElementSibling;
+    if (!title || !title.classList.contains(wanted)) return;
+
+    // Zero-height marker left where the heading sits in the flow — how far it
+    // has scrolled past this is how far the heading is pinned.
+    var sentinel = document.createElement('div');
+    sentinel.className = 'cs-sticky-sentinel';
+    label.parentNode.insertBefore(sentinel, label);
+
+    var head = document.createElement('div');
+    head.className = 'cs-sticky-head';
+    label.parentNode.insertBefore(head, label);
+
+    var swap = document.createElement('div');
+    swap.className = 'cs-title-swap';
+
+    if (title.classList.contains('reveal')) {
+      title.classList.remove('reveal');
+      swap.classList.add('reveal');
+    }
+
+    var mini = document.createElement('span');
+    mini.className = 'cs-title-mini';
+    mini.setAttribute('aria-hidden', 'true');
+    mini.textContent = title.textContent;
+
+    label.classList.add('cs-shead-label');
+    title.classList.add('cs-shead-title');
+
+    head.appendChild(label);
+    head.appendChild(swap);
+    swap.appendChild(title);
+    swap.appendChild(mini);
+
+    // The big title overflows the pinned box; this stands in for the height it
+    // would have taken, so nothing below moves.
+    var spacer = document.createElement('div');
+    spacer.className = 'cs-shead-spacer';
+    head.parentNode.insertBefore(spacer, head.nextSibling);
+
+    // The scroll edge: five stacked blur layers, weakest first. Styling is all
+    // in design-system.css — they only need to exist and be in order. Sits
+    // inside the heading so sticky carries it along.
+    var scrim = document.createElement('div');
+    scrim.className = 'cs-shead-scrim';
+    scrim.setAttribute('aria-hidden', 'true');
+    for (var i = 0; i < 5; i++) scrim.appendChild(document.createElement('span'));
+    head.insertBefore(scrim, head.firstChild);
+
+    heads.push({
+      head: head, sentinel: sentinel, spacer: spacer,
+      label: label, title: title, mini: mini
+    });
+  });
+
+  if (!heads.length) return;
+
+  // Per heading: the collapsed copy takes its type from the eyebrow above it,
+  // so each pattern shrinks to its own scale rather than a hardcoded one. Then
+  // how tall the collapsed bar is, and how much height the big title gives up
+  // by overflowing it.
+  function measure() {
+    heads.forEach(function (h) {
+      var label = getComputedStyle(h.label);
+      h.mini.style.fontSize = label.fontSize;
+      h.mini.style.fontWeight = label.fontWeight;
+      h.mini.style.letterSpacing = label.letterSpacing;
+      h.mini.style.lineHeight = label.lineHeight;
+
+      var box = getComputedStyle(h.head);
+      var padding = parseFloat(box.paddingTop) + parseFloat(box.paddingBottom);
+
+      h.bar = padding + (parseFloat(label.marginBottom) || 0) +
+              h.label.offsetHeight + h.mini.offsetHeight;
+      h.head.style.setProperty('--shead-bar', h.bar + 'px');
+      h.spacer.style.height = Math.max(0, h.title.offsetHeight - h.mini.offsetHeight) + 'px';
+    });
+  }
+
+  // Collapsed once the heading has been pinned for COLLAPSE_AT px, and it stays
+  // that way while sticky walks it back out at the end of its box — expanding
+  // it on the way out would flash the big title across the top of the screen.
+  function update() {
+    ticking = false;
+    heads.forEach(function (h) {
+      var pinnedBy = -h.sentinel.getBoundingClientRect().top;
+      h.head.classList.toggle('is-stuck', pinnedBy >= COLLAPSE_AT);
+    });
+  }
+
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+
+  measure();
+  update();
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { measure(); onScroll(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+})();
+
 // ── Scroll reveal ──
 (function () {
   var body = document.body;
