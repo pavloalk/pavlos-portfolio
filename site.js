@@ -386,7 +386,7 @@
   var sub = 0;          // which window of the current image is showing
   var winCount = 1;     // how many windows the current image needs
   var pendingSub = null;  // where to land once the next image has measured
-  var overlay, stage, titlecol, eyebrowEl, titleEl, cardsEl, bulletsEl, counterEl, prevBtn, nextBtn, imgFrame, imgView, imgEl, dotsEl;
+  var overlay, stage, titlecol, eyebrowEl, titleEl, cardsEl, bulletsEl, counterEl, prevBtn, nextBtn, imgFrame, imgView, imgEl, dotsEl, lineEl, thumbEl;
 
   function firstSentence(el) {
     if (!el) return '';
@@ -436,21 +436,40 @@
         var bullets = bulletsAttr
           ? bulletsAttr.split('|').map(function (s) { return s.trim(); }).filter(Boolean)
           : [];
-        cur = { title: n.textContent.trim(), eyebrow: eyebrowFor(n), cards: [], bullets: bullets, img: null, node: n };
+        cur = { title: n.textContent.trim(), eyebrow: eyebrowFor(n), cards: [], bullets: bullets, visual: null, node: n };
         out.push(cur);
       } else if (!cur) {
         return;
       } else if (n.tagName === 'IMG') {
-        if (!cur.img && usableImg(n)) cur.img = { src: n.currentSrc || n.src, alt: n.alt || '', slide: n.hasAttribute('data-present-slide') };
+        if (cur.visual) return;   // first visual under a heading wins
+        var toggleView = n.closest('.cs-toggle-view');
+        if (toggleView) {
+          // A whole switch set: every toggle image becomes a step (a dot),
+          // captured once from the container. Mobile-tagged shots are flagged
+          // so a phone can show only those.
+          var list = [];
+          toggleView.querySelectorAll('.cs-toggle-img').forEach(function (im) {
+            list.push({
+              src: im.currentSrc || im.src,
+              alt: im.alt || '',
+              mobile: im.classList.contains('cs-toggle-img--mobile')
+            });
+          });
+          if (list.length) cur.visual = { type: 'switch', images: list };
+        } else if (usableImg(n)) {
+          // A single image: windows into the line if tagged data-present-slide,
+          // otherwise just fits the frame.
+          cur.visual = { type: 'slide', src: n.currentSrc || n.src, alt: n.alt || '', slide: n.hasAttribute('data-present-slide') };
+        }
       } else {
         cur.cards.push(cardData(n));
       }
     });
-    // Carry the last real image forward into headings that have none.
-    var lastImg = null;
+    // Carry the last real visual forward into headings that have none.
+    var lastVisual = null;
     out.forEach(function (s) {
-      if (s.img) lastImg = s.img;
-      else s.img = lastImg;
+      if (s.visual) lastVisual = s.visual;
+      else s.visual = lastVisual;
     });
     return out;
   }
@@ -534,6 +553,13 @@
     dotsEl = document.createElement('div');
     dotsEl.className = 'present-dots';
     imgFrame.appendChild(dotsEl);   // floats over the frame's right edge
+    lineEl = document.createElement('div');
+    lineEl.className = 'present-line';
+    lineEl.setAttribute('aria-hidden', 'true');
+    thumbEl = document.createElement('div');
+    thumbEl.className = 'present-line-thumb';
+    lineEl.appendChild(thumbEl);
+    imgFrame.appendChild(lineEl);   // same spot as the dots; only one shows
     imagecol.appendChild(imgFrame);
 
     stage.appendChild(titlecol);
@@ -550,6 +576,17 @@
     var topTitle = document.createElement('span');
     topTitle.className = 'present-topbar-title';
     topTitle.textContent = 'Present mode';
+
+    // Blur/tint band behind the header when it pins to the top on mobile.
+    // Mirror of the nav scrim: five compounding backdrop-blur layers, strongest
+    // against the top edge so content softens as it rises under the header.
+    // CSS hides it on desktop.
+    var topScrim = document.createElement('div');
+    topScrim.className = 'present-topbar-scrim';
+    topScrim.setAttribute('aria-hidden', 'true');
+    for (var ti = 0; ti < 5; ti++) topScrim.appendChild(document.createElement('span'));
+
+    topbar.appendChild(topScrim);
     topbar.appendChild(topTitle);
     topbar.appendChild(close);
 
@@ -596,28 +633,57 @@
     void titlecol.offsetWidth;
     titlecol.classList.add('is-entering');
 
-    paintImage(s);
+    paintVisual();
     updateNav();
   }
 
-  // Swap the image. Fade it in only when it actually changes; a section that
-  // carries the same image forward leaves it untouched (only the text moves).
-  function paintImage(s) {
-    if (!s.img) {
+  // Paint the image for the current step. For a switch set that's the current
+  // image; for a slide it's the single image. Fades in only when the src
+  // actually changes, so carrying an image forward leaves it untouched.
+  function paintVisual() {
+    var cur = currentSrc();
+    if (!cur) {
       imgEl.removeAttribute('src');
       imgFrame.classList.add('is-empty');
       winCount = 1;
-      renderDots();
+      renderIndicators();
+      updateNav();
       return;
     }
     imgFrame.classList.remove('is-empty');
-    imgEl.alt = s.img.alt;
-    if (imgEl.getAttribute('src') !== s.img.src) {
+    imgEl.alt = cur.alt || '';
+    if (imgEl.getAttribute('src') !== cur.src) {
       imgEl.classList.add('is-loading');   // hide the old one until the new is ready
-      imgEl.src = s.img.src;               // onImgLoad measures + fades in
+      imgEl.src = cur.src;                 // onImgLoad measures + fades in
     } else {
-      layoutImage();                       // same image; no fade, just re-window
+      layoutImage();                       // same image; no fade, just re-measure
     }
+  }
+
+  // A phone-width screen. A switch set that carries a mobile design collapses
+  // to just that image here.
+  function isMobile() {
+    return window.matchMedia('(max-width: 768px)').matches;
+  }
+
+  // The images a switch set actually shows: on mobile, only the mobile-tagged
+  // ones when any exist; everywhere else, all of them.
+  function switchImages(v) {
+    if (!isMobile()) return v.images;
+    var only = v.images.filter(function (im) { return im.mobile; });
+    return only.length ? only : v.images;
+  }
+
+  // The image to show for the current slide and step.
+  function currentSrc() {
+    var v = slides[idx].visual;
+    if (!v) return null;
+    if (v.type === 'switch') {
+      var imgs = switchImages(v);
+      if (!imgs.length) return null;
+      return imgs[Math.min(sub, imgs.length - 1)];
+    }
+    return { src: v.src, alt: v.alt };
   }
 
   function onImgLoad() {
@@ -628,7 +694,8 @@
     imgEl.classList.add('is-fading-in');
   }
 
-  // Position the image for the current window; animate only on deliberate steps.
+  // Position a windowed (slide) image for the current window; animate only on
+  // deliberate steps.
   function setTransform(animate) {
     var imgH = imgEl.offsetHeight;
     var viewH = imgView.clientHeight;
@@ -638,13 +705,27 @@
     imgEl.style.transform = 'translateY(' + (-Math.round(offset)) + 'px)';
   }
 
-  // Measure the current image and work out how many windows it spans.
+  // Measure the current visual and work out how many steps it spans: one per
+  // image for a switch set, one per window for a tall slide image.
   function layoutImage() {
-    if (!imgEl.getAttribute('src')) { winCount = 1; renderDots(); return; }
+    var v = slides[idx] ? slides[idx].visual : null;
+    if (!imgEl.getAttribute('src') || !v) { winCount = 1; renderIndicators(); updateNav(); return; }
 
-    // Only images tagged with data-present-slide window and slide. Everything
-    // else fits its height inside the frame (scaled down), never stepping.
-    var slideable = !!(slides[idx].img && slides[idx].img.slide);
+    // Switch set: each image just fits the frame; stepping swaps images.
+    if (v.type === 'switch') {
+      imgEl.classList.add('is-fit');
+      imgEl.classList.remove('is-sliding');
+      imgEl.style.transform = 'translateY(0)';
+      winCount = switchImages(v).length || 1;
+      if (sub > winCount - 1) sub = winCount - 1;
+      renderIndicators();
+      updateNav();
+      return;
+    }
+
+    // Slide image. Only images tagged data-present-slide window and slide;
+    // everything else fits its height inside the frame, never stepping.
+    var slideable = !!v.slide;
     imgEl.classList.toggle('is-fit', !slideable);
     if (!slideable) {
       winCount = 1;
@@ -652,7 +733,7 @@
       pendingSub = null;
       imgEl.classList.remove('is-sliding');
       imgEl.style.transform = 'translateY(0)';
-      renderDots();
+      renderIndicators();
       updateNav();
       return;
     }
@@ -669,10 +750,24 @@
     pendingSub = null;
 
     setTransform(false);   // land without animating a slide-to-slide swap
-    renderDots();
+    renderIndicators();
     updateNav();
   }
 
+  // Show the right step indicator: dots for a switch set, the minimap line for
+  // a windowed slide image, nothing for a single image that just fits.
+  function renderIndicators() {
+    var v = slides[idx] ? slides[idx].visual : null;
+    if (v && v.type === 'switch') {
+      lineEl.style.display = 'none';
+      renderDots();
+    } else {
+      dotsEl.style.display = 'none';
+      renderLine();
+    }
+  }
+
+  // Dots: one per image in a switch set, the current one filled. Passive.
   function renderDots() {
     dotsEl.innerHTML = '';
     if (winCount <= 1) { dotsEl.style.display = 'none'; return; }
@@ -680,17 +775,24 @@
     for (var i = 0; i < winCount; i++) {
       var d = document.createElement('span');
       d.className = 'present-dot' + (i === sub ? ' is-active' : '');
-      (function (target) {
-        d.addEventListener('click', function () {
-          if (target === sub) return;
-          sub = target;
-          setTransform(true);
-          renderDots();
-          updateNav();
-        });
-      })(i);
       dotsEl.appendChild(d);
     }
+  }
+
+  // Minimap line: the dark thumb's height is the visible fraction of the image
+  // and its top is the scroll position, so it lands flush at the bottom on the
+  // last step. Passive.
+  function renderLine() {
+    if (winCount <= 1) { lineEl.style.display = 'none'; return; }
+    lineEl.style.display = '';
+    var imgH = imgEl.offsetHeight || 1;
+    var viewH = imgView.clientHeight || 1;
+    var over = Math.max(0, imgH - viewH);
+    var offset = Math.min(sub * viewH, over);
+    var visFrac = Math.min(1, viewH / imgH);
+    var topFrac = offset / imgH;
+    thumbEl.style.height = (visFrac * 100) + '%';
+    thumbEl.style.top = (topFrac * 100) + '%';
   }
 
   function updateNav() {
@@ -699,36 +801,48 @@
     nextBtn.disabled = idx === slides.length - 1 && sub === winCount - 1;
   }
 
-  // Jump to another slide, landing on a given window (number, or 'last').
+  // Jump to another slide, landing on a given step (number, or 'last'). A switch
+  // set can resolve its step now, since its image count is known without
+  // measuring; a slide image waits for its load to measure its windows.
   function goSlide(nextIdx, subTarget) {
     if (nextIdx < 0 || nextIdx >= slides.length) return;
     idx = nextIdx;
-    sub = 0;
-    pendingSub = (subTarget == null ? 0 : subTarget);
+    var v = slides[idx].visual;
+    if (v && v.type === 'switch') {
+      var n = switchImages(v).length || 1;
+      sub = subTarget === 'last' ? n - 1 : Math.min(subTarget || 0, n - 1);
+      pendingSub = null;
+    } else {
+      sub = 0;
+      pendingSub = (subTarget == null ? 0 : subTarget);
+    }
     render();   // text animates in; image fades only if it changed
   }
 
-  // One linear sequence: step through this image's windows, then roll on.
-  function next() {
-    if (sub < winCount - 1) {
-      sub++;
-      setTransform(true);
-      renderDots();
-      updateNav();
-    } else if (idx < slides.length - 1) {
-      goSlide(idx + 1, 0);
+  // Step within the current visual: swap images for a switch set, slide windows
+  // for a tall image. Returns false when there's no step left this direction.
+  function step(dir) {
+    var target = sub + dir;
+    if (target < 0 || target > winCount - 1) return false;
+    sub = target;
+    var v = slides[idx].visual;
+    if (v && v.type === 'switch') {
+      paintVisual();        // swap image, fade in
+    } else {
+      setTransform(true);   // window slide
     }
+    renderIndicators();
+    updateNav();
+    return true;
+  }
+
+  // One linear sequence: step through this visual, then roll on to the next.
+  function next() {
+    if (!step(1) && idx < slides.length - 1) goSlide(idx + 1, 0);
   }
 
   function prev() {
-    if (sub > 0) {
-      sub--;
-      setTransform(true);
-      renderDots();
-      updateNav();
-    } else if (idx > 0) {
-      goSlide(idx - 1, 'last');   // land on the previous image's last window
-    }
+    if (!step(-1) && idx > 0) goSlide(idx - 1, 'last');
   }
 
   // Which heading am I currently reading? The last one whose top has scrolled

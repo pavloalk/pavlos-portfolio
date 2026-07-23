@@ -1033,6 +1033,69 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
   color: var(--text-secondary);
 }
 
+/* Blur/tint band behind the pinned header on mobile. Mirror of the nav scrim:
+   five compounding backdrop-blur layers, each masked to its own band, ramping
+   to strongest at the top screen edge where content rises under the bar. Off on
+   desktop, where the header sits static in the flow. */
+.present-topbar-scrim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  margin-left: calc((100% - 100vw) / 2);
+  height: calc(100% + 16px);
+  z-index: -1;
+  pointer-events: none;
+  display: none;
+}
+
+.present-topbar-scrim > span { position: absolute; inset: 0; }
+
+/* Tint — strongest at the top edge, gone before the bottom. */
+.present-topbar-scrim::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--shead-tint) 0%, transparent 100%);
+}
+
+/* Bands run bottom to top: weakest and lowest first, strongest against the top
+   edge, each overlapping its neighbours so no step is visible. */
+.present-topbar-scrim > span:nth-child(1) {
+  -webkit-backdrop-filter: blur(0.5px);
+          backdrop-filter: blur(0.5px);
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 14%, #000 29%, transparent 43%);
+          mask-image: linear-gradient(to top, transparent 0%, #000 14%, #000 29%, transparent 43%);
+}
+
+.present-topbar-scrim > span:nth-child(2) {
+  -webkit-backdrop-filter: blur(1px);
+          backdrop-filter: blur(1px);
+  -webkit-mask-image: linear-gradient(to top, transparent 14%, #000 29%, #000 43%, transparent 57%);
+          mask-image: linear-gradient(to top, transparent 14%, #000 29%, #000 43%, transparent 57%);
+}
+
+.present-topbar-scrim > span:nth-child(3) {
+  -webkit-backdrop-filter: blur(2px);
+          backdrop-filter: blur(2px);
+  -webkit-mask-image: linear-gradient(to top, transparent 29%, #000 43%, #000 57%, transparent 71%);
+          mask-image: linear-gradient(to top, transparent 29%, #000 43%, #000 57%, transparent 71%);
+}
+
+.present-topbar-scrim > span:nth-child(4) {
+  -webkit-backdrop-filter: blur(4px);
+          backdrop-filter: blur(4px);
+  -webkit-mask-image: linear-gradient(to top, transparent 43%, #000 57%, #000 71%, transparent 86%);
+          mask-image: linear-gradient(to top, transparent 43%, #000 57%, #000 71%, transparent 86%);
+}
+
+.present-topbar-scrim > span:nth-child(5) {
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+  -webkit-mask-image: linear-gradient(to top, transparent 57%, #000 71%, #000 100%);
+          mask-image: linear-gradient(to top, transparent 57%, #000 71%, #000 100%);
+}
+
 /* Column wrapper: the stage row with the centred arrows beneath it. Carries the
    enter/exit motion so opening and closing present mode fades and lifts. */
 .present-frame {
@@ -1170,7 +1233,7 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
   left: 0;
   width: 100vw;
   margin-left: calc((100% - 100vw) / 2);
-  height: calc(100% + 48px);
+  height: calc(100% + 8px);
   z-index: -1;
   pointer-events: none;
   display: none;
@@ -1224,8 +1287,8 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
 }
 
 .present-arrow {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   border-radius: var(--radius-pill);
   border: 1px solid var(--border-meta);
   background: transparent;
@@ -1316,8 +1379,10 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
 }
 
 /* Floating step indicators: pinned to the right edge of the frame, vertically
-   centred, overlaid so they never affect layout or padding. Shown only when an
-   image needs more than one window. */
+   centred, overlaid so they never affect layout or padding. Passive, driven
+   only by the arrows. A container shows one kind or the other, never both:
+   dots for a set of images you switch between, the line for one tall image you
+   step down through. */
 .present-dots {
   position: absolute;
   top: 50%;
@@ -1327,7 +1392,7 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
   flex-direction: column;
   gap: var(--space-8);
   align-items: center;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .present-dot {
@@ -1335,13 +1400,38 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
   height: 6px;
   border-radius: var(--radius-pill);
   background: var(--present-bg);
-  cursor: pointer;
   transition: background 0.2s var(--ease), transform 0.2s var(--ease);
 }
 
 .present-dot.is-active {
   background: var(--icon-color);
   transform: scale(1.2);
+}
+
+/* Minimap line: a 2px vertical track, 64px tall, in the same spot as the dots.
+   The light track is the whole image; the dark thumb is the slice currently on
+   screen, its height the visible fraction and its top the scroll position, so
+   it lands flush at the bottom on the last step. */
+.present-line {
+  position: absolute;
+  top: 50%;
+  right: 11px;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 64px;
+  border-radius: var(--radius-pill);
+  background: var(--present-bg);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.present-line-thumb {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--icon-color);
+  transition: top 0.4s var(--ease), height 0.4s var(--ease);
 }
 
 .present-close {
@@ -1366,15 +1456,28 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
 }
 
 @media (max-width: 900px) {
+  /* Only the middle content scrolls; the bars are pinned to the viewport so the
+     overscroll bounce can't drag them along. */
+  .present-overlay { overscroll-behavior: contain; }
+  .present-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 6;
+  }
+  .present-topbar-scrim { display: block; }
   .present-frame {
-    padding: var(--space-24) var(--space-24) 0;
+    padding: 80px var(--space-24) 88px;
   }
   .present-nav {
-    position: sticky;
+    position: fixed;
     bottom: 0;
-    z-index: 5;
+    left: 0;
+    right: 0;
+    z-index: 6;
     margin-bottom: 0;
-    padding: var(--space-16) 0;
+    padding: var(--space-12) 0;
   }
   .present-nav-scrim { display: block; }
   .present-stage {
