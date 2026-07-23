@@ -25,7 +25,7 @@
   <meta http-equiv="Expires" content="0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="design-system.css">
   <!-- Flash-free theme: apply before paint -->
   <script>
@@ -793,7 +793,7 @@
     }
   </style>
 </head>
-<body>
+<body data-present-enabled>
 
   <div class="page">
 
@@ -856,15 +856,15 @@
       <p class="cs-body reveal reveal-delay-1">This was a business decision more than a user-pain fix. Two things have to be true before a client call: the expert has to be an accurate match for the project, and they have to be compliant and eligible to take it. The old flow made both harder to guarantee. Compliance sat in scattered pieces, and current experience had no more prominence than anything else on a crowded single page.</p>
 
       <div class="cs-goals-grid">
-        <div class="cs-opportunity-card card reveal">
+        <div class="cs-opportunity-card card reveal" data-present="Every expert passes through before a client call, but the Tutorial and Questionnaire arrived as separate emails and current experience blended into a crowded page.">
           <h4>Status quo</h4>
           <p>Every expert passes through the flow before a client call. The Compliance Tutorial and Questionnaire arrived as separate emails, and current experience blended into a crowded page, so experts could move through without really reviewing it.</p>
         </div>
-        <div class="cs-opportunity-card card reveal reveal-delay-1">
+        <div class="cs-opportunity-card card reveal reveal-delay-1" data-present="Experts keep reaching calls on unconfirmed experience and compliance steps they skimmed in isolation. At this volume that is a standing business risk.">
           <h4>If nothing changed</h4>
           <p>Experts would keep reaching client calls on experience they had not confirmed and compliance steps they had skimmed in isolation. At this volume that is a standing business risk: weak data at the front door means worse matches and eligibility gaps downstream.</p>
         </div>
-        <div class="cs-opportunity-card card reveal reveal-delay-2">
+        <div class="cs-opportunity-card card reveal reveal-delay-2" data-present="One guided flow where compliance steps are reviewed together and matching data is captured in the same place, so completion holds.">
           <h4>Desired outcome</h4>
           <p>One guided flow where the compliance-critical steps are reviewed together and the data that drives matching is captured in the same place, so experts are properly screened and current before they reach a client, and completion holds even with more to do.</p>
         </div>
@@ -906,15 +906,15 @@
         <p class="cs-change-eyebrow">Decision 1</p>
         <h3 class="cs-change-title">Current experience got its own section, first in the flow</h3>
         <div class="cs-baw-grid cs-baw-grid--three">
-          <div class="cs-baw-card card">
+          <div class="cs-baw-card card" data-present="Personal details, experience and legal terms shared one crowded page, so current experience had no more weight than anything around it.">
             <h5>Before</h5>
             <p>Personal details, experience history and legal terms sat together on one crowded page. Current experience had no more visual weight than anything around it, so an expert could scroll straight past the one thing the business most needed confirmed. Past positions were not shown at all.</p>
           </div>
-          <div class="cs-baw-card card">
+          <div class="cs-baw-card card" data-present="The Experiences sub-step opens with current position first, past positions below, and personal details moved to the bottom.">
             <h5>After</h5>
             <p>The Experiences sub-step now opens with current position at the top, in its own clearly labelled section. Past positions sit below in a compact list, a new addition. Personal details move to the bottom; the required ones must be confirmed before moving on.</p>
           </div>
-          <div class="cs-baw-card card">
+          <div class="cs-baw-card card" data-present="The headline compliance move. Weight follows importance, and accurate profiles are what let Dialectica match experts to the right project.">
             <h5>Why</h5>
             <p>This is the headline compliance and data-accuracy move. The problem was never that experts refused to check their data; it was that the structure gave the most important data no prominence. Weight follows importance, and accurate profiles are what let Dialectica match an expert to the right project.</p>
           </div>
@@ -966,15 +966,15 @@
         <p class="cs-change-eyebrow">Decision 2</p>
         <h3 class="cs-change-title">The Compliance Tutorial and Questionnaire moved inside the flow</h3>
         <div class="cs-baw-grid cs-baw-grid--three">
-          <div class="cs-baw-card card">
+          <div class="cs-baw-card card" data-present="The Tutorial and Questionnaire reached experts as separate emails, read as side admin and handled in isolation.">
             <h5>Before</h5>
             <p>Both reached experts as separate emails, outside the main experience. They read as extra admin, homework to do on the side, each handled in isolation rather than as part of screening.</p>
           </div>
-          <div class="cs-baw-card card">
+          <div class="cs-baw-card card" data-present="Both became dedicated sub-steps of Getting Started, each with one job and one confirm, in a single guided sequence.">
             <h5>After</h5>
             <p>Both became dedicated sub-steps of Getting Started, in one guided sequence. The Tutorial presents compliance obligations to read and confirm; the Questionnaire asks client-configured questions where certain answers automatically disqualify an expert from that project. Each sub-step has one job and one confirm.</p>
           </div>
-          <div class="cs-baw-card card">
+          <div class="cs-baw-card card" data-present="Eligibility is the other half of what must be true before a call. Single-purpose steps kept momentum without denting completion.">
             <h5>Why</h5>
             <p>Eligibility is the other half of what has to be true before a client call. Scattering the steps across emails made screening feel optional and easy to skim. Single-purpose sub-steps keep momentum even though there is more to do, which is what let the extra steps land without denting completion.</p>
           </div>
@@ -1003,15 +1003,15 @@
         <p class="cs-change-eyebrow">Decision 3</p>
         <h3 class="cs-change-title">Availability slots became editable in place, not delete-and-redo</h3>
         <div class="cs-baw-grid cs-baw-grid--three">
-          <div class="cs-baw-card card">
+          <div class="cs-baw-card card" data-present="Availability was already a weekly calendar, but slots were fixed. Fixing a time meant deleting it and rebuilding from scratch.">
             <h5>Before</h5>
             <p>The availability step was already a weekly calendar, but slots were fixed. Once created, a slot was permanent. To fix a time you deleted it and built a new one from scratch.</p>
           </div>
-          <div class="cs-baw-card card">
+          <div class="cs-baw-card card" data-present="Slots became editable in place. Experts drag to move a slot, or click to open a side menu and edit it fully.">
             <h5>After</h5>
             <p>The calendar was redesigned so slots became editable. Experts place a slot on the grid, then keep control of it: drag to move it, or click to open a side menu and edit it fully. Correcting a slot is now a small adjustment.</p>
           </div>
-          <div class="cs-baw-card card">
+          <div class="cs-baw-card card" data-present="Availability is what lets Dialectica schedule the call, so lowering effort here has a direct operational payoff.">
             <h5>Why</h5>
             <p>Availability is what lets Dialectica actually schedule the call the whole flow is building toward, so lowering the effort here has a direct operational payoff. It is the one change with a clean, defensible number attached, because the design is the direct mechanism.</p>
           </div>
@@ -1040,15 +1040,15 @@
         <p class="cs-change-eyebrow">Decision 4</p>
         <h3 class="cs-change-title">Experts pick categories and vendors from a shortlist instead of typing them</h3>
         <div class="cs-baw-grid cs-baw-grid--three">
-          <div class="cs-baw-card card">
+          <div class="cs-baw-card card" data-present="Category and vendor data was chased over email after experts had moved on, so few ever gave it.">
             <h5>Before</h5>
             <p>The product-category and vendor data was chased separately over email, outside Terms of Engagement, after experts had already moved on. It depended on experts coming back to a message, so few ever gave it.</p>
           </div>
-          <div class="cs-baw-card card">
+          <div class="cs-baw-card card" data-present="It became Profile Boost, a skippable in-flow step: pick product categories from a shortlist, then the vendors behind them.">
             <h5>After</h5>
             <p>It became "Profile Boost," a skippable step inside onboarding. The shipped v2 splits capture into two lighter steps: pick from a shortlist of product categories (or add your own), then pick the vendors behind them (or add your own).</p>
           </div>
-          <div class="cs-baw-card card">
+          <div class="cs-baw-card card" data-present="Matching depends on structured detail. Capturing it while experts are engaged, by selecting not typing, got richer data.">
             <h5>Why</h5>
             <p>Matching quality depends on structured, expert-provided detail. Capturing it inside the flow, while experts are already engaged, gets richer data than an email chase. Selecting is far quicker than typing from a blank field, and it showed.</p>
           </div>
@@ -1109,7 +1109,7 @@
       <p class="cs-body reveal reveal-delay-1">We ran it at 25% of experts for two weeks. The data side worked; the flow side did not. Making experts walk the full length of the funnel before the thing they came for made it feel long, and they abandoned it, some writing in to say so. An expert who skips Profile Boost still takes calls; an expert who never signs Terms takes none. That was the wrong trade, so we kept the shipped order.</p>
 
       <div class="cs-order-grid reveal reveal-delay-1">
-        <div class="cs-order-card card">
+        <div class="cs-order-card card" data-present="Getting Started, Terms, Availabilities, Profile Boost. Terms sits early, where experts came to sign.">
           <h5>Shipped order (kept)</h5>
           <div class="cs-order-steps">
             <div class="cs-order-step">Getting Started</div>
@@ -1118,7 +1118,7 @@
             <div class="cs-order-step">Profile Boost</div>
           </div>
         </div>
-        <div class="cs-order-card card">
+        <div class="cs-order-card card" data-present="Terms moved behind Profile Boost so experts walk the full funnel first. It lifted data but hurt signing.">
           <h5>Tested order (rolled back)</h5>
           <div class="cs-order-steps">
             <div class="cs-order-step">Getting Started</div>
@@ -1172,22 +1172,22 @@
       <p class="cs-label reveal">Retrospective</p>
       <h2 class="cs-h2 reveal">It changed how I hand off to engineers, and left the business a dataset it has not used yet</h2>
 
-      <div class="cs-retro-part reveal">
+      <div class="cs-retro-part reveal" data-present="A finished file holds everything the builder needs, not just correct visuals. Rank metrics before a test, and every decision carried a systems dimension.">
         <h4>Impact on me</h4>
         <p class="cs-body">Three learnings stand out. About halfway through, engineers kept coming back with questions about interactions the Figma files did not answer, which changed how I think about a finished file: it is done when it holds everything the person building it needs, not when the designs look right. The failed experiment taught me to rank metrics before running a test, not after. And designing against a design system that did not exist yet meant every decision carried both a product and a systems dimension, slower, but grounded in real implementation.</p>
       </div>
 
-      <div class="cs-retro-part reveal">
+      <div class="cs-retro-part reveal" data-present="The handoff lesson became a team session on Dev Mode and a shared Ready for development signal.">
         <h4>Impact on process</h4>
         <p class="cs-body">The handoff learning did not stay my own habit. It became a session with the whole front-end engineering team on Figma's Dev Mode and on marking designs as "Ready for development" as a shared signal. What began as me fixing my own handoffs became a convention the team works to.</p>
       </div>
 
-      <div class="cs-retro-part reveal">
+      <div class="cs-retro-part reveal" data-present="Two mandatory steps added, completion held near 90%. Availability rose about 4 points and Profile Boost conversion roughly doubled.">
         <h4>Impact on users</h4>
         <p class="cs-body">This is where the real numbers sit. The redesign added two mandatory steps, and completion still held at about 90% before and after. Availability rose about 4 percentage points, from about 70% to about 74%. Profile Boost conversion roughly doubled, from about 17% to about 33%, with richer data, about 6.5 vendors and 3.4 categories per expert, up from 4.2 and 2.0. One number I would have wanted and do not have is how many experts actually reviewed their current experience during signing, which was never tracked.</p>
       </div>
 
-      <div class="cs-retro-part reveal">
+      <div class="cs-retro-part reveal" data-present="Lower compliance and eligibility risk now, plus a structured dataset of expert knowledge the business has not yet used to improve matching.">
         <h4>Impact on the business</h4>
         <p class="cs-body">The realized win was lowering compliance and eligibility risk: the Tutorial and Questionnaire now sit in one reviewed flow, and current experience is prominent, so experts are properly screened before they reach a client. The project also laid a foundation the business has not cashed in yet. Profile Boost has captured a structured dataset of what experts actually know since launch, and v2 made it far more complete, but using it to match experts to better-fitting projects is a separate initiative still ahead. Naming both the asset and the gap is the honest read.</p>
       </div>
@@ -1195,7 +1195,8 @@
 
   </div>
 
-  <!-- Back Nav Dock -->
+  <!-- Nav cluster: back-nav + separate mode pill -->
+  <div class="nav-cluster">
   <nav class="back-nav" aria-label="Case study navigation">
     <a href="index.html" class="back-nav-btn" aria-label="Back to home" id="backBtn">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1203,9 +1204,14 @@
       </svg>
       Back
     </a>
-    <div class="back-nav-separator"></div>
     <span class="back-nav-title">Terms of Engagement</span>
-    <div class="back-nav-separator"></div>
+    <button class="back-nav-present-btn" aria-label="Present this case study" id="presentBtn">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.8018 2.69922C12.2928 2.69932 13.5018 3.9084 13.502 5.39941V12.5996C13.502 14.0907 12.2928 15.2997 10.8018 15.2998H7.20117C5.71018 15.2996 4.50195 14.0906 4.50195 12.5996V5.39941C4.50206 3.90847 5.71025 2.69943 7.20117 2.69922H10.8018ZM2.70117 4.5C3.19823 4.5 3.60156 4.90333 3.60156 5.40039V12.6006C3.60146 13.0976 3.19816 13.5 2.70117 13.5C2.20418 13.5 1.80089 13.0976 1.80078 12.6006V5.40039C1.80078 4.90333 2.20412 4.5 2.70117 4.5ZM7.20117 4.5C6.70436 4.50021 6.30186 4.90258 6.30176 5.39941V12.5996C6.30176 13.0965 6.7043 13.4998 7.20117 13.5H10.8018C11.2987 13.4999 11.7012 13.0966 11.7012 12.5996V5.39941C11.7011 4.90251 11.2987 4.50011 10.8018 4.5H7.20117ZM15.3008 4.5C15.7978 4.5 16.2012 4.90333 16.2012 5.40039V12.6006C16.2011 13.0976 15.7978 13.5 15.3008 13.5C14.8038 13.5 14.4005 13.0976 14.4004 12.6006V5.40039C14.4004 4.90333 14.8037 4.5 15.3008 4.5Z" fill="currentColor"/>
+      </svg>
+    </button>
+  </nav>
+  <div class="mode-dock">
     <button class="back-nav-theme-btn" aria-label="Toggle theme" id="themeToggle">
       <!-- Sun icon (light mode) -->
       <svg class="icon-sun" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1231,7 +1237,8 @@
         <path d="M8.59435 1.51148C9.09391 1.48434 9.46915 1.78355 9.63732 2.1355C9.79833 2.47282 9.79619 2.89957 9.57189 3.25855L9.57286 3.25953C9.12342 3.97862 8.93101 4.82908 9.02696 5.67163C9.12292 6.51418 9.50156 7.29955 10.1012 7.89917C10.7007 8.49855 11.4855 8.87737 12.3277 8.97339C13.1702 9.06934 14.0208 8.87684 14.7399 8.42749L14.8776 8.35328C15.2038 8.20517 15.5678 8.22112 15.8639 8.36206C16.2167 8.53021 16.5157 8.90531 16.4889 9.40406C16.4108 10.8508 15.9151 12.2446 15.0621 13.4158C14.2092 14.5868 13.0351 15.4854 11.6822 16.0037C10.3293 16.5218 8.85511 16.6373 7.4381 16.3357C6.02097 16.034 4.72146 15.3279 3.69689 14.3035C2.67241 13.2791 1.9666 11.9802 1.66466 10.5632C1.36277 9.14614 1.47765 7.67123 1.99571 6.31812C2.51381 4.96519 3.41263 3.79127 4.58361 2.93824C5.75464 2.08517 7.14766 1.58977 8.59435 1.51148ZM7.96642 3.0896C7.06617 3.24697 6.21017 3.60834 5.46642 4.15015C4.52954 4.83265 3.81056 5.77274 3.39611 6.85523C2.98178 7.93761 2.88997 9.1172 3.13146 10.2507C3.37301 11.3843 3.93786 12.4234 4.75743 13.2429C5.577 14.0624 6.61609 14.6275 7.74962 14.8689C8.88319 15.1103 10.0628 15.0177 11.1451 14.6033C12.2274 14.1888 13.1669 13.4697 13.8492 12.533C14.3909 11.7893 14.7515 10.9331 14.9088 10.033C14.0513 10.4193 13.1019 10.571 12.1588 10.4636C10.9793 10.3293 9.88008 9.79906 9.04064 8.95972C8.20121 8.1203 7.6711 7.02105 7.53673 5.84156C7.42928 4.898 7.57968 3.94743 7.96642 3.0896Z" fill="currentColor"/>
       </svg>
     </button>
-  </nav>
+  </div>
+  </div>
 
   <script src="site.js"></script>
   <script>

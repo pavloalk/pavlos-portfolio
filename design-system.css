@@ -916,6 +916,308 @@ body.is-lightbox-open { overflow: hidden; }
 [data-theme="dark"] .icon-moon { display: block; }
 
 
+/* ── Nav Cluster (case-study pages: nav + separate mode pill) ── */
+
+/* Wraps the back-nav and the mode pill so they sit side by side, centred as a
+   group. Standalone .back-nav (experience, styleguide) is untouched. */
+.nav-cluster {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  z-index: 200;
+  transition: opacity 0.25s var(--ease);
+}
+
+/* Inside the cluster the nav is a plain flex child; its own fixed positioning
+   is dropped so the cluster can place it. */
+.nav-cluster .back-nav {
+  position: static;
+  left: auto;
+  bottom: auto;
+  transform: none;
+  z-index: auto;
+}
+
+/* Separate pill on the right holding the theme toggle. */
+.mode-dock {
+  display: flex;
+  align-items: center;
+  padding: var(--space-4);
+  background: var(--nav-bg);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--nav-shadow);
+  flex-shrink: 0;
+}
+
+
+/* ── Present Button ── */
+
+.back-nav-present-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--icon-color);
+  transition: background 0.2s var(--ease),
+              transform 0.15s var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .back-nav-present-btn:not(:disabled):hover { background: var(--hover); }
+  .back-nav-present-btn:not(:disabled):active { background: var(--pressed); transform: scale(0.96); }
+}
+
+.back-nav-present-btn.pressed { background: var(--pressed); transform: scale(0.96); }
+
+/* Greyed out on case studies with no presentation built. */
+.back-nav-present-btn:disabled {
+  color: var(--text-secondary);
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+
+/* ── Presentation Mode Overlay ── */
+
+body.is-presenting { overflow: hidden; }
+body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
+
+.present-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+  display: none;
+  flex-direction: column;
+  opacity: 0;
+  overflow: auto;
+  transition: opacity 0.3s var(--ease);
+}
+
+.present-overlay.is-open {
+  display: flex;
+  opacity: 1;
+}
+
+/* Top bar: mode title centred, close button on the right, same line. The empty
+   left column matches the close button width so the title centres in the bar. */
+.present-topbar {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: var(--space-16);
+  padding: var(--space-24) var(--space-24) 0;
+  flex-shrink: 0;
+}
+
+.present-topbar-title {
+  grid-column: 2;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--text-secondary);
+}
+
+/* Column wrapper: the stage row with the centred arrows beneath it. Carries the
+   enter/exit motion so opening and closing present mode fades and lifts. */
+.present-frame {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-16) var(--space-40) 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.32s var(--ease), transform 0.32s var(--ease);
+}
+
+.present-overlay.is-open .present-frame {
+  opacity: 1;
+  transform: none;
+}
+
+.present-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-24);
+  transition: opacity 0.16s var(--ease);
+}
+
+.present-stage.is-fading { opacity: 0; }
+
+.present-titlecol {
+  width: 320px;
+  max-width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+}
+
+.present-eyebrow {
+  font-size: var(--font-small);
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.present-title {
+  font-size: var(--font-h2);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.present-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.present-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.present-card-label {
+  font-size: var(--font-tag);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.present-card p {
+  font-size: var(--font-small);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-body);
+}
+
+.present-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-16);
+  margin-bottom: 32px;
+  flex-shrink: 0;
+}
+
+.present-arrow {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-meta);
+  background: transparent;
+  color: var(--icon-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s var(--ease), transform 0.15s var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .present-arrow:not(:disabled):hover { background: var(--hover); }
+  .present-arrow:not(:disabled):active { transform: scale(0.94); }
+}
+
+.present-arrow:disabled { opacity: 0.35; cursor: default; }
+
+.present-counter {
+  font-size: var(--font-caption);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.present-imagecol {
+  flex: 0 1 800px;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.present-imageframe {
+  width: 100%;
+  background: var(--image-frame-bg);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.present-imageframe.is-empty { display: none; }
+
+.present-imageframe img {
+  max-width: 100%;
+  max-height: 64vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  display: block;
+}
+
+.present-close {
+  grid-column: 3;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--surface-pill);
+  box-shadow: var(--nav-shadow);
+  color: var(--icon-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s var(--ease);
+}
+
+@media (hover: hover) {
+  .present-close:hover { background: var(--hover); }
+}
+
+@media (max-width: 900px) {
+  .present-frame {
+    padding: var(--space-24) var(--space-24) 0;
+  }
+  .present-nav { margin-bottom: 16px; }
+  .present-stage {
+    flex-direction: column-reverse;
+    gap: var(--space-24);
+  }
+  .present-titlecol,
+  .present-imagecol {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 560px;
+  }
+  .present-imageframe img { max-height: 46vh; }
+}
+
+
 /* ── Scroll Animations ── */
 
 .reveal {
@@ -940,6 +1242,7 @@ body.is-lightbox-open { overflow: hidden; }
 
 @media (max-width: 768px) {
   .back-nav { bottom: 16px; }
+  .nav-cluster { bottom: 16px; }
 
   .page { --page-gutter: var(--space-20); padding: var(--space-48) 0 140px; }
 
