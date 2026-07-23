@@ -498,6 +498,15 @@
     navRow.appendChild(counterEl);
     navRow.appendChild(nextBtn);
 
+    // Blur/tint band behind the arrows when they pin to the bottom on mobile.
+    // Five compounding backdrop-blur layers, same build as the section-heading
+    // scrim. CSS hides it on desktop.
+    var navScrim = document.createElement('div');
+    navScrim.className = 'present-nav-scrim';
+    navScrim.setAttribute('aria-hidden', 'true');
+    for (var si = 0; si < 5; si++) navScrim.appendChild(document.createElement('span'));
+    navRow.appendChild(navScrim);
+
     titlecol.appendChild(eyebrowEl);
     titlecol.appendChild(titleEl);
     titlecol.appendChild(cardsEl);
