@@ -827,7 +827,7 @@ body.is-lightbox-open { overflow: hidden; }
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: var(--space-8);
+  gap: var(--space-2);
   padding: var(--space-4);
   background: var(--nav-bg);
   backdrop-filter: blur(6px);
@@ -984,15 +984,15 @@ body.is-lightbox-open { overflow: hidden; }
 
 .back-nav-present-btn.pressed { background: var(--pressed); transform: scale(0.96); }
 
-/* Greyed out on case studies with no presentation built. */
-.back-nav-present-btn:disabled {
-  color: var(--text-secondary);
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
 
 /* ── Presentation Mode Overlay ── */
+
+:root {
+  /* Height of the image window in Present mode. Tall images fill the frame
+     width and are stepped through one window at a time; short images just
+     hug this as a ceiling. Tune this to trade detail size against step count. */
+  --present-window-h: 64vh;
+}
 
 body.is-presenting { overflow: hidden; }
 body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
@@ -1058,10 +1058,7 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
   align-items: center;
   justify-content: center;
   gap: var(--space-24);
-  transition: opacity 0.16s var(--ease);
 }
-
-.present-stage.is-fading { opacity: 0; }
 
 .present-titlecol {
   width: 320px;
@@ -1072,6 +1069,16 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
   gap: var(--space-20);
 }
 
+/* On each section change the text fades in and lifts 8px; the frame holds. */
+@keyframes present-text-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.present-titlecol.is-entering {
+  animation: present-text-in 0.34s var(--ease);
+}
+
 .present-eyebrow {
   font-size: var(--font-small);
   font-weight: 400;
@@ -1079,7 +1086,7 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
 }
 
 .present-title {
-  font-size: var(--font-h2);
+  font-size: calc(var(--font-h2) - 8px);
   font-weight: 700;
   line-height: 1.25;
   letter-spacing: -0.02em;
@@ -1111,6 +1118,35 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
   font-weight: 400;
   line-height: 1.5;
   color: var(--text-body);
+}
+
+.present-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.present-bullets li {
+  position: relative;
+  padding-left: var(--space-20);
+  font-size: var(--font-small);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-body);
+}
+
+.present-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--text-secondary);
 }
 
 .present-nav {
@@ -1216,7 +1252,9 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
 }
 
 .present-imagecol {
-  flex: 0 1 800px;
+  flex: 0 0 auto;
+  width: 960px;
+  max-width: 100%;
   min-width: 0;
   display: flex;
   align-items: center;
@@ -1224,6 +1262,7 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
 }
 
 .present-imageframe {
+  position: relative;   /* anchor for the floating step dots */
   width: 100%;
   background: var(--image-frame-bg);
   border-radius: var(--radius-lg);
@@ -1235,14 +1274,74 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
 
 .present-imageframe.is-empty { display: none; }
 
-.present-imageframe img {
-  max-width: 100%;
-  max-height: 64vh;
-  width: auto;
-  height: auto;
-  object-fit: contain;
+/* Fixed-height window onto the image. The image fills the full width; anything
+   taller than this is clipped and revealed a step at a time. */
+.present-imageview {
+  width: 100%;
+  max-height: var(--present-window-h);
+  overflow: hidden;
   border-radius: var(--radius-sm);
+}
+
+.present-imageframe img {
+  width: 100%;
+  height: auto;
   display: block;
+}
+
+/* Untagged images fit fully inside the window instead of sliding: scaled to
+   the window height and centred, so they never overflow or step. */
+.present-imageframe img.is-fit {
+  width: auto;
+  max-width: 100%;
+  max-height: var(--present-window-h);
+  margin: 0 auto;
+}
+
+/* Transform animates only during a deliberate window step, never on swaps. */
+.present-imageframe img.is-sliding {
+  transition: transform 0.4s var(--ease);
+}
+
+/* Hide a changing image until its replacement has loaded, then fade in. */
+.present-imageframe img.is-loading { opacity: 0; }
+
+@keyframes present-img-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.present-imageframe img.is-fading-in {
+  animation: present-img-in 0.32s var(--ease);
+}
+
+/* Floating step indicators: pinned to the right edge of the frame, vertically
+   centred, overlaid so they never affect layout or padding. Shown only when an
+   image needs more than one window. */
+.present-dots {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  align-items: center;
+  pointer-events: auto;
+}
+
+.present-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--present-bg);
+  cursor: pointer;
+  transition: background 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.present-dot.is-active {
+  background: var(--icon-color);
+  transform: scale(1.2);
 }
 
 .present-close {
@@ -1288,7 +1387,7 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
     width: 100%;
     max-width: 560px;
   }
-  .present-imageframe img { max-height: 46vh; }
+  .present-imageview { max-height: 46vh; }
 }
 
 

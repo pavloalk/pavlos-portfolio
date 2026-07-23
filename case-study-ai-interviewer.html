@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Interviewer | Pavlos Aliko</title>
+  <meta name="description" content="Dialectica's AI Interviewer: an expert screening interview run by an AI instead of an associate. Text and Adaptive (voice) modes.">
+  <!-- Social share preview (Open Graph + Twitter) -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Pavlos Aliko">
+  <meta property="og:url" content="https://pavlosaliko.design/case-study-ai-interviewer.html">
+  <meta property="og:title" content="AI Interviewer | Pavlos Aliko">
+  <meta property="og:description" content="Dialectica's AI Interviewer: an expert screening interview run by an AI instead of an associate. Text and Adaptive (voice) modes.">
+  <meta property="og:image" content="https://pavlosaliko.design/Images/Case%20studies/AI%20Interviewer%20-%20Snapshot.png">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="840">
+  <meta property="og:image:alt" content="Dialectica AI Interviewer mobile screens">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI Interviewer | Pavlos Aliko">
+  <meta name="twitter:description" content="An expert screening interview run by an AI instead of an associate. Text and Adaptive (voice) modes.">
+  <meta name="twitter:image" content="https://pavlosaliko.design/Images/Case%20studies/AI%20Interviewer%20-%20Snapshot.png">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='16' fill='%23FFD600'/></svg>">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="design-system.css">
+  <!-- Flash-free theme: apply before paint -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme');
+      if (!t) { var h = new Date().getHours(); t = (h >= 18 || h < 8) ? 'dark' : 'light'; }
+      if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+  <style>
+    /* ── Tag colors (AI Interviewer: blue) ── */
+    .cs-tag-wip {
+      color: #1e40af;
+      background: #dbeafe;
+    }
+
+    [data-theme="dark"] .cs-tag-wip {
+      color: #bfdbfe;
+      background: rgba(96, 165, 250, 0.14);
+    }
+
+    /* ── Mode carousel ────────────────────────────────────────────
+       A swipeable row of tall phone screens. Native scroll-snap does
+       the swiping; the JS only wires up the arrows and dots. */
+    .ai-carousel {
+      position: relative;
+      margin-top: var(--space-24);
+    }
+
+    .ai-carousel-track {
+      display: flex;
+      gap: var(--space-24);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      /* Room on the sides so the first/last slide can center. */
+      padding: var(--space-8) max(var(--space-16), calc(50% - 160px));
+      /* Hide scrollbar (cosmetic; swipe/arrows still work). */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      cursor: grab;
+    }
+
+    .ai-carousel-track::-webkit-scrollbar { display: none; }
+    .ai-carousel-track.is-dragging { cursor: grabbing; scroll-behavior: auto; }
+    .ai-carousel-track.is-dragging img { pointer-events: none; }
+
+    .ai-slide {
+      flex: 0 0 auto;
+      width: clamp(240px, 62%, 300px);
+      scroll-snap-align: center;
+    }
+
+    .ai-slide img {
+      display: block;
+      width: 100%;
+      border-radius: var(--radius-xl);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.16);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* ── Arrows ── */
+    .ai-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-meta);
+      border-radius: var(--radius-pill);
+      background: var(--surface-pill);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: opacity 0.2s ease, background 0.2s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .ai-arrow:hover { background: var(--surface-hover, var(--surface-pill)); }
+    .ai-arrow--prev { left: var(--space-8); }
+    .ai-arrow--next { right: var(--space-8); }
+    .ai-arrow[disabled] { opacity: 0; pointer-events: none; }
+
+    /* ── Dots ── */
+    .ai-dots {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-8);
+      margin-top: var(--space-16);
+    }
+
+    .ai-dot {
+      width: 8px;
+      height: 8px;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      background: var(--border-meta);
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .ai-dot.is-active {
+      background: #2563eb;
+      transform: scale(1.3);
+    }
+
+    .ai-mode-label { margin-top: var(--space-32); }
+
+    /* Hide arrows on touch-first / small screens; swipe is enough. */
+    @media (max-width: 768px) {
+      .ai-arrow { display: none; }
+      .ai-carousel-track {
+        padding: var(--space-8) max(var(--space-16), calc(50% - 130px));
+      }
+      .ai-slide { width: clamp(220px, 78%, 260px); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page">
+
+    <!-- ── Section: Hero ── -->
+    <section class="cs-section">
+      <span class="cs-tag-wip reveal">Dialectica · Work in progress</span>
+      <p class="cs-label reveal">Dialectica · AI · 2025</p>
+      <h1 class="cs-h1 reveal">AI Interviewer: screening an expert without an associate in the room</h1>
+      <p class="cs-body reveal reveal-delay-1">Before an expert joins a project, someone has to run a short interview to check they're the right fit. Traditionally that's an associate on a call. The AI Interviewer replaces that step with a link: the expert opens it and works through the interview with an AI instead.</p>
+      <p class="cs-body reveal reveal-delay-1">It runs in two modes. In <strong>Text</strong> mode you answer everything by typing. In <strong>Adaptive</strong> mode you can answer by voice. When a question is close-ended, the interview shows the available options; in Text mode you pick one manually, and in Adaptive mode you can either tap an option or just say it out loud.</p>
+
+      <div class="cs-hero-image reveal reveal-delay-2">
+        <img src="Images/Case studies/AI Interviewer - Snapshot.png" alt="Dialectica AI Interviewer: three mobile screens showing Adaptive and Text modes on a blue gradient">
+      </div>
+
+      <div class="cs-meta reveal reveal-delay-2">
+        <div class="cs-meta-col">
+          <h4>Role</h4>
+          <ul>
+            <li>Senior Product Designer</li>
+          </ul>
+        </div>
+        <div class="cs-meta-col">
+          <h4>Product</h4>
+          <ul>
+            <li>Expert screening</li>
+            <li>Text &amp; Adaptive modes</li>
+          </ul>
+        </div>
+        <div class="cs-meta-col">
+          <h4>Platform</h4>
+          <ul>
+            <li>Mobile web</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="cs-divider"></div>
+
+    <!-- ── Section: Screens ── -->
+    <section class="cs-section">
+      <p class="cs-label reveal">The screens</p>
+      <h2 class="cs-h2 reveal">Two modes, one interview</h2>
+
+      <!-- Text mode -->
+      <p class="cs-label reveal ai-mode-label">Text mode</p>
+      <div class="ai-carousel reveal" data-carousel>
+        <button class="ai-arrow ai-arrow--prev" aria-label="Previous screen">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.25 3.75 6 9l5.25 5.25" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="ai-carousel-track">
+          <div class="ai-slide"><img src="Images/Case studies/AI Interviewer/[M] Text.png" alt="Text mode: an open question" draggable="false"></div>
+          <div class="ai-slide"><img src="Images/Case studies/AI Interviewer/[M] Text - Long text.png" alt="Text mode: typing a long answer" draggable="false"></div>
+          <div class="ai-slide"><img src="Images/Case studies/AI Interviewer/[M] Text - Listening.png" alt="Text mode: listening state" draggable="false"></div>
+          <div class="ai-slide"><img src="Images/Case studies/AI Interviewer/[M] Text - Transcribing.png" alt="Text mode: transcribing state" draggable="false"></div>
+        </div>
+        <button class="ai-arrow ai-arrow--next" aria-label="Next screen">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.75 3.75 12 9l-5.25 5.25" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="ai-dots"></div>
+      </div>
+
+      <!-- Adaptive mode -->
+      <p class="cs-label reveal ai-mode-label">Adaptive mode</p>
+      <div class="ai-carousel reveal" data-carousel>
+        <button class="ai-arrow ai-arrow--prev" aria-label="Previous screen">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.25 3.75 6 9l5.25 5.25" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="ai-carousel-track">
+          <div class="ai-slide"><img src="Images/Case studies/AI Interviewer/[M] Adaptive - Open ended.png" alt="Adaptive mode: an open-ended question answered by voice" draggable="false"></div>
+          <div class="ai-slide"><img src="Images/Case studies/AI Interviewer/[M] Adaptive - Closed ended - selected.png" alt="Adaptive mode: a close-ended question with a selected option" draggable="false"></div>
+          <div class="ai-slide"><img src="Images/Case studies/AI Interviewer/[M] Adaptive - Closed ended - Categorical - selected.png" alt="Adaptive mode: a categorical close-ended question with a selected option" draggable="false"></div>
+        </div>
+        <button class="ai-arrow ai-arrow--next" aria-label="Next screen">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.75 3.75 12 9l-5.25 5.25" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="ai-dots"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Nav cluster: back-nav + separate mode pill -->
+  <div class="nav-cluster">
+  <nav class="back-nav" aria-label="Case study navigation">
+    <a href="index.html" class="back-nav-btn" aria-label="Back to home" id="backBtn">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.6709 3.96967C6.96379 3.67678 7.43855 3.67678 7.73145 3.96967C8.02425 4.26257 8.02431 4.73735 7.73145 5.03022L4.51172 8.24996H15.3008C15.715 8.24996 16.0508 8.58574 16.0508 8.99996C16.0508 9.41415 15.715 9.74996 15.3008 9.74996H4.51172L7.73145 12.9697C8.02425 13.2626 8.02431 13.7374 7.73145 14.0302C7.43858 14.3231 6.96379 14.323 6.6709 14.0302L2.1709 9.53023C2.13891 9.49824 2.11094 9.46355 2.08594 9.42769C2.05521 9.38359 2.0286 9.33641 2.00781 9.28609C1.98707 9.23581 1.97223 9.18371 1.96289 9.13082C1.9554 9.08831 1.95118 9.04462 1.95117 8.99996C1.95117 8.95465 1.95519 8.91023 1.96289 8.86714C1.97198 8.81631 1.98622 8.76617 2.00586 8.71773L2.00977 8.70796C2.02135 8.68057 2.03713 8.65546 2.05176 8.62984C2.0842 8.57299 2.12238 8.5182 2.1709 8.46968L6.6709 3.96967Z" fill="currentColor"/>
+      </svg>
+    </a>
+    <span class="back-nav-title">AI Interviewer</span>
+  </nav>
+  <div class="mode-dock">
+    <button class="back-nav-theme-btn" aria-label="Toggle theme" id="themeToggle">
+      <!-- Sun icon (light mode) -->
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_ai_sun)">
+          <path d="M9 12C10.6569 12 12 10.6569 12 9C12 7.34315 10.6569 6 9 6C7.34315 6 6 7.34315 6 9C6 10.6569 7.34315 12 9 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 1.5V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 15V16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3.69727 3.69727L4.75477 4.75477" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M13.2461 13.2461L14.3036 14.3036" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M1.5 9H3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M15 9H16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4.75477 13.2461L3.69727 14.3036" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14.3036 3.69727L13.2461 4.75477" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <defs>
+          <clipPath id="clip0_ai_sun">
+            <rect width="18" height="18" fill="white"/>
+          </clipPath>
+        </defs>
+      </svg>
+      <!-- Moon icon (dark mode) -->
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.59435 1.51148C9.09391 1.48434 9.46915 1.78355 9.63732 2.1355C9.79833 2.47282 9.79619 2.89957 9.57189 3.25855L9.57286 3.25953C9.12342 3.97862 8.93101 4.82908 9.02696 5.67163C9.12292 6.51418 9.50156 7.29955 10.1012 7.89917C10.7007 8.49855 11.4855 8.87737 12.3277 8.97339C13.1702 9.06934 14.0208 8.87684 14.7399 8.42749L14.8776 8.35328C15.2038 8.20517 15.5678 8.22112 15.8639 8.36206C16.2167 8.53021 16.5157 8.90531 16.4889 9.40406C16.4108 10.8508 15.9151 12.2446 15.0621 13.4158C14.2092 14.5868 13.0351 15.4854 11.6822 16.0037C10.3293 16.5218 8.85511 16.6373 7.4381 16.3357C6.02097 16.034 4.72146 15.3279 3.69689 14.3035C2.67241 13.2791 1.9666 11.9802 1.66466 10.5632C1.36277 9.14614 1.47765 7.67123 1.99571 6.31812C2.51381 4.96519 3.41263 3.79127 4.58361 2.93824C5.75464 2.08517 7.14766 1.58977 8.59435 1.51148ZM7.96642 3.0896C7.06617 3.24697 6.21017 3.60834 5.46642 4.15015C4.52954 4.83265 3.81056 5.77274 3.39611 6.85523C2.98178 7.93761 2.88997 9.1172 3.13146 10.2507C3.37301 11.3843 3.93786 12.4234 4.75743 13.2429C5.577 14.0624 6.61609 14.6275 7.74962 14.8689C8.88319 15.1103 10.0628 15.0177 11.1451 14.6033C12.2274 14.1888 13.1669 13.4697 13.8492 12.533C14.3909 11.7893 14.7515 10.9331 14.9088 10.033C14.0513 10.4193 13.1019 10.571 12.1588 10.4636C10.9793 10.3293 9.88008 9.79906 9.04064 8.95972C8.20121 8.1203 7.6711 7.02105 7.53673 5.84156C7.42928 4.898 7.57968 3.94743 7.96642 3.0896Z" fill="currentColor"/>
+      </svg>
+    </button>
+  </div>
+  </div>
+
+  <script src="site.js"></script>
+
+  <!-- Mode carousels: swipe, arrows, and dots -->
+  <script>
+    document.querySelectorAll('[data-carousel]').forEach(function (root) {
+      var track = root.querySelector('.ai-carousel-track');
+      var slides = Array.prototype.slice.call(root.querySelectorAll('.ai-slide'));
+      var prev = root.querySelector('.ai-arrow--prev');
+      var next = root.querySelector('.ai-arrow--next');
+      var dotsWrap = root.querySelector('.ai-dots');
+      if (!track || !slides.length) return;
+
+      // Build one dot per slide.
+      var dots = slides.map(function (_, i) {
+        var d = document.createElement('button');
+        d.className = 'ai-dot';
+        d.setAttribute('aria-label', 'Go to screen ' + (i + 1));
+        d.addEventListener('click', function () { scrollToIndex(i); });
+        dotsWrap.appendChild(d);
+        return d;
+      });
+
+      function slideStep() {
+        // Distance from one slide's start to the next.
+        if (slides.length < 2) return slides[0].offsetWidth;
+        return slides[1].offsetLeft - slides[0].offsetLeft;
+      }
+
+      function currentIndex() {
+        var center = track.scrollLeft + track.clientWidth / 2;
+        var best = 0, bestDist = Infinity;
+        slides.forEach(function (s, i) {
+          var c = s.offsetLeft + s.offsetWidth / 2;
+          var dist = Math.abs(c - center);
+          if (dist < bestDist) { bestDist = dist; best = i; }
+        });
+        return best;
+      }
+
+      function scrollToIndex(i) {
+        i = Math.max(0, Math.min(slides.length - 1, i));
+        var s = slides[i];
+        track.scrollTo({
+          left: s.offsetLeft - (track.clientWidth - s.offsetWidth) / 2,
+          behavior: 'smooth'
+        });
+      }
+
+      function update() {
+        var idx = currentIndex();
+        dots.forEach(function (d, i) { d.classList.toggle('is-active', i === idx); });
+        if (prev) prev.disabled = idx === 0;
+        if (next) next.disabled = idx === slides.length - 1;
+      }
+
+      if (prev) prev.addEventListener('click', function () { scrollToIndex(currentIndex() - 1); });
+      if (next) next.addEventListener('click', function () { scrollToIndex(currentIndex() + 1); });
+
+      var raf;
+      track.addEventListener('scroll', function () {
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(update);
+      });
+
+      // Click-and-drag to scroll (desktop mice).
+      var down = false, startX = 0, startScroll = 0, moved = false;
+      track.addEventListener('pointerdown', function (e) {
+        if (e.pointerType === 'touch') return; // native touch scroll handles this
+        down = true; moved = false;
+        startX = e.clientX;
+        startScroll = track.scrollLeft;
+        track.classList.add('is-dragging');
+      });
+      window.addEventListener('pointermove', function (e) {
+        if (!down) return;
+        var dx = e.clientX - startX;
+        if (Math.abs(dx) > 3) moved = true;
+        track.scrollLeft = startScroll - dx;
+      });
+      window.addEventListener('pointerup', function () {
+        if (!down) return;
+        down = false;
+        track.classList.remove('is-dragging');
+        if (moved) scrollToIndex(currentIndex()); // snap to nearest
+      });
+
+      update();
+      window.addEventListener('resize', update);
+    });
+  </script>
+
+</body>
+</html>

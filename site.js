@@ -383,7 +383,10 @@
 
   var slides = null;
   var idx = 0;
-  var overlay, stage, eyebrowEl, titleEl, cardsEl, counterEl, prevBtn, nextBtn, imgFrame, imgEl;
+  var sub = 0;          // which window of the current image is showing
+  var winCount = 1;     // how many windows the current image needs
+  var pendingSub = null;  // where to land once the next image has measured
+  var overlay, stage, titlecol, eyebrowEl, titleEl, cardsEl, bulletsEl, counterEl, prevBtn, nextBtn, imgFrame, imgView, imgEl, dotsEl;
 
   function firstSentence(el) {
     if (!el) return '';
@@ -429,12 +432,16 @@
     var cur = null;
     nodes.forEach(function (n) {
       if (n.matches(TITLE_SEL)) {
-        cur = { title: n.textContent.trim(), eyebrow: eyebrowFor(n), cards: [], img: null };
+        var bulletsAttr = n.getAttribute('data-present-bullets');
+        var bullets = bulletsAttr
+          ? bulletsAttr.split('|').map(function (s) { return s.trim(); }).filter(Boolean)
+          : [];
+        cur = { title: n.textContent.trim(), eyebrow: eyebrowFor(n), cards: [], bullets: bullets, img: null, node: n };
         out.push(cur);
       } else if (!cur) {
         return;
       } else if (n.tagName === 'IMG') {
-        if (!cur.img && usableImg(n)) cur.img = { src: n.currentSrc || n.src, alt: n.alt || '' };
+        if (!cur.img && usableImg(n)) cur.img = { src: n.currentSrc || n.src, alt: n.alt || '', slide: n.hasAttribute('data-present-slide') };
       } else {
         cur.cards.push(cardData(n));
       }
@@ -476,7 +483,7 @@
     stage = document.createElement('div');
     stage.className = 'present-stage';
 
-    var titlecol = document.createElement('div');
+    titlecol = document.createElement('div');
     titlecol.className = 'present-titlecol';
 
     eyebrowEl = document.createElement('p');
@@ -485,6 +492,8 @@
     titleEl.className = 'present-title';
     cardsEl = document.createElement('div');
     cardsEl.className = 'present-cards';
+    bulletsEl = document.createElement('ul');
+    bulletsEl.className = 'present-bullets';
 
     var navRow = document.createElement('div');
     navRow.className = 'present-nav';
@@ -492,8 +501,8 @@
     nextBtn = arrowBtn('next', 'Next slide', 'M7 4L12 9L7 14');
     counterEl = document.createElement('span');
     counterEl.className = 'present-counter';
-    prevBtn.addEventListener('click', function () { go(idx - 1); });
-    nextBtn.addEventListener('click', function () { go(idx + 1); });
+    prevBtn.addEventListener('click', prev);
+    nextBtn.addEventListener('click', next);
     navRow.appendChild(prevBtn);
     navRow.appendChild(counterEl);
     navRow.appendChild(nextBtn);
@@ -510,13 +519,21 @@
     titlecol.appendChild(eyebrowEl);
     titlecol.appendChild(titleEl);
     titlecol.appendChild(cardsEl);
+    titlecol.appendChild(bulletsEl);
 
     var imagecol = document.createElement('div');
     imagecol.className = 'present-imagecol';
     imgFrame = document.createElement('div');
     imgFrame.className = 'present-imageframe';
+    imgView = document.createElement('div');
+    imgView.className = 'present-imageview';
     imgEl = document.createElement('img');
-    imgFrame.appendChild(imgEl);
+    imgEl.addEventListener('load', onImgLoad);
+    imgView.appendChild(imgEl);
+    imgFrame.appendChild(imgView);
+    dotsEl = document.createElement('div');
+    dotsEl.className = 'present-dots';
+    imgFrame.appendChild(dotsEl);   // floats over the frame's right edge
     imagecol.appendChild(imgFrame);
 
     stage.appendChild(titlecol);
@@ -566,35 +583,174 @@
     });
     cardsEl.style.display = s.cards.length ? '' : 'none';
 
-    if (s.img) {
-      imgEl.src = s.img.src;
-      imgEl.alt = s.img.alt;
-      imgFrame.classList.remove('is-empty');
-    } else {
-      imgEl.removeAttribute('src');
-      imgFrame.classList.add('is-empty');
-    }
+    bulletsEl.innerHTML = '';
+    s.bullets.forEach(function (b) {
+      var li = document.createElement('li');
+      li.textContent = b;
+      bulletsEl.appendChild(li);
+    });
+    bulletsEl.style.display = s.bullets.length ? '' : 'none';
 
-    counterEl.textContent = (idx + 1) + ' / ' + slides.length;
-    prevBtn.disabled = idx === 0;
-    nextBtn.disabled = idx === slides.length - 1;
+    // Re-play the text entrance (fade + 8px slide-up) on every section change.
+    titlecol.classList.remove('is-entering');
+    void titlecol.offsetWidth;
+    titlecol.classList.add('is-entering');
+
+    paintImage(s);
+    updateNav();
   }
 
-  function go(next) {
-    if (next < 0 || next >= slides.length || next === idx) return;
-    idx = next;
-    stage.classList.add('is-fading');
-    setTimeout(function () {
-      render();
-      stage.classList.remove('is-fading');
-    }, 160);
+  // Swap the image. Fade it in only when it actually changes; a section that
+  // carries the same image forward leaves it untouched (only the text moves).
+  function paintImage(s) {
+    if (!s.img) {
+      imgEl.removeAttribute('src');
+      imgFrame.classList.add('is-empty');
+      winCount = 1;
+      renderDots();
+      return;
+    }
+    imgFrame.classList.remove('is-empty');
+    imgEl.alt = s.img.alt;
+    if (imgEl.getAttribute('src') !== s.img.src) {
+      imgEl.classList.add('is-loading');   // hide the old one until the new is ready
+      imgEl.src = s.img.src;               // onImgLoad measures + fades in
+    } else {
+      layoutImage();                       // same image; no fade, just re-window
+    }
+  }
+
+  function onImgLoad() {
+    imgEl.classList.remove('is-loading');
+    layoutImage();
+    imgEl.classList.remove('is-fading-in');
+    void imgEl.offsetWidth;
+    imgEl.classList.add('is-fading-in');
+  }
+
+  // Position the image for the current window; animate only on deliberate steps.
+  function setTransform(animate) {
+    var imgH = imgEl.offsetHeight;
+    var viewH = imgView.clientHeight;
+    var over = Math.max(0, imgH - viewH);
+    var offset = Math.min(sub * viewH, over);
+    imgEl.classList.toggle('is-sliding', !!animate);  // transition transform only on steps
+    imgEl.style.transform = 'translateY(' + (-Math.round(offset)) + 'px)';
+  }
+
+  // Measure the current image and work out how many windows it spans.
+  function layoutImage() {
+    if (!imgEl.getAttribute('src')) { winCount = 1; renderDots(); return; }
+
+    // Only images tagged with data-present-slide window and slide. Everything
+    // else fits its height inside the frame (scaled down), never stepping.
+    var slideable = !!(slides[idx].img && slides[idx].img.slide);
+    imgEl.classList.toggle('is-fit', !slideable);
+    if (!slideable) {
+      winCount = 1;
+      sub = 0;
+      pendingSub = null;
+      imgEl.classList.remove('is-sliding');
+      imgEl.style.transform = 'translateY(0)';
+      renderDots();
+      updateNav();
+      return;
+    }
+
+    var imgH = imgEl.offsetHeight;
+    if (!imgH) return;   // not painted yet; the 'load' handler will retry
+    var viewH = imgView.clientHeight;
+    var over = imgH - viewH;
+    winCount = over > 1 ? Math.ceil(over / viewH) + 1 : 1;
+
+    if (pendingSub === 'last') sub = winCount - 1;
+    else if (typeof pendingSub === 'number') sub = Math.min(pendingSub, winCount - 1);
+    else if (sub > winCount - 1) sub = winCount - 1;
+    pendingSub = null;
+
+    setTransform(false);   // land without animating a slide-to-slide swap
+    renderDots();
+    updateNav();
+  }
+
+  function renderDots() {
+    dotsEl.innerHTML = '';
+    if (winCount <= 1) { dotsEl.style.display = 'none'; return; }
+    dotsEl.style.display = '';
+    for (var i = 0; i < winCount; i++) {
+      var d = document.createElement('span');
+      d.className = 'present-dot' + (i === sub ? ' is-active' : '');
+      (function (target) {
+        d.addEventListener('click', function () {
+          if (target === sub) return;
+          sub = target;
+          setTransform(true);
+          renderDots();
+          updateNav();
+        });
+      })(i);
+      dotsEl.appendChild(d);
+    }
+  }
+
+  function updateNav() {
+    counterEl.textContent = (idx + 1) + ' / ' + slides.length;
+    prevBtn.disabled = idx === 0 && sub === 0;
+    nextBtn.disabled = idx === slides.length - 1 && sub === winCount - 1;
+  }
+
+  // Jump to another slide, landing on a given window (number, or 'last').
+  function goSlide(nextIdx, subTarget) {
+    if (nextIdx < 0 || nextIdx >= slides.length) return;
+    idx = nextIdx;
+    sub = 0;
+    pendingSub = (subTarget == null ? 0 : subTarget);
+    render();   // text animates in; image fades only if it changed
+  }
+
+  // One linear sequence: step through this image's windows, then roll on.
+  function next() {
+    if (sub < winCount - 1) {
+      sub++;
+      setTransform(true);
+      renderDots();
+      updateNav();
+    } else if (idx < slides.length - 1) {
+      goSlide(idx + 1, 0);
+    }
+  }
+
+  function prev() {
+    if (sub > 0) {
+      sub--;
+      setTransform(true);
+      renderDots();
+      updateNav();
+    } else if (idx > 0) {
+      goSlide(idx - 1, 'last');   // land on the previous image's last window
+    }
+  }
+
+  // Which heading am I currently reading? The last one whose top has scrolled
+  // to (or above) a small band near the top of the viewport. Nothing past the
+  // top yet → the first slide.
+  function currentSlideIndex() {
+    var threshold = 120;
+    var found = 0;
+    for (var i = 0; i < slides.length; i++) {
+      var node = slides[i].node;
+      if (node && node.getBoundingClientRect().top <= threshold) found = i;
+    }
+    return found;
   }
 
   function openPresent() {
     if (!slides) slides = build();
     if (!slides.length) return;
     if (!overlay) buildOverlay();
-    idx = 0;
+    idx = currentSlideIndex();
+    sub = 0;
+    pendingSub = 0;
     render();
     document.body.classList.add('is-presenting');
     overlay.style.display = 'flex';
@@ -620,12 +776,16 @@
     if (!overlay || !overlay.classList.contains('is-open')) return;
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ' || e.key === 'PageDown') {
       e.preventDefault();
-      go(idx + 1);
+      next();
     } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') {
       e.preventDefault();
-      go(idx - 1);
+      prev();
     } else if (e.key === 'Escape') {
       closePresent();
     }
+  });
+
+  window.addEventListener('resize', function () {
+    if (overlay && overlay.classList.contains('is-open')) layoutImage();
   });
 })();
