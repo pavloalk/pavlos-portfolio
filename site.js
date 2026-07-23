@@ -452,7 +452,8 @@
             list.push({
               src: im.currentSrc || im.src,
               alt: im.alt || '',
-              mobile: im.classList.contains('cs-toggle-img--mobile')
+              mobile: im.classList.contains('cs-toggle-img--mobile'),
+              slide: im.hasAttribute('data-present-slide')
             });
           });
           if (list.length) cur.visual = { type: 'switch', images: list };
@@ -674,6 +675,15 @@
     return only.length ? only : v.images;
   }
 
+  // A switch set that, after the mobile collapse, is a single Slide-tagged image
+  // behaves like a windowed slide image (full width, step down) instead of a
+  // fitted switch step. Returns that image, or null when the set stays a switch.
+  function slideOverride(v) {
+    if (!v || v.type !== 'switch') return null;
+    var imgs = switchImages(v);
+    return (imgs.length === 1 && imgs[0].slide) ? imgs[0] : null;
+  }
+
   // The image to show for the current slide and step.
   function currentSrc() {
     var v = slides[idx].visual;
@@ -711,8 +721,10 @@
     var v = slides[idx] ? slides[idx].visual : null;
     if (!imgEl.getAttribute('src') || !v) { winCount = 1; renderIndicators(); updateNav(); return; }
 
+    var slideImg = slideOverride(v);
+
     // Switch set: each image just fits the frame; stepping swaps images.
-    if (v.type === 'switch') {
+    if (v.type === 'switch' && !slideImg) {
       imgEl.classList.add('is-fit');
       imgEl.classList.remove('is-sliding');
       imgEl.style.transform = 'translateY(0)';
@@ -725,7 +737,7 @@
 
     // Slide image. Only images tagged data-present-slide window and slide;
     // everything else fits its height inside the frame, never stepping.
-    var slideable = !!v.slide;
+    var slideable = slideImg ? true : !!v.slide;
     imgEl.classList.toggle('is-fit', !slideable);
     if (!slideable) {
       winCount = 1;
@@ -758,7 +770,7 @@
   // a windowed slide image, nothing for a single image that just fits.
   function renderIndicators() {
     var v = slides[idx] ? slides[idx].visual : null;
-    if (v && v.type === 'switch') {
+    if (v && v.type === 'switch' && !slideOverride(v)) {
       lineEl.style.display = 'none';
       renderDots();
     } else {
@@ -808,7 +820,7 @@
     if (nextIdx < 0 || nextIdx >= slides.length) return;
     idx = nextIdx;
     var v = slides[idx].visual;
-    if (v && v.type === 'switch') {
+    if (v && v.type === 'switch' && !slideOverride(v)) {
       var n = switchImages(v).length || 1;
       sub = subTarget === 'last' ? n - 1 : Math.min(subTarget || 0, n - 1);
       pendingSub = null;
@@ -826,7 +838,7 @@
     if (target < 0 || target > winCount - 1) return false;
     sub = target;
     var v = slides[idx].visual;
-    if (v && v.type === 'switch') {
+    if (v && v.type === 'switch' && !slideOverride(v)) {
       paintVisual();        // swap image, fade in
     } else {
       setTransform(true);   // window slide
