@@ -957,6 +957,20 @@ body.is-lightbox-open { overflow: hidden; }
   flex-shrink: 0;
 }
 
+/* Middle pill holding the Present button. Hugs its content on desktop;
+   flexes to fill the row on mobile (see responsive block). */
+.present-dock {
+  display: flex;
+  align-items: center;
+  padding: var(--space-4);
+  background: var(--nav-bg);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--nav-shadow);
+  flex-shrink: 0;
+}
+
 
 /* ── Present Button ── */
 
@@ -964,18 +978,24 @@ body.is-lightbox-open { overflow: hidden; }
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
+  gap: var(--space-8);
   height: 48px;
-  padding: 0;
+  padding: 0 var(--space-16);
   border-radius: var(--radius-pill);
   border: none;
   background: transparent;
   cursor: pointer;
   color: var(--icon-color);
+  font-family: var(--font-sans);
+  font-size: var(--font-small);
+  font-weight: 500;
+  white-space: nowrap;
   transition: background 0.2s var(--ease),
               transform 0.15s var(--ease);
   -webkit-tap-highlight-color: transparent;
 }
+
+.back-nav-present-btn svg { flex-shrink: 0; }
 
 @media (hover: hover) {
   .back-nav-present-btn:not(:disabled):hover { background: var(--hover); }
@@ -1518,7 +1538,18 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
 
 @media (max-width: 768px) {
   .back-nav { bottom: 16px; }
-  .nav-cluster { bottom: 16px; }
+
+  /* Cluster spans the row so the Present pill has space to fill. */
+  .nav-cluster {
+    bottom: 16px;
+    left: var(--space-16);
+    right: var(--space-16);
+    transform: none;
+  }
+
+  /* Present pill grows to fill the gap between the back and theme pills. */
+  .present-dock { flex: 1; }
+  .present-dock .back-nav-present-btn { width: 100%; }
 
   .page { --page-gutter: var(--space-20); padding: var(--space-48) 0 140px; }
 
