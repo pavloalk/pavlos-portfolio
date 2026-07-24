@@ -126,7 +126,23 @@ Edit the copy here freely. **Do not touch the HTML yourself.** When you want the
 
 ---
 
-## Slide 10 · Experiment
+## Slide 10 · Outcome
+
+**Title:** HotJar recordings and associate feedback confirmed the flow held up
+
+**Visual:** `[Present] Outcome.png` — the five outcome cards.
+
+**Bullets:**
+
+- ~90% completion, maintained even with more mandatory steps
+- Less bad calls: experts spent longer on the experience page and sent more requests to update it, seen in HotJar
+- Lowered operational cost: associates gave positive feedback, no more juggling separate emails for terms, compliance, questionnaire and Profile Boost
+- +4% availabilities: more experts set the hours they're free for calls
+- ~33% Profile Boost conversion: richer category and vendor data for Dialectica's future projects
+
+---
+
+## Slide 11 · Experiment
 
 **Title:** Moving Terms to the end lifted the metric we were chasing and hurt the one that pays
 
@@ -136,18 +152,6 @@ Edit the copy here freely. **Do not touch the HTML yourself.** When you want the
 
 - **+20%:** Profile Boost completion in the test
 - **-10%:** Terms signing, the step the business earns from
-
----
-
-## Slide 11 · Outcome
-
-**Title:** Two new mandatory steps added, and completion held flat at about 90%
-
-**Cards:**
-
-- **~90%:** Completion, flat before and after the redesign
-- **+4 pts:** Experts submitting availability, about 70% to 74%
-- **~2x:** Profile Boost conversion, about 17% to 33%
 
 ---
 

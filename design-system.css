@@ -715,6 +715,13 @@ img { display: block; max-width: 100%; }
   -webkit-tap-highlight-color: transparent;
 }
 
+.cs-lightbox-close:focus { outline: none; }
+
+.cs-lightbox-close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
 @media (hover: hover) {
   .cs-lightbox-close:hover { background: rgba(255, 255, 255, 0.24); }
 }
@@ -1012,7 +1019,7 @@ body.is-lightbox-open { overflow: hidden; }
   /* Height of the image window in Present mode. Tall images fill the frame
      width and are stepped through one window at a time; short images just
      hug this as a ceiling. Tune this to trade detail size against step count. */
-  --present-window-h: 64vh;
+  --present-window-h: 72vh;
 }
 
 body.is-presenting { overflow: hidden; }
@@ -1355,7 +1362,7 @@ body.is-presenting .nav-cluster { opacity: 0; pointer-events: none; }
 
 .present-imagecol {
   flex: 0 0 auto;
-  width: 960px;
+  width: 1080px;
   max-width: 100%;
   min-width: 0;
   display: flex;

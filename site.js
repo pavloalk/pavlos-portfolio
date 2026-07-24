@@ -384,6 +384,7 @@
   var slides = null;
   var idx = 0;
   var sub = 0;          // which window of the current image is showing
+  var subImg = 0;       // which image of a sliding pair is showing (sequential)
   var winCount = 1;     // how many windows the current image needs
   var pendingSub = null;  // where to land once the next image has measured
   var overlay, stage, titlecol, eyebrowEl, titleEl, cardsEl, bulletsEl, counterEl, prevBtn, nextBtn, imgFrame, imgView, imgEl, dotsEl, lineEl, thumbEl;
@@ -687,6 +688,19 @@
     return (imgs.length === 1 && imgs[0].slide) ? imgs[0] : null;
   }
 
+  // A switch set with any slide-tagged image plays as a sequence rather than
+  // fitted shots you tap between: step through each image, then roll on to the
+  // next. Each image windows only if it's slide-tagged; untagged ones just fit
+  // as a single step. Returns that image list, or null when the set stays a
+  // normal tap-to-switch pair.
+  function slidingSet(v) {
+    if (!v || v.type !== 'switch') return null;
+    var imgs = switchImages(v);
+    if (imgs.length < 2) return null;
+    var anySlide = imgs.some(function (im) { return im.slide; });
+    return anySlide ? imgs : null;
+  }
+
   // The image to show for the current slide and step.
   function currentSrc() {
     var v = slides[idx].visual;
@@ -694,7 +708,10 @@
     if (v.type === 'switch') {
       var imgs = switchImages(v);
       if (!imgs.length) return null;
-      return imgs[Math.min(sub, imgs.length - 1)];
+      // A sliding pair advances image by image (subImg); a tap-to-switch set
+      // moves through its images with the step index (sub).
+      var pick = slidingSet(v) ? subImg : sub;
+      return imgs[Math.min(pick, imgs.length - 1)];
     }
     return { src: v.src, alt: v.alt };
   }
@@ -725,9 +742,10 @@
     if (!imgEl.getAttribute('src') || !v) { winCount = 1; renderIndicators(); updateNav(); return; }
 
     var slideImg = slideOverride(v);
+    var seq = slidingSet(v);
 
     // Switch set: each image just fits the frame; stepping swaps images.
-    if (v.type === 'switch' && !slideImg) {
+    if (v.type === 'switch' && !slideImg && !seq) {
       imgEl.classList.add('is-fit');
       imgEl.classList.remove('is-sliding');
       imgEl.style.transform = 'translateY(0)';
@@ -739,8 +757,13 @@
     }
 
     // Slide image. Only images tagged data-present-slide window and slide;
-    // everything else fits its height inside the frame, never stepping.
-    var slideable = slideImg ? true : !!v.slide;
+    // everything else fits its height inside the frame, never stepping. Inside
+    // a sequence each image follows its own tag, so a plain shot mid-sequence
+    // just fits.
+    var seqImg = seq ? seq[Math.min(subImg, seq.length - 1)] : null;
+    var slideable = slideImg ? true
+      : seq ? !!seqImg.slide
+      : !!v.slide;
     imgEl.classList.toggle('is-fit', !slideable);
     if (!slideable) {
       winCount = 1;
@@ -773,7 +796,7 @@
   // a windowed slide image, nothing for a single image that just fits.
   function renderIndicators() {
     var v = slides[idx] ? slides[idx].visual : null;
-    if (v && v.type === 'switch' && !slideOverride(v)) {
+    if (v && v.type === 'switch' && !slideOverride(v) && !slidingSet(v)) {
       lineEl.style.display = 'none';
       renderDots();
     } else {
@@ -812,7 +835,7 @@
 
   function updateNav() {
     counterEl.textContent = (idx + 1) + ' / ' + slides.length;
-    prevBtn.disabled = idx === 0 && sub === 0;
+    prevBtn.disabled = idx === 0 && sub === 0 && subImg === 0;
     nextBtn.disabled = idx === slides.length - 1 && sub === winCount - 1;
   }
 
@@ -822,8 +845,16 @@
   function goSlide(nextIdx, subTarget) {
     if (nextIdx < 0 || nextIdx >= slides.length) return;
     idx = nextIdx;
+    subImg = 0;
     var v = slides[idx].visual;
-    if (v && v.type === 'switch' && !slideOverride(v)) {
+    var seq = slidingSet(v);
+    if (seq) {
+      // Entering backward lands on the last image at its bottom; forward on the
+      // first image at its top. The window index waits for the measure.
+      if (subTarget === 'last') subImg = seq.length - 1;
+      sub = 0;
+      pendingSub = (subTarget == null ? 0 : subTarget);
+    } else if (v && v.type === 'switch' && !slideOverride(v)) {
       var n = switchImages(v).length || 1;
       sub = subTarget === 'last' ? n - 1 : Math.min(subTarget || 0, n - 1);
       pendingSub = null;
@@ -837,10 +868,40 @@
   // Step within the current visual: swap images for a switch set, slide windows
   // for a tall image. Returns false when there's no step left this direction.
   function step(dir) {
+    var v = slides[idx].visual;
+    var seq = slidingSet(v);
+
+    // A sliding pair: step through the current image's windows, then roll on to
+    // the next image in the set (or back to the previous one's bottom) before
+    // the sequence hands off to the next section.
+    if (seq) {
+      var next = sub + dir;
+      if (next >= 0 && next <= winCount - 1) {
+        sub = next;
+        setTransform(true);
+        renderIndicators();
+        updateNav();
+        return true;
+      }
+      if (dir > 0 && subImg < seq.length - 1) {
+        subImg += 1;
+        sub = 0;
+        pendingSub = 0;       // land at the top of the next image
+        paintVisual();        // load it; the measure sets windows + indicators
+        return true;
+      }
+      if (dir < 0 && subImg > 0) {
+        subImg -= 1;
+        pendingSub = 'last';  // land at the bottom of the previous image
+        paintVisual();
+        return true;
+      }
+      return false;           // edge of the whole set: hand off to the section
+    }
+
     var target = sub + dir;
     if (target < 0 || target > winCount - 1) return false;
     sub = target;
-    var v = slides[idx].visual;
     if (v && v.type === 'switch' && !slideOverride(v)) {
       paintVisual();        // swap image, fade in
     } else {
@@ -879,6 +940,7 @@
     if (!overlay) buildOverlay();
     idx = currentSlideIndex();
     sub = 0;
+    subImg = 0;
     pendingSub = 0;
     render();
     document.body.classList.add('is-presenting');
