@@ -472,6 +472,8 @@
       if (s.visual) lastVisual = s.visual;
       else s.visual = lastVisual;
     });
+    // A plain closing slide: centred text only, no image carried in.
+    out.push({ title: 'Thank you!', eyebrow: '', cards: [], bullets: [], visual: null, node: null, thanks: true });
     return out;
   }
 
@@ -598,6 +600,7 @@
 
   function render() {
     var s = slides[idx];
+    overlay.classList.toggle('is-thanks', !!s.thanks);
     eyebrowEl.textContent = s.eyebrow || '';
     eyebrowEl.style.display = s.eyebrow ? '' : 'none';
     titleEl.textContent = s.title;

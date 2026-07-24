@@ -338,6 +338,12 @@
       margin-top: var(--space-24);
     }
 
+    /* Two-pill rows (e.g. the Experiment section) span the full lane instead of
+       leaving the third column of the default grid empty. */
+    .cs-stat-pills--two {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
     .cs-stat-pill {
       padding: var(--space-20) var(--space-20);
       display: flex;
@@ -844,6 +850,11 @@
       <h2 class="cs-h2 reveal" data-present-bullets="Experts arrive by secure link to review their experience and set the hours they're free for calls|The flow exists for one reason: keeping each expert's background current before a consultation|A later step, Profile Boost, also captures structured category and vendor data, redesigned in v2 below">The flow verifies 25,000 to 35,000 experts a month before they take client calls</h2>
       <p class="cs-body reveal reveal-delay-1">After receiving a secure link, experts review and update their professional experience (roles, companies, responsibilities) and set the days and hours they are free for client calls. The flow exists for one reason: data accuracy. Dialectica needs each expert's background to be current before a consultation goes ahead.</p>
       <p class="cs-body reveal reveal-delay-1">At this volume it is the front door to the whole product. A later step, Profile Boost, also captures structured product-category and vendor data from experts; a v2 redesign of it appears as a design decision below.</p>
+
+      <div class="cs-image-frame reveal reveal-delay-1">
+        <img src="Images/Case studies/ToE/%5BContext%5D%20Separate%20emails.png" alt="Terms of engagement, the Compliance Tutorial and Profile Boost each reaching the expert as a separate email">
+      </div>
+      <p class="cs-image-caption reveal">Terms of engagement, the Compliance Tutorial and Profile Boost each reached the expert as a separate email, handled in isolation.</p>
     </section>
 
     <div class="cs-divider"></div>
@@ -944,18 +955,6 @@
           </div>
         </div>
         <p class="cs-image-caption reveal" style="margin-top: 12px;">Drag to compare the old single page with the new three-step flow, current experience now first</p>
-      </div>
-
-      <!-- Earlier explorations 1 (nested under Decision 1) -->
-      <div class="reveal" style="margin-top: 72px;">
-        <p class="cs-change-eyebrow">Earlier explorations: Inline experience editing</p>
-        <h4 class="cs-change-title" data-present-bullets="Experts were first meant to edit their experience inline, with a single confirm checkbox|That needed a full review layer for associates to vet every change, not justified at this volume|The shipped flow used a lighter &quot;Request a change&quot; path; showing the cut concept makes the scope call visible">Inline experience editing, designed then cut</h4>
-        <p class="cs-body">Experts were first meant to correct their experience directly in the flow: edit pencils on each role and a single "confirm all experiences are up to date" checkbox. That version needed a whole review layer behind it, a dashboard where Dialectica associates could vet each submitted change before it went live. The overhead was not justified at this volume, so the shipped design used a lighter "Request a change" path that flags inaccurate data for manual review.</p>
-        <p class="cs-body">Showing the cut concept beside the shipped pattern is deliberate: the idea was explored properly, and the scope call was a decision rather than a limitation nobody noticed.</p>
-        <div class="cs-image-frame" style="margin-top: 24px;">
-          <img src="Images/Case studies/ToE/%5BDeep%5D%20Editable%20experience.png" alt="Cut concept: inline experience editing with edit pencils and a confirm checkbox">
-        </div>
-        <p class="cs-image-caption">The cut inline-edit concept. The shipped flow above uses a lighter "Request a change" path instead.</p>
       </div>
 
       <div class="cs-divider" style="margin-top: 56px;"></div>
@@ -1066,36 +1065,6 @@
         </div>
         <p class="cs-image-caption">Step 1 picks the product categories, step 2 the vendors behind each one. Conversion into the step roughly doubled, from about 17% to about 33%, with richer data too: about 6.5 vendors and 3.4 categories per expert, up from 4.2 and 2.0.</p>
       </div>
-
-      <!-- Earlier explorations 2 (follows on from Decision 4). A sibling, not a
-           child: nested boxes would keep Decision 4 pinned underneath it. -->
-      <div class="reveal" style="margin-top: 56px;">
-        <p class="cs-change-eyebrow">Earlier explorations: Profile Boost v1 to v2</p>
-        <h4 class="cs-change-title" data-present-bullets="v1 was the first in-flow version: experts typed products and vendors as free text|An exploration folded it into the same step through a per-company &quot;Boost your profile&quot; modal|v2 became the two shortlisted steps, picking not typing, which roughly doubled uptake">Profile Boost, v1 to v2</h4>
-        <p class="cs-body">v1 was the first in-flow version: a skippable step where experts mapped the products they can speak to against the vendors behind them, typed as free text. A parallel layout exploration tried putting Profile Boost on the same step as personal details and experience, surfaced through a per-company "Boost your profile" modal, before it settled as its own dedicated step. v2 then redesigned the capture into the two shortlisted steps above, which roughly doubled uptake.</p>
-        <div class="cs-image-frame cs-toggle-frame">
-          <span class="cs-frame-tag">First version</span>
-          <img src="Images/Case studies/ToE/%5BDeep%5D%20Boost%20profile%20-%20Filled.png" alt="Profile Boost v1: free-text product and vendor rows">
-        </div>
-        <p class="cs-image-caption">v1: free-text product and vendor rows</p>
-
-        <!-- The exploration is one screen in two states, so the toggle shows
-             the modal opening on the step rather than two separate images. -->
-        <div class="cs-image-frame cs-toggle-frame reveal" data-view="step">
-          <span class="cs-frame-tag">Early exploration</span>
-          <div class="cs-segmented" role="tablist" aria-label="Choose exploration state">
-            <button type="button" class="cs-segmented-btn is-active" data-view="step" data-label="Step" role="tab" aria-selected="true">Step</button>
-            <button type="button" class="cs-segmented-btn" data-view="modal" data-label="Modal" role="tab" aria-selected="false">Modal</button>
-          </div>
-          
-          <div class="cs-toggle-view cs-toggle-view--stack">
-            <img class="cs-toggle-img is-shown" data-view="step" src="Images/Case studies/ToE/%5BDeep%5D%20Getting%20started%20-%20Boost%20profile.png" alt="Layout exploration: Profile Boost sharing one step with personal details and experience, with a Boost your profile prompt at the bottom">
-            <img class="cs-toggle-img" data-view="modal" src="Images/Case studies/ToE/%5BDeep%5D%20Getting%20started%20-%20Boost%20profile%20-%20Modal.png" alt="The same step with the Boost your profile modal open, listing each company with its own Boost button">
-          </div>
-        </div>
-        <p class="cs-image-caption">Exploration: Profile Boost folded into the same step, surfaced through a per-company "Boost your profile" modal.</p>
-        <p class="cs-body" style="margin-top: 24px;">Showing v1, the combined-step exploration and the shipped v2 together shows the iteration behind the step, not just the endpoint.</p>
-      </div>
     </section>
 
     <div class="cs-divider" style="margin-top: 56px;"></div>
@@ -1107,28 +1076,12 @@
       <p class="cs-body reveal reveal-delay-1">Once the redesign had held its completion rate for two weeks, we tested a reordering. Terms sat early inside Getting Started, and our hypothesis was that experts sign it and then leave, because signing is the one thing they came to do. Move Terms behind Profile Boost, the reasoning went, and experts would pass through every step to reach it, giving us far more expertise data.</p>
       <p class="cs-body reveal reveal-delay-1">We ran it at 25% of experts for two weeks. The data side worked; the flow side did not. Making experts walk the full length of the funnel before the thing they came for made it feel long, and they abandoned it, some writing in to say so. An expert who skips Profile Boost still takes calls; an expert who never signs Terms takes none. That was the wrong trade, so we kept the shipped order.</p>
 
-      <div class="cs-order-grid reveal reveal-delay-1">
-        <div class="cs-order-card card" data-present="Getting Started, Terms, Availabilities, Profile Boost. Terms sits early, where experts came to sign.">
-          <h5>Shipped order (kept)</h5>
-          <div class="cs-order-steps">
-            <div class="cs-order-step">Getting Started</div>
-            <div class="cs-order-step cs-order-step--highlight">Terms</div>
-            <div class="cs-order-step">Availabilities</div>
-            <div class="cs-order-step">Profile Boost</div>
-          </div>
-        </div>
-        <div class="cs-order-card card" data-present="Terms moved behind Profile Boost so experts walk the full funnel first. It lifted data but hurt signing.">
-          <h5>Tested order (rolled back)</h5>
-          <div class="cs-order-steps">
-            <div class="cs-order-step">Getting Started</div>
-            <div class="cs-order-step">Availabilities</div>
-            <div class="cs-order-step">Profile Boost</div>
-            <div class="cs-order-step cs-order-step--highlight">Terms</div>
-          </div>
-        </div>
+      <div class="cs-image-frame reveal reveal-delay-1">
+        <img src="Images/Case studies/ToE/%5BPresent%5D%20Experiment.png" alt="Two flows compared. The shipped release keeps Terms early: Getting Started, then Availabilities, Profile Boost and the Thank You page. The experiment moves Terms behind Profile Boost, lifting Profile Boost completion 20% but cutting Terms signing 10%.">
       </div>
+      <p class="cs-image-caption reveal">The shipped order kept Terms early; the tested order moved it behind Profile Boost.</p>
 
-      <div class="cs-stat-pills reveal reveal-delay-2">
+      <div class="cs-stat-pills cs-stat-pills--two reveal reveal-delay-2">
         <div class="cs-stat-pill card">
           <span class="cs-stat-pill-value">+20%</span>
           <span class="cs-stat-pill-label">Profile Boost completion in the test</span>
@@ -1166,30 +1119,47 @@
 
     <div class="cs-divider"></div>
 
-    <!-- ── Section: Retrospective ── -->
+    <!-- ── Section: Earlier exploration ── -->
     <section class="cs-section">
-      <p class="cs-label reveal">Retrospective</p>
-      <h2 class="cs-h2 reveal">It changed how I hand off to engineers, and left the business a dataset it has not used yet</h2>
-
-      <div class="cs-retro-part reveal" data-present="A finished file holds everything the builder needs, not just correct visuals. Rank metrics before a test, and every decision carried a systems dimension.">
-        <h4>Impact on me</h4>
-        <p class="cs-body">Three learnings stand out. About halfway through, engineers kept coming back with questions about interactions the Figma files did not answer, which changed how I think about a finished file: it is done when it holds everything the person building it needs, not when the designs look right. The failed experiment taught me to rank metrics before running a test, not after. And designing against a design system that did not exist yet meant every decision carried both a product and a systems dimension, slower, but grounded in real implementation.</p>
+      <p class="cs-label reveal">Earlier exploration</p>
+      <h2 class="cs-h2 reveal" data-present-bullets="Experts were first meant to edit their experience inline, with a single confirm checkbox|That needed a full review layer for associates to vet every change, not justified at this volume|The shipped flow used a lighter &quot;Request a change&quot; path; showing the cut concept makes the scope call visible">Inline experience editing, designed then cut</h2>
+      <p class="cs-body reveal reveal-delay-1">Experts were first meant to correct their experience directly in the flow: edit pencils on each role and a single "confirm all experiences are up to date" checkbox. That version needed a whole review layer behind it, a dashboard where Dialectica associates could vet each submitted change before it went live. The overhead was not justified at this volume, so the shipped design used a lighter "Request a change" path that flags inaccurate data for manual review.</p>
+      <p class="cs-body reveal">Showing the cut concept against the shipped pattern is deliberate: the idea was explored properly, and the scope call was a decision rather than a limitation nobody noticed.</p>
+      <div class="cs-image-frame reveal">
+        <img src="Images/Case studies/ToE/%5BDeep%5D%20Editable%20experience.png" alt="Cut concept: inline experience editing with edit pencils and a confirm checkbox">
       </div>
+      <p class="cs-image-caption reveal">The cut inline-edit concept. The shipped flow uses a lighter "Request a change" path instead.</p>
+    </section>
 
-      <div class="cs-retro-part reveal" data-present="The handoff lesson became a team session on Dev Mode and a shared Ready for development signal.">
-        <h4>Impact on process</h4>
-        <p class="cs-body">The handoff learning did not stay my own habit. It became a session with the whole front-end engineering team on Figma's Dev Mode and on marking designs as "Ready for development" as a shared signal. What began as me fixing my own handoffs became a convention the team works to.</p>
-      </div>
+    <div class="cs-divider"></div>
 
-      <div class="cs-retro-part reveal" data-present="Two mandatory steps added, completion held near 90%. Availability rose about 4 points and Profile Boost conversion roughly doubled.">
-        <h4>Impact on users</h4>
-        <p class="cs-body">This is where the real numbers sit. The redesign added two mandatory steps, and completion still held at about 90% before and after. Availability rose about 4 percentage points, from about 70% to about 74%. Profile Boost conversion roughly doubled, from about 17% to about 33%, with richer data, about 6.5 vendors and 3.4 categories per expert, up from 4.2 and 2.0. One number I would have wanted and do not have is how many experts actually reviewed their current experience during signing, which was never tracked.</p>
+    <!-- ── Section: Profile Boost from v1 to v2 ── -->
+    <section class="cs-section">
+      <p class="cs-label reveal">Profile Boost from v1 to v2</p>
+      <h2 class="cs-h2 reveal" data-present-bullets="v1 was the first in-flow version: experts typed products and vendors as free text|An exploration folded it into the same step through a per-company &quot;Boost your profile&quot; modal|v2 became the two shortlisted steps, picking not typing, which roughly doubled uptake">A ready list of categories and vendors meant experts never started from zero, and conversion roughly doubled</h2>
+      <p class="cs-body reveal reveal-delay-1">v1 was the first in-flow version: a skippable step where experts mapped the products they can speak to against the vendors behind them, typed as free text. A parallel layout exploration tried putting Profile Boost on the same step as personal details and experience, surfaced through a per-company "Boost your profile" modal, before it settled as its own dedicated step. v2 then redesigned the capture into the two shortlisted steps that shipped, which roughly doubled uptake.</p>
+      <div class="cs-image-frame cs-toggle-frame reveal">
+        <span class="cs-frame-tag">First version</span>
+        <img src="Images/Case studies/ToE/%5BDeep%5D%20Boost%20profile%20-%20Filled.png" alt="Profile Boost v1: free-text product and vendor rows">
       </div>
+      <p class="cs-image-caption reveal">v1: free-text product and vendor rows</p>
 
-      <div class="cs-retro-part reveal" data-present="Lower compliance and eligibility risk now, plus a structured dataset of expert knowledge the business has not yet used to improve matching.">
-        <h4>Impact on the business</h4>
-        <p class="cs-body">The realized win was lowering compliance and eligibility risk: the Tutorial and Questionnaire now sit in one reviewed flow, and current experience is prominent, so experts are properly screened before they reach a client. The project also laid a foundation the business has not cashed in yet. Profile Boost has captured a structured dataset of what experts actually know since launch, and v2 made it far more complete, but using it to match experts to better-fitting projects is a separate initiative still ahead. Naming both the asset and the gap is the honest read.</p>
+      <!-- The exploration is one screen in two states, so the toggle shows
+           the modal opening on the step rather than two separate images. -->
+      <div class="cs-image-frame cs-toggle-frame reveal" data-view="step">
+        <span class="cs-frame-tag">Early exploration</span>
+        <div class="cs-segmented" role="tablist" aria-label="Choose exploration state">
+          <button type="button" class="cs-segmented-btn is-active" data-view="step" data-label="Step" role="tab" aria-selected="true">Step</button>
+          <button type="button" class="cs-segmented-btn" data-view="modal" data-label="Modal" role="tab" aria-selected="false">Modal</button>
+        </div>
+
+        <div class="cs-toggle-view cs-toggle-view--stack">
+          <img class="cs-toggle-img is-shown" data-view="step" src="Images/Case studies/ToE/%5BDeep%5D%20Getting%20started%20-%20Boost%20profile.png" alt="Layout exploration: Profile Boost sharing one step with personal details and experience, with a Boost your profile prompt at the bottom">
+          <img class="cs-toggle-img" data-view="modal" src="Images/Case studies/ToE/%5BDeep%5D%20Getting%20started%20-%20Boost%20profile%20-%20Modal.png" alt="The same step with the Boost your profile modal open, listing each company with its own Boost button">
+        </div>
       </div>
+      <p class="cs-image-caption reveal">Exploration: Profile Boost folded into the same step, surfaced through a per-company "Boost your profile" modal.</p>
+      <p class="cs-body reveal">Showing v1, the combined-step exploration and the shipped v2 together shows the iteration behind the step, not just the endpoint.</p>
     </section>
 
   </div>
